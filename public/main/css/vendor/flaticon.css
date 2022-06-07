@@ -1,0 +1,65 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 11/03/2020 05:47
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("../../fonts/Flaticon.eot");
+  src: url("../../fonts/Flaticond41d.eot?#iefix") format("embedded-opentype"),
+       url("../../fonts/Flaticon.woff2") format("woff2"),
+       url("../../fonts/Flaticon.woff") format("woff"),
+       url("../../fonts/Flaticon.ttf") format("truetype"),
+       url("../../fonts/Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("Flaticon.html#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+  font-style: normal;
+}
+
+
+.flaticon-twitter:before { content: "\f100"; }
+.flaticon-facebook:before { content: "\f101"; }
+.flaticon-pinterest-social-logo:before { content: "\f102"; }
+.flaticon-right:before { content: "\f103"; }
+.flaticon-left-arrow:before { content: "\f104"; }
+.flaticon-pinterest-circular-logo-symbol:before { content: "\f105"; }
+.flaticon-youtube:before { content: "\f106"; }
+.flaticon-up-arrow:before { content: "\f107"; }
+.flaticon-down-chevron:before { content: "\f108"; }
+.flaticon-down-arrow:before { content: "\f109"; }
+.flaticon-down-arrow-1:before { content: "\f10a"; }
+.flaticon-down-arrow-2:before { content: "\f10b"; }
+.flaticon-location:before { content: "\f10c"; }
+.flaticon-facebook-1:before { content: "\f10d"; }
+.flaticon-twitter-1:before { content: "\f10e"; }
+.flaticon-instagram:before { content: "\f10f"; }
+.flaticon-instagram-1:before { content: "\f110"; }
+.flaticon-youtube-1:before { content: "\f111"; }
+.flaticon-play-button:before { content: "\f112"; }
+.flaticon-linkedin:before { content: "\f113"; }
+.flaticon-play-button-1:before { content: "\f114"; }
+.flaticon-linkedin-1:before { content: "\f115"; }
+.flaticon-whatsapp:before { content: "\f116"; }
+.flaticon-email:before { content: "\f117"; }
+.flaticon-share:before { content: "\f118"; }
+.flaticon-pinterest:before { content: "\f119"; }
+.flaticon-pinterest-1:before { content: "\f11a"; }
+.flaticon-up:before { content: "\f11b"; }
+.flaticon-up-arrow-1:before { content: "\f11c"; }
+.flaticon-paper-plane:before { content: "\f11d"; }
+.flaticon-mail:before { content: "\f11e"; }
+.flaticon-call:before { content: "\f11f"; }
+.flaticon-paper-plane-1:before { content: "\f120"; }
+.flaticon-placeholder:before { content: "\f121"; }
