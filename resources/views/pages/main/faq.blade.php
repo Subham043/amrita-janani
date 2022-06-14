@@ -2,12 +2,14 @@
 
 @section('css')
 <style>
-.btn-link{
-    color:#96171c;
+.btn-link {
+    font-weight: 400;
+    color: #96171c !important;
+    text-decoration: none;
 }
 .btn-link:hover, .btn-link:focus{
-    color:#96171c;
-    text-decoration:none;
+    color:#96171c !important;
+    text-decoration:none !important;
 }
 </style>
 @stop

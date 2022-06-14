@@ -4,11 +4,54 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Enquiry;
 
 class ContactPageController extends Controller
 {
     public function index(){
         return view('pages.main.contact')->with('breadcrumb','Contact');
+    }
+
+    public function contact_ajax(Request $req){
+        $rules = array(
+            'name' => ['required','string','regex:/^[a-zA-Z\s]*$/'],
+            'email' => ['required','email'],
+            'phone' => ['required','regex:/^[0-9]*$/'],
+            'subject' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'message' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+        );
+        $messages = array(
+            'name.required' => 'Please enter the name !',
+            'name.string' => 'Please enter the valid name !',
+            'name.regex' => 'Please enter the valid name !',
+            'email.required' => 'Please enter the email !',
+            'email.email' => 'Please enter the valid email !',
+            'phone.required' => 'Please enter the phone !',
+            'phone.regex' => 'Please enter the valid phone !',
+            'subject.required' => 'Please enter the subject !',
+            'subject.regex' => 'Please enter the valid subject !',
+            'message.required' => 'Please enter the message !',
+            'message.regex' => 'Please enter the valid message !',
+        );
+
+        $validator = Validator::make($req->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return response()->json(["form_error"=>$validator->errors()], 400);
+        }
+
+        $enquiry = new Enquiry;
+        $enquiry->name = $req->name;
+        $enquiry->subject = $req->subject;
+        $enquiry->email = $req->email;
+        $enquiry->phone = $req->phone;
+        $enquiry->message = $req->message;
+        $result = $enquiry->save();
+        if($result){
+            return response()->json(["message" => "Data Stored successfully."], 201);
+        }else{
+            return response()->json(["error"=>"something went wrong. Please try again"], 400);
+        }
     }
 }

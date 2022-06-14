@@ -26,14 +26,14 @@
                     <div class="col-lg-2 col-md-6">
                         <div class="widget-footer mt-30">
                             <div class="footer-title">
-                                <h6>Related Links</h6>
+                                <h6>Sitemaps</h6>
                             </div>
                             <div class="footer-contents">
                                 <ul>
-                                    <li><a href="index.html">Home</a></li>
-                                    <li><a href="about-us.html">About</a></li>
-                                    <li><a href="events.html">FAQs</a></li>
-                                    <li><a href="contact-us.html">Contact</a></li>
+                                    <li><a href="{{route('index')}}">Home</a></li>
+                                    <li><a href="{{route('about')}}">About</a></li>
+                                    <li><a href="{{route('faq')}}">FAQs</a></li>
+                                    <li><a href="{{route('contact')}}">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -45,10 +45,10 @@
                             </div>
                             <div class="footer-contents">
                                 <ul>
-                                    <li><a href="index.html">Home</a></li>
-                                    <li><a href="about-us.html">About</a></li>
-                                    <li><a href="events.html">FAQs</a></li>
-                                    <li><a href="contact-us.html">Contact</a></li>
+                                    <li><a href="{{route('index')}}">Home</a></li>
+                                    <li><a href="{{route('about')}}">About</a></li>
+                                    <li><a href="{{route('faq')}}">FAQs</a></li>
+                                    <li><a href="{{route('contact')}}">Contact</a></li>
                                 </ul>
                             </div>
                         </div>

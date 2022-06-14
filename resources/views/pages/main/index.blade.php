@@ -1,6 +1,31 @@
 @extends('layouts.main.index')
 
+@section('css')
+<style>
+.about-tai-content img{
+    width: 40%;
+    object-fit: contain;
+    margin: 0 15px 15px 15px;
+}
+.about-tai-content p{
+    text-align: justify;
+}
 
+.float-left{ float: left; }
+.float-right{ float: right; }
+
+@media only screen and (max-width: 767px) {
+    .float-left{ float: none !important; }
+    .float-right{ float: none !important; }
+    .about-tai-content img{
+        width: 100%;
+        object-fit: contain;
+        margin: 0px;
+        margin-bottom: 15px;
+    }
+}
+</style>
+@stop
 
 @section('content')
 
@@ -26,26 +51,17 @@
 <div class="church-about-area  section-space--pt_120">
     <div class="container">
         <div class="row">
-            <div class="col-lg-5">
-                <div class="about-tai-image  small-mb__30 tablet-mb__30">
-                    <img src="{{ asset('main/images/hero/banner7.jpg')}}" class="img-fluid" alt="About Images">
-                </div>
-            </div>
-            <div class="col-lg-7">
+            <div class="col-lg-12">
                 <div class="about-tai-content">
-                    <div class="section-title-wrap">
+                    <img src="{{ asset('main/images/hero/banner7.jpg')}}" class="img-fluid float-left" alt="About Images">
+                    <div class="section-title-wrap" style="display:inline">
                         <h3 class="section-title--two  left-style mb-30">What is Amrita Janani?</h3>
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised</p>
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised</p>
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised</p>
                     </div>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised</p>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised</p>
-                </div>
-
-            </div>
-            <div class="col-lg-12 mt-4">
-                <div class="about-tai-content">
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised</p>
                 </div>
 
             </div>

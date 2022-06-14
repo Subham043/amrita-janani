@@ -2594,7 +2594,7 @@ input[type="checkbox"] {
           transform: translateY(-50%);
   width: 100%;
   height: 2px;
-  background-color: #333;
+  background-color: #fff;
   -webkit-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   -o-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -2606,7 +2606,7 @@ input[type="checkbox"] {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #333;
+  background-color: #fff;
   content: "";
   -webkit-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   -o-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -2619,7 +2619,7 @@ input[type="checkbox"] {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #333;
+  background-color: #fff;
   content: "";
   -webkit-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   -o-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -2689,7 +2689,7 @@ input[type="checkbox"] {
   height: 100%;
   float: right;
   cursor: default;
-  background: #F2B263;
+  background: #96171c;
   -webkit-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   -o-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -2714,7 +2714,7 @@ input[type="checkbox"] {
 }
 
 .mobile-menu-overlay__header {
-  background-color: #ffffff;
+  background-color: #96171c;
   padding: 15px 0;
 }
 
@@ -2734,7 +2734,7 @@ input[type="checkbox"] {
   content: '';
   width: 24px;
   height: 3px;
-  background: #333333;
+  background: #fff;
   -webkit-transform-origin: 50% 50%;
       -ms-transform-origin: 50% 50%;
           transform-origin: 50% 50%;
@@ -2753,7 +2753,7 @@ input[type="checkbox"] {
   content: '';
   width: 24px;
   height: 3px;
-  background: #333333;
+  background: #fff;
   -webkit-transform-origin: 50% 50%;
       -ms-transform-origin: 50% 50%;
           transform-origin: 50% 50%;
@@ -3157,6 +3157,17 @@ input[type="checkbox"] {
   .hero-style-02 {
     height: 540px;
     padding-bottom: 100px;
+  }
+
+  .christian-hero-bg-two {
+    background: url(../images/hero/banner3.jpg);
+    background-size: cover;
+    background-position: center left;
+  }
+
+  .single-contact-info {
+    text-align: center;
+    margin-bottom: 25px;
   }
 }
 
@@ -3930,7 +3941,7 @@ input[type="checkbox"] {
   width: 100%;
   background: rgba(0, 0, 0, 0.6);
   content: '';
-  border-radius: 5px;
+  border-radius: 0px;
 }
 
 .newsletter-bg {

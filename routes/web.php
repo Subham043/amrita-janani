@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 Route::get('/', [HomePageController::class, 'index', 'as' => 'home.index'])->name('index');
 Route::get('/about', [AboutPageController::class, 'index', 'as' => 'about.index'])->name('about');
 Route::get('/contact', [ContactPageController::class, 'index', 'as' => 'contact.index'])->name('contact');
+Route::post('/contact', [ContactPageController::class, 'contact_ajax', 'as' => 'contact.contact_ajax'])->name('contact_ajax');
 Route::get('/faq', [FAQPageController::class, 'index', 'as' => 'faq.index'])->name('faq');
 Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('login');
 
