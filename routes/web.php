@@ -7,8 +7,10 @@ use App\Http\Controllers\Main\ContactPageController;
 use App\Http\Controllers\Main\FAQPageController;
 use App\Http\Controllers\Main\LoginPageController;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
+use App\Http\Controllers\Admin\Auth\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +32,14 @@ Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.inde
 
 Route::prefix('/admin')->group(function () {
     Route::get('/login', [LoginController::class, 'index', 'as' => 'admin.login'])->name('login');
-    Route::get('/forgot-password', [ForgotPasswordController::class, 'index', 'as' => 'admin.forgot_password'])->name('forgot_password');
-    Route::get('/reset-password', [ResetPasswordController::class, 'index', 'as' => 'admin.reset_password'])->name('reset_password');
+    Route::post('/authenticate', [LoginController::class, 'authenticate', 'as' => 'admin.authenticate'])->name('authenticate');
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'index', 'as' => 'admin.forgot_password'])->name('forgotPassword');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'requestForgotPassword', 'as' => 'admin.requestForgotPassword'])->name('requestForgotPassword');
+    Route::get('/reset-password/{id}', [ResetPasswordController::class, 'index', 'as' => 'admin.reset_password'])->name('reset_password');
+    Route::post('/reset-password/{id}', [ResetPasswordController::class, 'requestResetPassword', 'as' => 'admin.requestResetPassword'])->name('requestResetPassword');
+});
+
+Route::prefix('/admin')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
+    Route::get('/logout', [LogoutController::class, 'logout', 'as' => 'admin.logout'])->name('logout');
 });

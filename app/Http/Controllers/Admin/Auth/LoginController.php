@@ -13,14 +13,14 @@ class LoginController extends Controller
 {
     public function index(){
         if (Auth::check()) {
-            return redirect('admin/dashboard');
+            return redirect(route('dashboard'));
         }
         return view('pages.admin.auth.login');
     }
 
     public function authenticate(Request $request){
         if (Auth::check()) {
-            return redirect('admin/dashboard');
+            return redirect(route('dashboard'));
         }
         $validator = $request->validate([
             'email' => 'required|email',
@@ -32,7 +32,7 @@ class LoginController extends Controller
         $credentials['userType'] = 1;
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('login'))->with('success_status', 'Logged in successfully.');
+            return redirect()->intended(route('dashboard'))->with('success_status', 'Logged in successfully.');
         }
 
         return redirect(route('login'))->with('error_status', 'Oops! You have entered invalid credentials');

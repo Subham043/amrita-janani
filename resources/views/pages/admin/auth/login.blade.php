@@ -1,79 +1,98 @@
 @extends('layouts.admin.auth')
 
 
+
 @section('content')
 
-<!--begin::Authentication - Sign-in -->
-<div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed"
-    style="background: #96171c;">
-    <!--begin::Content-->
-    <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
-        <!--begin::Logo-->
-        <a href="../../../index.html" class="mb-12">
-            <img alt="Logo" src="{{ asset('main/images/logo/logo.png') }}" class="h-60px" />
-        </a>
-        <!--end::Logo-->
-        <!--begin::Wrapper-->
-        <div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
-            <!--begin::Form-->
-            <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form"
-                data-kt-redirect-url="/metronic8/demo1/../demo1/index.html" action="#">
-                <!--begin::Heading-->
-                <div class="text-center mb-10">
-                    <!--begin::Title-->
-                    <h1 class="text-dark mb-3">Sign In to Metronic</h1>
-                    <!--end::Title-->
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="card mt-4">
+        
+            <div class="card-body p-4"> 
+                <div class="text-center mt-2">
+                    <h5 class="text-primary">Welcome Back !</h5>
+                    <p class="text-muted">Sign in to continue to Amrita Janani Admin Panel.</p>
                 </div>
-                <!--begin::Heading-->
-                <!--begin::Input group-->
-                <div class="fv-row mb-10">
-                    <!--begin::Label-->
-                    <label class="form-label fs-6 fw-bolder text-dark">Email</label>
-                    <!--end::Label-->
-                    <!--begin::Input-->
-                    <input class="form-control form-control-lg form-control-solid" type="text" name="email"
-                        autocomplete="off" />
-                    <!--end::Input-->
+                <div class="p-2 mt-4">
+                    <form id="loginForm" method="post" action="{{route('authenticate')}}">
+                    @csrf
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}" placeholder="Enter email">
+                            @error('email') 
+                                <div class="invalid-message">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="float-end">
+                                <a href="{{route('forgotPassword')}}" class="text-muted">Forgot password?</a>
+                            </div>
+                            <label class="form-label" for="password">Password</label>
+                            <div class="position-relative auth-pass-inputgroup mb-3">
+                                <input type="password" class="form-control pe-5" placeholder="Enter password" id="password" name="password">
+                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                            </div>
+                            @error('password') 
+                                <div class="invalid-message">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
+                            <label class="form-check-label" for="auth-remember-check">Remember me</label>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <button class="btn btn-success w-100" type="submit">Sign In</button>
+                        </div>
+
+                    </form>
                 </div>
-                <!--end::Input group-->
-                <!--begin::Input group-->
-                <div class="fv-row mb-10">
-                    <!--begin::Wrapper-->
-                    <div class="d-flex flex-stack mb-2">
-                        <!--begin::Label-->
-                        <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
-                        <!--end::Label-->
-                        <!--begin::Link-->
-                        <a href="password-reset.html" class="link-primary fs-6 fw-bolder">Forgot Password ?</a>
-                        <!--end::Link-->
-                    </div>
-                    <!--end::Wrapper-->
-                    <!--begin::Input-->
-                    <input class="form-control form-control-lg form-control-solid" type="password" name="password"
-                        autocomplete="off" />
-                    <!--end::Input-->
-                </div>
-                <!--end::Input group-->
-                <!--begin::Actions-->
-                <div class="text-center">
-                    <!--begin::Submit button-->
-                    <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
-                        <span class="indicator-label">Continue</span>
-                        <span class="indicator-progress">Please wait...
-                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                    </button>
-                    <!--end::Submit button-->
-                    
-                </div>
-                <!--end::Actions-->
-            </form>
-            <!--end::Form-->
+            </div>
+            <!-- end card body -->
         </div>
-        <!--end::Wrapper-->
+        <!-- end card -->
+
     </div>
-    <!--end::Content-->
-    
 </div>
-<!--end::Authentication - Sign-in-->
+
+@stop
+
+@section('javascript')
+<!-- password-addon init -->
+<script src="{{ asset('admin/js/pages/password-addon.init.js') }}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#email').focus();
+
+    });
+
+// initialize the validation library
+const validation = new JustValidate('#loginForm', {
+      errorFieldCssClass: 'is-invalid',
+});
+// apply rules to form fields
+validation
+  .addField('#email', [
+    {
+      rule: 'required',
+      errorMessage: 'Email is required',
+    },
+    {
+      rule: 'email',
+      errorMessage: 'Email is invalid!',
+    },
+  ])
+  .addField('#password', [
+    {
+      rule: 'required',
+      errorMessage: 'Password is required',
+    }
+  ])
+  .onSuccess((event) => {
+    event.target.submit();
+  });
+</script>
 
 @stop
