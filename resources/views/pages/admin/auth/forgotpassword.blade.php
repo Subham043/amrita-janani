@@ -66,6 +66,8 @@
 // initialize the validation library
 const validation = new JustValidate('#forgotPasswordForm', {
       errorFieldCssClass: 'is-invalid',
+      focusInvalidField: true,
+        lockForm: true,
 });
 // apply rules to form fields
 validation

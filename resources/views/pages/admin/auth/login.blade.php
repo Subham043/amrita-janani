@@ -71,6 +71,8 @@
 // initialize the validation library
 const validation = new JustValidate('#loginForm', {
       errorFieldCssClass: 'is-invalid',
+      focusInvalidField: true,
+      lockForm: true,
 });
 // apply rules to form fields
 validation
@@ -90,7 +92,9 @@ validation
       errorMessage: 'Password is required',
     }
   ])
+//   .showErrors(errors:{ '#email': 'The email is invalid' })
   .onSuccess((event) => {
+    // event.target.showErrors({ '#email': 'The email is invalid' })
     event.target.submit();
   });
 </script>

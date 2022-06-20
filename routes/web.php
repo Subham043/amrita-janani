@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\Auth\LogoutController;
+use App\Http\Controllers\Admin\Profile\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,11 @@ Route::prefix('/admin')->group(function () {
 });
 
 Route::prefix('/admin')->middleware('auth')->group(function () {
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'index', 'as' => 'admin.profile'])->name('profile');
+        Route::post('/update', [ProfileController::class, 'update', 'as' => 'admin.profile_update'])->name('profile_update');
+        Route::post('/profile-password-update', [ProfileController::class, 'profile_password', 'as' => 'admin.profile_password'])->name('profile_password_update');
+    });
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
     Route::get('/logout', [LogoutController::class, 'logout', 'as' => 'admin.logout'])->name('logout');
 });

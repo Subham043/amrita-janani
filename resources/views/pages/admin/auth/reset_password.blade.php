@@ -71,6 +71,8 @@
 // initialize the validation library
 const validation = new JustValidate('#loginForm', {
       errorFieldCssClass: 'is-invalid',
+      focusInvalidField: true,
+        lockForm: true,
 });
 // apply rules to form fields
 validation

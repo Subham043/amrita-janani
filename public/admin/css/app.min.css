@@ -12270,16 +12270,17 @@ span.flatpickr-weekday {
         linear,
         left bottom,
         left top,
-        from(#296080),
-        to(#5ea3cb)
+        from(#96171c80),
+        to(#96171c80)
     );
-    background: linear-gradient(to top, #296080, #5ea3cb);
+    background: linear-gradient(to top, #96171c80, #96171c80);
 }
 .profile-wid-bg .profile-wid-img {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
+    object-position: bottom;
 }
 .profile-nav.nav-pills .nav-link {
     color: rgba(255, 255, 255, 0.8);

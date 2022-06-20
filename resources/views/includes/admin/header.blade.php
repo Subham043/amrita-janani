@@ -171,21 +171,18 @@
                             <img class="rounded-circle header-profile-user" src="https://www.seekpng.com/png/detail/428-4287240_no-avatar-user-circle-icon-png.png"
                                 alt="Header Avatar">
                             <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Tejas Travel</span>
-                                <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Admin</span>
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{Auth::user()->name}}</span>
+                                <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{$common['user_type'][Auth::user()->userType]}}</span>
                             </span>
                         </span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
-                        <h6 class="dropdown-header">Welcome Admin!</h6>
-                        <a class="dropdown-item" href="#"><i
+                        <h6 class="dropdown-header">Welcome {{$common['user_type'][Auth::user()->userType]}}!</h6>
+                        <a class="dropdown-item" href="{{route('profile')}}"><i
                                 class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="#"><span
-                                class="badge bg-soft-success text-success mt-1 float-end">New</span><i
-                                class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span
-                                class="align-middle">Settings</span></a>
+                        
                         <a class="dropdown-item" href="{{route('logout')}}"><i
                                 class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle" data-key="t-logout">Logout</span></a>
