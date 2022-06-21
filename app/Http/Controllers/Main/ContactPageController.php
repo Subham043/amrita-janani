@@ -17,9 +17,10 @@ class ContactPageController extends Controller
         $rules = array(
             'name' => ['required','string','regex:/^[a-zA-Z\s]*$/'],
             'email' => ['required','email'],
-            'phone' => ['required','regex:/^[0-9]*$/'],
+            'phone' => ['nullable','regex:/^[0-9]*$/'],
             'subject' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'message' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'captcha' => ['required|captcha']
         );
         $messages = array(
             'name.required' => 'Please enter the name !',

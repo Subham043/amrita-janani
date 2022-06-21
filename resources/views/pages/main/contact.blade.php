@@ -77,7 +77,7 @@
                                         <div class="contact-input col-lg-6">
                                             <label for="Phone">Phone</label>
                                             <div class="contact-inner">
-                                                <input name="phone" id="phone" type="text" placeholder="Your Phone Number">
+                                                <input name="phone" id="phone" type="text" placeholder="Your Phone Number (Optional)">
                                             </div>
                                         </div>
 
@@ -99,6 +99,14 @@
                                             <label for="subject">Message</label>
                                             <div class="contact-inner">
                                                 <textarea name="message" id="message" cols="30" rows="10" placeholder="Enter you message"></textarea>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="contact-input col-lg-12">
+                                            <label for="captcha">Captcha</label>
+                                            <div class="contact-inner">
+                                                <p>{!!captcha_img()!!}</p>
+                                                <input name="captcha" id="captcha" type="text" placeholder="Enter you captcha">
                                             </div>
                                         </div>
 
@@ -140,6 +148,12 @@ validationModal
     errorMessage: 'Name is invalid',
 },
 ])
+.addField('#captcha', [
+{
+    rule: 'required',
+    errorMessage: 'Captcha is required',
+}
+])
 .addField('#email', [
 {
     rule: 'required',
@@ -151,10 +165,6 @@ validationModal
 },
 ])
 .addField('#phone', [
-{
-    rule: 'required',
-    errorMessage: 'Phone is required',
-},
 {
     rule: 'customRegexp',
     value: /^[0-9]*$/,

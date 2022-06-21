@@ -16,7 +16,7 @@ class Enquiries extends Migration
         Schema::create('enquiries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->string('email');
             $table->string('subject');
             $table->text('message');

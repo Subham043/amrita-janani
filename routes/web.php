@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\Auth\LogoutController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
+use App\Http\Controllers\Admin\Enquiry\EnquiryController;
+use App\Http\Controllers\Admin\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +31,7 @@ Route::get('/about', [AboutPageController::class, 'index', 'as' => 'about.index'
 Route::get('/contact', [ContactPageController::class, 'index', 'as' => 'contact.index'])->name('contact');
 Route::post('/contact', [ContactPageController::class, 'contact_ajax', 'as' => 'contact.contact_ajax'])->name('contact_ajax');
 Route::get('/faq', [FAQPageController::class, 'index', 'as' => 'faq.index'])->name('faq');
-Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('login');
+Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('signin');
 
 Route::prefix('/admin')->group(function () {
     Route::get('/login', [LoginController::class, 'index', 'as' => 'admin.login'])->name('login');
@@ -46,6 +48,25 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::post('/update', [ProfileController::class, 'update', 'as' => 'admin.profile_update'])->name('profile_update');
         Route::post('/profile-password-update', [ProfileController::class, 'profile_password', 'as' => 'admin.profile_password'])->name('profile_password_update');
     });
+
+    Route::prefix('/enquiry')->group(function () {
+        Route::get('/', [EnquiryController::class, 'view', 'as' => 'admin.enquiry.view'])->name('enquiry_view');
+        Route::get('/view/{id}', [EnquiryController::class, 'display', 'as' => 'admin.enquiry.display'])->name('enquiry_display');
+        Route::get('/excel', [EnquiryController::class, 'excel', 'as' => 'admin.enquiry.excel'])->name('enquiry_excel');
+        Route::get('/delete/{id}', [EnquiryController::class, 'delete', 'as' => 'admin.enquiry.delete'])->name('enquiry_delete');
+    });
+
+    Route::prefix('/user')->group(function () {
+        Route::get('/', [UserController::class, 'view', 'as' => 'admin.subadmin.view'])->name('subadmin_view');
+        Route::get('/view/{id}', [UserController::class, 'display', 'as' => 'admin.subadmin.display'])->name('subadmin_display');
+        Route::get('/create', [UserController::class, 'create', 'as' => 'admin.subadmin.create'])->name('subadmin_create');
+        Route::post('/create', [UserController::class, 'store', 'as' => 'admin.subadmin.store'])->name('subadmin_store');
+        Route::get('/excel', [UserController::class, 'excel', 'as' => 'admin.subadmin.excel'])->name('subadmin_excel');
+        Route::get('/edit/{id}', [UserController::class, 'edit', 'as' => 'admin.subadmin.edit'])->name('subadmin_edit');
+        Route::post('/edit/{id}', [UserController::class, 'update', 'as' => 'admin.subadmin.update'])->name('subadmin_update');
+        Route::get('/delete/{id}', [UserController::class, 'delete', 'as' => 'admin.subadmin.delete'])->name('subadmin_delete');
+    });
+
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
     Route::get('/logout', [LogoutController::class, 'logout', 'as' => 'admin.logout'])->name('logout');
 });

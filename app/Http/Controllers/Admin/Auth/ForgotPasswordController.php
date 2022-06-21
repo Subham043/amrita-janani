@@ -8,6 +8,7 @@ use Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use App\Jobs\SendForgotPasswordEmailJob;
 
 class ForgotPasswordController extends Controller
 {
@@ -35,6 +36,11 @@ class ForgotPasswordController extends Controller
             $user->otp = rand(1000,9999);
             $user->save();
             $encryptedId = Crypt::encryptString($user->id);
+
+            $details['name'] = $user->name;
+            $details['email'] = $user->email;
+
+            dispatch(new SendForgotPasswordEmailJob($details));
             return redirect(route('reset_password',$encryptedId))->with('success_status', 'Kindly check your mail, we have sent you the otp.');
         }
     }
