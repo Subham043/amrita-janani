@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\HomePageController;
+use App\Http\Controllers\Main\CaptchaController;
 use App\Http\Controllers\Main\AboutPageController;
 use App\Http\Controllers\Main\ContactPageController;
 use App\Http\Controllers\Main\FAQPageController;
@@ -32,6 +33,7 @@ Route::get('/contact', [ContactPageController::class, 'index', 'as' => 'contact.
 Route::post('/contact', [ContactPageController::class, 'contact_ajax', 'as' => 'contact.contact_ajax'])->name('contact_ajax');
 Route::get('/faq', [FAQPageController::class, 'index', 'as' => 'faq.index'])->name('faq');
 Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('signin');
+Route::get('/captcha-reload', [CaptchaController::class, 'reloadCaptcha', 'as' => 'captcha.reload'])->name('captcha_ajax');
 
 Route::prefix('/admin')->group(function () {
     Route::get('/login', [LoginController::class, 'index', 'as' => 'admin.login'])->name('login');

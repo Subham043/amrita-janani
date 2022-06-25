@@ -1,6 +1,8 @@
 @extends('layouts.main.index')
 
 @section('css')
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 <style>
     .contact-form__one .contact-input .contact-inner textarea {
         border-radius: 25px;
@@ -8,6 +10,16 @@
         padding: 10px 20px;
         width: 100%;
         font-style: italic;
+    }
+
+    .btn-captcha{
+        background: #ffcc00;
+        color: #000;
+        border-radius: 5px;
+        padding: 5px 15px;
+        border: 1px solid #ddd;
+        font-size: 10px;
+        cursor: pointer;
     }
 </style>
 @stop
@@ -105,7 +117,10 @@
                                         <div class="contact-input col-lg-12">
                                             <label for="captcha">Captcha</label>
                                             <div class="contact-inner">
-                                                <p>{!!captcha_img()!!}</p>
+                                                <div class="d-flex" style="align-items:center;">
+                                                    <p id="captcha_container">{!!captcha_img()!!} </p>
+                                                    <span class="btn-captcha" onclick="reload_captcha()" style="margin-left:10px;" title="reload captcha"><i class="fas fa-redo"></i></span>
+                                                </div>
                                                 <input name="captcha" id="captcha" type="text" placeholder="Enter you captcha">
                                             </div>
                                         </div>
@@ -230,10 +245,12 @@ validationModal
         formData.append('email',document.getElementById('email').value)
         formData.append('phone',document.getElementById('phone').value)
         formData.append('message',document.getElementById('message').value)
+        formData.append('captcha',document.getElementById('captcha').value)
         formData.append('refreshUrl','{{URL::current()}}')
         const response = await axios.post('{{route('contact_ajax')}}', formData)
         successToast(response.data.message)
         event.target.reset()
+        await reload_captcha()
     } catch (error) {
         if(error?.response?.data?.form_error?.name){
             errorToast(error?.response?.data?.form_error?.name[0])
@@ -250,6 +267,9 @@ validationModal
         if(error?.response?.data?.form_error?.message){
             errorToast(error?.response?.data?.form_error?.message[0])
         }
+        if(error?.response?.data?.form_error?.captcha){
+            errorToast(error?.response?.data?.form_error?.captcha[0])
+        }
         if(error?.response?.data?.error){
             errorToast(error?.response?.data?.error)
         }
@@ -262,4 +282,7 @@ validationModal
 })
 
 </script>
+
+@include('includes.main.captcha')
+
 @stop

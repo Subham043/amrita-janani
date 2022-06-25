@@ -20,7 +20,7 @@ class ContactPageController extends Controller
             'phone' => ['nullable','regex:/^[0-9]*$/'],
             'subject' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'message' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
-            'captcha' => ['required|captcha']
+            'captcha' => ['required','captcha']
         );
         $messages = array(
             'name.required' => 'Please enter the name !',
@@ -34,6 +34,7 @@ class ContactPageController extends Controller
             'subject.regex' => 'Please enter the valid subject !',
             'message.required' => 'Please enter the message !',
             'message.regex' => 'Please enter the valid message !',
+            'captcha.captcha' => 'Please enter the valid captcha !',
         );
 
         $validator = Validator::make($req->all(), $rules, $messages);
