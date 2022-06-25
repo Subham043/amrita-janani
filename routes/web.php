@@ -7,6 +7,9 @@ use App\Http\Controllers\Main\AboutPageController;
 use App\Http\Controllers\Main\ContactPageController;
 use App\Http\Controllers\Main\FAQPageController;
 use App\Http\Controllers\Main\LoginPageController;
+use App\Http\Controllers\Main\RegisterPageController;
+use App\Http\Controllers\Main\ForgotPasswordPageController;
+use App\Http\Controllers\Main\ResetPasswordPageController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
@@ -33,6 +36,9 @@ Route::get('/contact', [ContactPageController::class, 'index', 'as' => 'contact.
 Route::post('/contact', [ContactPageController::class, 'contact_ajax', 'as' => 'contact.contact_ajax'])->name('contact_ajax');
 Route::get('/faq', [FAQPageController::class, 'index', 'as' => 'faq.index'])->name('faq');
 Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('signin');
+Route::get('/sign-up', [RegisterPageController::class, 'index', 'as' => 'register.index'])->name('signup');
+Route::get('/forgot-password', [ForgotPasswordPageController::class, 'index', 'as' => 'forgot_password.index'])->name('forgot_password');
+Route::get('/reset-password', [ResetPasswordPageController::class, 'index', 'as' => 'reset_password.index'])->name('resetPassword');
 Route::get('/captcha-reload', [CaptchaController::class, 'reloadCaptcha', 'as' => 'captcha.reload'])->name('captcha_ajax');
 
 Route::prefix('/admin')->group(function () {
