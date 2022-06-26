@@ -29,6 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('auth/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('auth/css/fontawesome-all.min.css ') }}">
+    <link rel="stylesheet" href="{{ asset('main/css/plugins/iziToast.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('auth/css/iofrm-style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('auth/css/iofrm-theme2.css') }}">
 
@@ -62,15 +63,14 @@
     <script src="{{ asset('auth/js/jquery.min.js') }}"></script>
     <script src="{{ asset('auth/js/popper.min.js') }}"></script>
     <script src="{{ asset('auth/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('auth/js/main.js') }}"></script>
     <script src="{{ asset('main/js/plugins/iziToast.min.js') }}"></script>
+    <script src="{{ asset('admin/js/pages/just-validate.production.min.js') }}"></script>
 
     <script type="text/javascript">
     @if(session('success_status'))
     iziToast.success({
         title: 'Success',
-        message: '{{ session('
-        success_status ') }}',
+        message: '{{ Session::get('success_status') }}',
         position: 'topRight',
         timeout: 6000
     });
@@ -78,8 +78,7 @@
     @if(session('error_status'))
     iziToast.error({
         title: 'Error',
-        message: '{{ session('
-        error_status ') }}',
+        message: '{{ Session::get('error_status') }}',
         position: 'topRight',
         timeout: 6000
     });

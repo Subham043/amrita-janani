@@ -31,3 +31,85 @@
 
 
 @stop
+
+@section('javascript')
+<script type="text/javascript">
+    $(function () {
+        $('#email').focus();
+
+    });
+
+// initialize the validation library
+const validation = new JustValidate('#loginForm', {
+      errorFieldCssClass: 'is-invalid',
+      focusInvalidField: true,
+      lockForm: true,
+});
+// apply rules to form fields
+validation
+.addField('#name', [
+    {
+      rule: 'required',
+      errorMessage: 'Name is required',
+    },
+    {
+        rule: 'customRegexp',
+        value: /^[a-zA-Z\s]*$/,
+        errorMessage: 'Name is invalid',
+    },
+  ])
+  .addField('#email', [
+    {
+      rule: 'required',
+      errorMessage: 'Email is required',
+    },
+    {
+      rule: 'email',
+      errorMessage: 'Email is invalid!',
+    },
+  ])
+  .addField('#phone', [
+    {
+      rule: 'required',
+      errorMessage: 'Phone is required',
+    },
+    {
+        rule: 'customRegexp',
+        value: /^[0-9]*$/,
+        errorMessage: 'Phone is invalid',
+    },
+  ])
+  .addField('#password', [
+    {
+      rule: 'required',
+      errorMessage: 'Password is required',
+    },
+    {
+        rule: 'customRegexp',
+        value: /^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i,
+        errorMessage: 'Password is invalid',
+    },
+  ])
+  .addField('#cpassword', [
+    {
+      rule: 'required',
+      errorMessage: 'Confirm Password is required',
+    },
+    {
+        validator: (value, fields) => {
+        if (fields['#password'] && fields['#password'].elem) {
+            const repeatPasswordValue = fields['#password'].elem.value;
+
+            return value === repeatPasswordValue;
+        }
+
+        return true;
+        },
+        errorMessage: 'Password and Confirm Password must be same',
+    },
+  ])
+  .onSuccess((event) => {
+    event.target.submit();
+  });
+</script>
+@stop

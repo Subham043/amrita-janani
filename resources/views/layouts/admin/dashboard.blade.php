@@ -629,7 +629,7 @@
 
                 iziToast.success({
                     title: 'Success',
-                    message: '{{ session('success_status') }}',
+                    message: '{{ Session::get('success_status') }}',
                     position: 'topRight',
                     timeout:6000
                 });
@@ -639,7 +639,7 @@
 
                 iziToast.error({
                     title: 'Error',
-                    message: '{{ session('error_status') }}',
+                    message: '{{ Session::get('error_status') }}',
                     position: 'topRight',
                     timeout:6000
                 });
