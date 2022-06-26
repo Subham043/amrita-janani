@@ -22,9 +22,18 @@ class LoginPageController extends Controller
         if (Auth::check()) {
             return redirect(route('index'));
         }
+
         $validator = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => ['required','email'],
+            'password' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'captcha' => ['required','captcha']
+        ],
+        [
+            'email.required' => 'Please enter the email !',
+            'email.email' => 'Please enter the valid email !',
+            'password.required' => 'Please enter the password !',
+            'password.regex' => 'Please enter the valid password !',
+            'captcha.captcha' => 'Please enter the valid captcha !',
         ]);
 
         $credentials = $request->only('email', 'password');

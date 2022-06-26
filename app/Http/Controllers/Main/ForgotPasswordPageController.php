@@ -19,8 +19,15 @@ class ForgotPasswordPageController extends Controller
         if (Auth::check()) {
             return redirect(route('index'));
         }
+        
         $validator = $request->validate([
-            'email' => 'required|email',
+            'email' => ['required','email'],
+            'captcha' => ['required','captcha']
+        ],
+        [
+            'email.required' => 'Please enter the email !',
+            'email.email' => 'Please enter the valid email !',
+            'captcha.captcha' => 'Please enter the valid captcha !',
         ]);
 
         $user = User::where('email', $request->email)->where('status', 1)->where('userType', 2)->get();
