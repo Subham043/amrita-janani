@@ -1,7 +1,11 @@
 @extends('layouts.main.auth')
 
 @section('css')
-
+<style>
+    .just-validate-error-label, .invalid-message{
+        color: #fff !important;
+    }
+</style>
 
 @stop
 
@@ -13,12 +17,23 @@
     <div class="page-links">
         <a href="{{route('signin')}}" class="active">Login</a><a href="{{route('signup')}}">Register</a>
     </div>
-    <form>
-        <input class="form-control" type="text" name="username" placeholder="E-mail Address" required>
-        <input class="form-control" type="password" name="password" placeholder="Password" required>
+    <form action="{{route('signin_authenticate')}}" method="post" id="loginForm">
+      @csrf
+    <div class="mb-2">
+        <input class="form-control" type="email" name="email" id="email" placeholder="E-mail Address" value="{{old('email')}}" required>
+        @error('email') 
+            <div class="invalid-message">{{ $message }}</div>
+        @enderror
+        </div>
+        <div class="mb-2">
+        <input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+        @error('password') 
+            <div class="invalid-message">{{ $message }}</div>
+        @enderror
+        </div>
         <input type="checkbox" id="chk1"><label for="chk1">Remmeber me</label>
         <div class="form-button">
-            <button id="submit" type="submit" class="ibtn">Login</button> <a href="{{route('forgot_password')}}">Forget password?</a>
+            <button id="submitBtn" type="submit" class="ibtn">Login</button> <a href="{{route('forgot_password')}}">Forget password?</a>
         </div>
     </form>
     <!-- <div class="other-links">
@@ -34,10 +49,6 @@
 
 @section('javascript')
 <script type="text/javascript">
-    $(function () {
-        $('#email').focus();
-
-    });
 
 // initialize the validation library
 const validation = new JustValidate('#loginForm', {
@@ -47,17 +58,6 @@ const validation = new JustValidate('#loginForm', {
 });
 // apply rules to form fields
 validation
-.addField('#name', [
-    {
-      rule: 'required',
-      errorMessage: 'Name is required',
-    },
-    {
-        rule: 'customRegexp',
-        value: /^[a-zA-Z\s]*$/,
-        errorMessage: 'Name is invalid',
-    },
-  ])
   .addField('#email', [
     {
       rule: 'required',
@@ -68,48 +68,17 @@ validation
       errorMessage: 'Email is invalid!',
     },
   ])
-  .addField('#phone', [
-    {
-      rule: 'required',
-      errorMessage: 'Phone is required',
-    },
-    {
-        rule: 'customRegexp',
-        value: /^[0-9]*$/,
-        errorMessage: 'Phone is invalid',
-    },
-  ])
   .addField('#password', [
     {
       rule: 'required',
       errorMessage: 'Password is required',
-    },
-    {
-        rule: 'customRegexp',
-        value: /^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i,
-        errorMessage: 'Password is invalid',
-    },
+    }
   ])
-  .addField('#cpassword', [
-    {
-      rule: 'required',
-      errorMessage: 'Confirm Password is required',
-    },
-    {
-        validator: (value, fields) => {
-        if (fields['#password'] && fields['#password'].elem) {
-            const repeatPasswordValue = fields['#password'].elem.value;
-
-            return value === repeatPasswordValue;
-        }
-
-        return true;
-        },
-        errorMessage: 'Password and Confirm Password must be same',
-    },
-  ])
+//   .showErrors(errors:{ '#email': 'The email is invalid' })
   .onSuccess((event) => {
+    // event.target.showErrors({ '#email': 'The email is invalid' })
     event.target.submit();
   });
 </script>
+
 @stop
