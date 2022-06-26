@@ -38,8 +38,11 @@
                             </div>
                             <div class="contact-info">
                                 <h4>Address</h4>
-                                <p>Demo address 72/3 Dome <br>
-                                city. USA</p>
+                                <p>Devipuram<br/>
+                                Via Nidanam Doddi, Sabbavaram (M),<br/>
+                                Visakhapatnam District,<br/>
+                                Andhra Pradesh - 531035<br/>
+                                India</p>
                             </div>
                         </div>
                     </div>
@@ -50,8 +53,8 @@
                             </div>
                             <div class="contact-info">
                                 <h4>Phone</h4>
-                                <p><a href="tel:01234567">+12 333 658 66 </a><br>
-                                    <a href="tel:01234567">+12 366 666 66</a></p>
+                                <p><a href="tel:+919440845333">+91 94408 45333</a><br>
+                                    <a href="tel:+918340005500">+91 83400 05500</a></p>
                             </div>
                         </div>
                     </div>
@@ -62,8 +65,7 @@
                             </div>
                             <div class="contact-info">
                                 <h4>Mail</h4>
-                                <p><a href="#">demo@mail.com</a>
-                                    <br> <a href="#"> mail.democo.info</a></p>
+                                <p><a href="mailto:admin@amrita-janani.org">admin@amrita-janani.org</a></p>
                             </div>
                         </div>
                     </div>

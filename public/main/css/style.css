@@ -999,7 +999,7 @@ input[type="checkbox"] {
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  background-color: #F2B263;
+  background-color: #ffcc00;
   background-size: 200% auto;
   background-position: left center;
   color: #ffffff;
@@ -1028,7 +1028,7 @@ input[type="checkbox"] {
   position: absolute;
   top: 50%;
   left: 50%;
-  color: #ffffff;
+  color: #000;
   -webkit-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   -o-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -2186,6 +2186,7 @@ input[type="checkbox"] {
   padding: 6px 25px;
   border: 2px solid #ddd;
   font-size: 15px;
+  font-weight: 600;
 }
 
 /*============================== 
@@ -2226,7 +2227,7 @@ input[type="checkbox"] {
   padding: 25px 2px;
   position: relative;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.18;
 }
 
@@ -4397,7 +4398,7 @@ input[type="checkbox"] {
 }
 
 .single-contact-info .contact-info p {
-  font-size: 24px;
+  font-size: 17px;
 }
 
 #googleMap-1 {
@@ -4430,6 +4431,7 @@ input[type="checkbox"] {
   border: 1px solid #96171c;
   padding: 6px 30px;
   color:white;
+  font-weight: 600;
 }
 
 .submit-btn:hover {

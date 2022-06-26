@@ -71,8 +71,8 @@
 <!-- ======== Church About Area End ========== -->
 
 <!-- ======== Hindu Video Area Start ========== -->
-<div class="hindu-video-area  section-space--ptb_120">
-    <div class="container-fluid container-fluid--cp-100">
+<div class="hindu-video-area  section-space--pt_90  section-space--pb_120">
+    <div class="container">
         <div class="hindu-video-bg hindu-video-section-pb bg-overlay-black border-radius-5">
             <div class="row">
                 <div class="col-lg-8 ml-auto mr-auto">
