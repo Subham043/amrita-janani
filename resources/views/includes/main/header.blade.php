@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="header-btn text-right d-none d-sm-block ml-lg-4">
-                        <a class="btn-circle btn-default btn" href="#">Login</a>
+                        <a class="btn-circle btn-default btn" href="{{route('signin')}}">Login</a>
                     </div>
 
                     <!-- mobile menu -->

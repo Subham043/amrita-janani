@@ -45,6 +45,9 @@
                         <li class="has-children">
                             <a href="{{route('contact')}}">Contact</a>
                         </li>
+                        <li class="has-children">
+                            <a href="{{route('signin')}}">Login</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
