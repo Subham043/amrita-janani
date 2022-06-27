@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-<h4>Laravel Jobs and Queues with Example - Shouts.dev</h4>
+<h4>Amrita Janani - Forgot Password</h4>
 <p>Hello {{$name}}.</p>
-<p>Welcome to Shouts.dev.</p>
+<p>In order to reset your password, please enter the following otp. Your OTP is {{$otp}}</p>
 </body>
 </html>

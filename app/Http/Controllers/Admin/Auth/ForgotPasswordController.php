@@ -39,6 +39,7 @@ class ForgotPasswordController extends Controller
 
             $details['name'] = $user->name;
             $details['email'] = $user->email;
+            $details['otp'] = $user->otp;
 
             dispatch(new SendForgotPasswordEmailJob($details));
             return redirect(route('reset_password',$encryptedId))->with('success_status', 'Kindly check your mail, we have sent you the otp.');

@@ -12,15 +12,17 @@ class SendForgotPasswordEmail extends Mailable
     use Queueable, SerializesModels;
 
     private $name;
+    private $otp;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name)
+    public function __construct($name, $otp)
     {
         $this->name = $name;
+        $this->otp = $otp;
     }
 
     /**
@@ -32,6 +34,7 @@ class SendForgotPasswordEmail extends Mailable
     {
         return $this->subject('Amrita Janani - Forgot Password')->view('emails.forgot_password')->with([
             'name' => $this->name,
+            'otp' => $this->otp,
         ]);
     }
 }
