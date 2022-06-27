@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Jobs\SendVerificationEmailJob;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class RegisterPageController extends Controller
 {
@@ -49,8 +52,16 @@ class RegisterPageController extends Controller
         $country->otp = rand(1000,9999);
         $country->status = 0;
         $result = $country->save();
+        $encryptedId = Crypt::encryptString($country->id);
+
+        $details['name'] = $country->name;
+        $details['email'] = $country->email;
+        $details['otp'] = $country->otp;
+
+        dispatch(new SendVerificationEmailJob($details));
+
         if($result){
-            return redirect(route('signup'))->with('success_status', 'Registered successfully.');
+            return redirect(route('verifyUser', $encryptedId))->with('success_status', 'Kindly check your mail, we have sent you the otp..');
         }else{
             return redirect(route('signup'))->with('error_status', 'Something went wrong. Please try again');
         }

@@ -10,6 +10,7 @@ use App\Http\Controllers\Main\LoginPageController;
 use App\Http\Controllers\Main\RegisterPageController;
 use App\Http\Controllers\Main\ForgotPasswordPageController;
 use App\Http\Controllers\Main\ResetPasswordPageController;
+use App\Http\Controllers\Main\VerifyRegisteredUserPageController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
@@ -43,6 +44,8 @@ Route::get('/forgot-password', [ForgotPasswordPageController::class, 'index', 'a
 Route::post('/forgot-password', [ForgotPasswordPageController::class, 'requestForgotPassword', 'as' => 'forgot_password.requestForgotPassword'])->name('forgot_password_request');
 Route::get('/reset-password/{id}', [ResetPasswordPageController::class, 'index', 'as' => 'reset_password.index'])->name('resetPassword');
 Route::post('/reset-password/{id}', [ResetPasswordPageController::class, 'requestResetPassword', 'as' => 'reset_password.requestResetPassword'])->name('resetPasswordRequest');
+Route::get('/verify-user/{id}', [VerifyRegisteredUserPageController::class, 'index', 'as' => 'requestVerifyRegisteredUser.index'])->name('verifyUser');
+Route::post('/verify-user/{id}', [VerifyRegisteredUserPageController::class, 'requestVerifyRegisteredUser', 'as' => 'requestVerifyRegisteredUser.requestVerifyRegisteredUser'])->name('requestVerifyRegisteredUser');
 Route::get('/captcha-reload', [CaptchaController::class, 'reloadCaptcha', 'as' => 'captcha.reload'])->name('captcha_ajax');
 
 Route::prefix('/admin')->group(function () {
