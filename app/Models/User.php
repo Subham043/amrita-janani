@@ -45,4 +45,9 @@ class User extends Authenticatable
     public function getPassword(){
         return $this->password;
     }
+
+    public function ImageModel()
+    {
+        return $this->hasMany('App\Models\ImageModel', 'user_id');
+    }
 }
