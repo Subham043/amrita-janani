@@ -25,8 +25,18 @@ class ImageController extends Controller
     }
 
     public function create() {
-  
-        return view('pages.admin.image.create')->with('languages', LanguageType::lists());
+        $tags = ImageModel::select('tags')->whereNotNull('tags')->get();
+        $tags_exist = array();
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array($i, $tags_exist))){
+                    array_push($tags_exist,$i);
+                }
+            }
+        }
+
+        return view('pages.admin.image.create')->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
     }
 
     public function store(Request $req) {
@@ -59,6 +69,7 @@ class ImageController extends Controller
         $data->title = $req->title;
         $data->year = $req->year;
         $data->deity = $req->deity;
+        $data->tags = $req->tags;
         $data->version = $req->version;
         $data->language = $req->language;
         $data->description = $req->description;
@@ -91,7 +102,17 @@ class ImageController extends Controller
 
     public function edit($id) {
         $data = ImageModel::findOrFail($id);
-        return view('pages.admin.image.edit')->with('country',$data)->with('languages', LanguageType::lists());
+        $tags = ImageModel::select('tags')->whereNotNull('tags')->get();
+        $tags_exist = [];
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array($i, $tags_exist))){
+                    array_push($tags_exist,$i);
+                }
+            }
+        }
+        return view('pages.admin.image.edit')->with('country',$data)->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
     }
 
     public function update(Request $req, $id) {
@@ -125,6 +146,7 @@ class ImageController extends Controller
         $data->title = $req->title;
         $data->year = $req->year;
         $data->deity = $req->deity;
+        $data->tags = $req->tags;
         $data->version = $req->version;
         $data->language = $req->language;
         $data->description = $req->description;

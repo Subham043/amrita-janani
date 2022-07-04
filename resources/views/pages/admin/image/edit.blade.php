@@ -5,6 +5,7 @@
 <link href="{{ asset('admin/libs/quill/quill.core.css' ) }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('admin/libs/quill/quill.bubble.css' ) }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('admin/libs/quill/quill.snow.css' ) }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('admin/css/tagify.css' ) }}" rel="stylesheet" type="text/css" />
 
 <style>
     #description{
@@ -48,7 +49,7 @@
                             <form id="countryForm" method="post" action="{{route('image_update', $country->id, $country->id)}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row gy-4">
-                                <div class="col-xxl-4 col-md-6">
+                                <div class="col-xxl-4 col-md-4">
                                     <div>
                                         <label for="title" class="form-label">Title</label>
                                         <input type="text" class="form-control" name="title" id="title" value="{{$country->title}}">
@@ -57,7 +58,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-4 col-md-6">
+                                <div class="col-xxl-4 col-md-4">
                                     <div>
                                         <label for="year" class="form-label">Year</label>
                                         <input type="text" class="form-control" name="year" id="year" value="{{$country->year}}">
@@ -66,7 +67,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-4 col-md-6">
+                                <div class="col-xxl-4 col-md-4">
                                     <div>
                                         <label for="version" class="form-label">Version</label>
                                         <input type="text" class="form-control" name="version" id="version" value="{{$country->version}}">
@@ -80,6 +81,15 @@
                                         <label for="deity" class="form-label">Deity</label>
                                         <input type="text" class="form-control" name="deity" id="deity" value="{{$country->deity}}">
                                         @error('deity') 
+                                            <div class="invalid-message">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-xxl-4 col-md-6">
+                                    <div>
+                                        <label for="tags" class="form-label">Tags</label>
+                                        <input type="text" class="form-control" name="tags" id="tags" value="{{old('tags')}}">
+                                        @error('tags') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -166,11 +176,38 @@
 <script src="{{ asset('admin/libs/quill/quill.min.js' ) }}"></script>
 <script src="{{ asset('admin/js/pages/choices.min.js') }}"></script>
 <script src="{{ asset('admin/js/pages/axios.min.js') }}"></script>
+<script src="{{ asset('admin/js/pages/tagify.min.js') }}"></script>
+<script src="{{ asset('admin/js/pages/tagify.polyfills.min.js') }}"></script>
 
 <script type="text/javascript">
 var quillDescription = new Quill('#description', {
     theme: 'snow'
 });
+</script>
+
+<script type="text/javascript">
+    var tagElem = [];
+    @if($tags_exist)
+        @foreach($tags_exist as $tag)
+        tagElem.push("{{$tag}}")
+        @endforeach
+    @endif
+var availableTags = "";
+var tagInput = document.getElementById('tags'),
+tagify = new Tagify(tagInput, {
+    whitelist : tagElem,
+    dropdown : {
+        classname     : "color-blue",
+        enabled       : 0,              // show the dropdown immediately on focus
+        position      : "text",         // place the dropdown near the typed text
+        closeOnSelect : false,          // keep the dropdown open after selecting a suggestion
+        highlightFirst: true
+    }
+});
+@if($country->tags)
+availableTags = "{{$country->tags}}"
+tagify.addTags(availableTags.split(','))
+@endif
 </script>
 
 <script type="text/javascript">
@@ -391,6 +428,11 @@ validation
         formData.append('restricted',document.getElementById('flexSwitchCheckRightDisabled2').value)
         if(document.getElementById('image').files.length > 0){
             formData.append('image',document.getElementById('image').files[0])
+        }
+        if(tagify.value.length > 0){
+            var tags = tagify.value.map(item => item.value).join(',')
+            // console.log(tags);
+            formData.append('tags',tags)
         }
         // formData.append('refreshUrl','{{URL::current()}}')
         
