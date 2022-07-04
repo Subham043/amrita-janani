@@ -59,9 +59,7 @@
                                         <tr>
                                             <th class="sort" data-sort="customer_name">Title</th>
                                             <th class="sort" data-sort="customer_name">Langauge</th>
-                                            <th class="sort" data-sort="customer_name">Year</th>
-                                            <th class="sort" data-sort="customer_name">Version</th>
-                                            <th class="sort" data-sort="customer_name">Deity</th>
+                                            <th class="sort" data-sort="customer_name">UUID</th>
                                             <th class="sort" data-sort="status">Status</th>
                                             <th class="sort" data-sort="status">Restricted</th>
                                             <th class="sort" data-sort="date">Created Date</th>
@@ -74,9 +72,7 @@
                                         <tr>
                                             <td class="customer_name">{{$item->title}}</td>
                                             <td class="customer_name">{{$languages[$item->language]}}</td>
-                                            <td class="customer_name">{{$item->year}}</td>
-                                            <td class="customer_name">{{$item->version}}</td>
-                                            <td class="customer_name">{{$item->deity}}</td>
+                                            <td class="customer_name">{{$item->uuid}}</td>
                                             @if($item->status == 1)
                                             <td class="status"><span class="badge badge-soft-success text-uppercase">Active</span></td>
                                             @else

@@ -10,6 +10,7 @@ use App\Models\ImageModel;
 use App\Exports\ImageExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Image;
+use Uuid;
 use App\Support\Types\UserType;
 use App\Support\Types\LanguageType;
 use Illuminate\Support\Facades\Validator;
@@ -79,7 +80,8 @@ class ImageController extends Controller
         $data->user_id = Auth::user()->id;
 
         if($req->hasFile('image')){
-            $newImage = time().'-'.$req->image->getClientOriginalName();
+            $uuid = Uuid::generate(4)->string;
+            $newImage = $uuid.'-'.$req->image->getClientOriginalName();
             
             
             $img = Image::make($req->file('image')->getRealPath());
@@ -156,7 +158,8 @@ class ImageController extends Controller
         $data->user_id = Auth::user()->id;
 
         if($req->hasFile('image')){
-            $newImage = time().'-'.$req->image->getClientOriginalName();
+            $uuid = Uuid::generate(4)->string;
+            $newImage = $uuid.'-'.$req->image->getClientOriginalName();
             
             if($data->image!=null){
                 unlink(public_path('upload/images/'.$data->image)); 
@@ -198,6 +201,7 @@ class ImageController extends Controller
             ->orWhere('year', 'like', '%' . $search . '%')
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
+            ->orWhere('uuid', 'like', '%' . $search . '%')
             ->orWhere('language', LanguageType::getStatusId($search))
             ->orderBy('id', 'DESC')
             ->paginate(10);

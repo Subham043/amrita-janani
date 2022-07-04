@@ -13,7 +13,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
-        "mews/captcha": "^3.2"
+        "mews/captcha": "^3.2",
+        "webpatser/laravel-uuid": "3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

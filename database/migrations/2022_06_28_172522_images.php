@@ -16,6 +16,7 @@ class Images extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('uuid')->unique();
             $table->text('description')->nullable();
             $table->text('description_unformatted')->nullable();
             $table->text('tags')->nullable();

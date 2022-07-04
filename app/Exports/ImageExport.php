@@ -16,6 +16,7 @@ class ImageExport implements FromCollection,WithHeadings,WithMapping
     public function headings():array{
         return[
             'Id',
+            'Uuid',
             'Title',
             'Description',
             'Year',
@@ -36,6 +37,7 @@ class ImageExport implements FromCollection,WithHeadings,WithMapping
     {
          return[
              $data->id,
+             $data->uuid,
              $data->title,
              $data->description_unformatted,
              $data->year,
