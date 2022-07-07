@@ -9,6 +9,9 @@
                                 <h6>Related Links</h6>
                             </div>
                             <div class="footer-logo mb-15">
+                                <a href="https://devipuram.org/" target="_blank"><img src="{{ asset('main/images/logo/devipuram-logo.png') }}" style="height:70px;" alt=""></a>
+                            </div>
+                            <div class="footer-logo mb-15">
                                 <a href="https://forum.amritananda.org/" target="_blank"><img src="{{ asset('main/images/logo/footer-logo.png') }}" style="height:80px;" alt=""></a>
                             </div>
                             <div class="footer-contents">
@@ -45,10 +48,13 @@
                             </div>
                             <div class="footer-contents">
                                 <ul>
-                                    <li>Devipuram<br/>Via Nidanam Doddi, Sabbavaram (M),<br/>
+                                    <li><b>Devipuram</b><br/>Via Nidanam Doddi, Sabbavaram (M),<br/>
                                 Visakhapatnam District,<br/>
                                 Andhra Pradesh - 531035<br/>
-                                India</li>
+                                India<br/>
+                                <a href="mailto:admin@amrita-janani.org">Email: admin@amrita-janani.org</a><br/>
+                                <a href="tel:+919440845333">Phone: +91 94408 45333</a>
+                                </li>
                                 </ul>
                             </div>
                         </div>
