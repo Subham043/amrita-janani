@@ -235,6 +235,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Image' => 'Intervention\Image\Facades\Image',
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
 
     ],
 

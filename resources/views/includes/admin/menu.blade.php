@@ -59,6 +59,19 @@
                                     </ul>
                                 </div>
                             </li> <!-- end Dashboard Menu -->
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'image') !== false ? 'active' : ''}}" href="#sidebarDashboards6" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{strpos(url()->current(),'image') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards6">
+                                    <i class="ri-image-fill"></i> <span data-key="t-dashboards">Image Management</span>
+                                </a>
+                                <div class="collapse menu-dropdown {{strpos(url()->current(),'image') !== false ? 'show' : ''}}" id="sidebarDashboards6">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{route('image_view')}}" class="nav-link {{strpos(url()->current(),'image') !== false ? 'active' : ''}}" data-key="t-analytics"> Image </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li> <!-- end Dashboard Menu -->
                         </ul>
                     </div>
                     <!-- Sidebar -->

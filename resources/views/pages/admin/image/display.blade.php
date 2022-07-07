@@ -153,7 +153,7 @@
                                 @if($country->image)
                                 <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
                                     <h6 class="fw-semibold text-uppercase">Image</h6>
-                                    <img src="{{url('upload/images/'.$country->image)}}" class="mb-3" style="max-width:30%">
+                                    <img src="{{asset('storage/upload/images/'.$country->image)}}" class="mb-3" style="max-width:30%">
                                 </div>
                                 @endif
                             </div>

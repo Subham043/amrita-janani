@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\Enquiry\EnquiryController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Image\ImageController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +32,7 @@ use App\Http\Controllers\Admin\Image\ImageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::get('/', [HomePageController::class, 'index', 'as' => 'home.index'])->name('index');
 Route::get('/about', [AboutPageController::class, 'index', 'as' => 'about.index'])->name('about');
@@ -92,6 +94,8 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('/edit/{id}', [ImageController::class, 'edit', 'as' => 'admin.image.edit'])->name('image_edit');
         Route::post('/edit/{id}', [ImageController::class, 'update', 'as' => 'admin.image.update'])->name('image_update');
         Route::get('/delete/{id}', [ImageController::class, 'delete', 'as' => 'admin.image.delete'])->name('image_delete');
+        Route::get('/bulk-upload', [ImageController::class, 'bulk_upload', 'as' => 'admin.image.bulk_upload'])->name('image_bulk_upload');
+        Route::post('/bulk-upload', [ImageController::class, 'bulk_upload_store', 'as' => 'admin.image.bulk_upload_store'])->name('image_bulk_upload_store');
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');

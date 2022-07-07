@@ -23,4 +23,9 @@ class ImageModel extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function url(){
+        $url = UrlSigner::sign(url('file/'.$this->image), Carbon::now()->addSeconds(10));
+        return $url;
+    }
 }
