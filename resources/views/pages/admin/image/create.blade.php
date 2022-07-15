@@ -459,6 +459,9 @@ validation
         if(error?.response?.data?.form_error?.language){
             errorToast(error?.response?.data?.form_error?.language[0])
         }
+        if(error?.response?.data?.form_error?.image){
+            errorToast(error?.response?.data?.form_error?.image[0])
+        }
       } finally{
             submitBtn.innerHTML =  `
                 Submit

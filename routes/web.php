@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Enquiry\EnquiryController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Image\ImageController;
+use App\Http\Controllers\Admin\Document\DocumentController;
 
 
 /*
@@ -96,6 +97,19 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('/delete/{id}', [ImageController::class, 'delete', 'as' => 'admin.image.delete'])->name('image_delete');
         Route::get('/bulk-upload', [ImageController::class, 'bulk_upload', 'as' => 'admin.image.bulk_upload'])->name('image_bulk_upload');
         Route::post('/bulk-upload', [ImageController::class, 'bulk_upload_store', 'as' => 'admin.image.bulk_upload_store'])->name('image_bulk_upload_store');
+    });
+    
+    Route::prefix('/document')->group(function () {
+        Route::get('/', [DocumentController::class, 'view', 'as' => 'admin.document.view'])->name('document_view');
+        Route::get('/view/{id}', [DocumentController::class, 'display', 'as' => 'admin.document.display'])->name('document_display');
+        Route::get('/create', [DocumentController::class, 'create', 'as' => 'admin.document.create'])->name('document_create');
+        Route::post('/create', [DocumentController::class, 'store', 'as' => 'admin.document.store'])->name('document_store');
+        Route::get('/excel', [DocumentController::class, 'excel', 'as' => 'admin.document.excel'])->name('document_excel');
+        Route::get('/edit/{id}', [DocumentController::class, 'edit', 'as' => 'admin.document.edit'])->name('document_edit');
+        Route::post('/edit/{id}', [DocumentController::class, 'update', 'as' => 'admin.document.update'])->name('document_update');
+        Route::get('/delete/{id}', [DocumentController::class, 'delete', 'as' => 'admin.document.delete'])->name('document_delete');
+        Route::get('/bulk-upload', [DocumentController::class, 'bulk_upload', 'as' => 'admin.document.bulk_upload'])->name('document_bulk_upload');
+        Route::post('/bulk-upload', [DocumentController::class, 'bulk_upload_store', 'as' => 'admin.document.bulk_upload_store'])->name('document_bulk_upload_store');
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
