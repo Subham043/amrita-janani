@@ -221,11 +221,11 @@ const choicesLangauge = new Choices('#language', {
                 label: 'Select the language',
                 disabled: true,
             },
-        @foreach($languages as $key => $val)
+        @foreach($languages as $val)
             {
-                value: '{{$key}}',
-                label: '{{$val}}',
-                selected: {{($country->language==$key) ? 'true' : 'false'}},
+                value: '{{$val->id}}',
+                label: '{{$val->name}}',
+                selected: {{($country->language==$val->id) ? 'true' : 'false'}},
             },
         @endforeach
     ],

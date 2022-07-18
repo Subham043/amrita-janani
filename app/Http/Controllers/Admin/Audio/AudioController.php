@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\AudioModel;
+use App\Models\LanguageModel;
 use App\Exports\AudioExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Uuid;
 use App\Support\Types\UserType;
-use App\Support\Types\LanguageType;
 use Illuminate\Support\Facades\Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -37,7 +37,7 @@ class AudioController extends Controller
             }
         }
 
-        return view('pages.admin.audio.create')->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
+        return view('pages.admin.audio.create')->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
     }
 
     public function store(Request $req) {
@@ -108,7 +108,7 @@ class AudioController extends Controller
                 }
             }
         }
-        return view('pages.admin.audio.edit')->with('country',$data)->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
+        return view('pages.admin.audio.edit')->with('country',$data)->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
     }
 
     public function update(Request $req, $id) {
@@ -194,13 +194,13 @@ class AudioController extends Controller
         }else{
             $data = AudioModel::orderBy('id', 'DESC')->paginate(10);
         }
-        return view('pages.admin.audio.list')->with('country', $data)->with('languages', LanguageType::lists());
+        return view('pages.admin.audio.list')->with('country', $data)->with('languages', LanguageModel::all());
     }
 
     public function display($id) {
         $data = AudioModel::findOrFail($id);
         $url = "";
-        return view('pages.admin.audio.display')->with('country',$data)->with('languages', LanguageType::lists())->with('url',$url);
+        return view('pages.admin.audio.display')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
     }
 
     public function excel(){

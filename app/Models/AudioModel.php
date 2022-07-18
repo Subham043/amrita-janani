@@ -24,4 +24,9 @@ class AudioModel extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function LanguageModel()
+    {
+        return $this->belongsTo('App\Models\LanguageModel', 'language');
+    }
+
 }

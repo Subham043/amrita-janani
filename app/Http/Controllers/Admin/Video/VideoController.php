@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\VideoModel;
+use App\Models\LanguageModel;
 use App\Exports\VideoExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Uuid;
@@ -37,7 +38,7 @@ class VideoController extends Controller
             }
         }
 
-        return view('pages.admin.video.create')->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
+        return view('pages.admin.video.create')->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
     }
 
     public function store(Request $req) {
@@ -99,7 +100,7 @@ class VideoController extends Controller
                 }
             }
         }
-        return view('pages.admin.video.edit')->with('country',$data)->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
+        return view('pages.admin.video.edit')->with('country',$data)->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
     }
 
     public function update(Request $req, $id) {
@@ -170,13 +171,13 @@ class VideoController extends Controller
         }else{
             $data = VideoModel::orderBy('id', 'DESC')->paginate(10);
         }
-        return view('pages.admin.video.list')->with('country', $data)->with('languages', LanguageType::lists());
+        return view('pages.admin.video.list')->with('country', $data)->with('languages', LanguageModel::all());
     }
 
     public function display($id) {
         $data = VideoModel::findOrFail($id);
         $url = "";
-        return view('pages.admin.video.display')->with('country',$data)->with('languages', LanguageType::lists())->with('url',$url);
+        return view('pages.admin.video.display')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
     }
 
     public function excel(){

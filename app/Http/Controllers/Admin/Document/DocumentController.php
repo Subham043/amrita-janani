@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\DocumentModel;
+use App\Models\LanguageModel;
 use App\Exports\DocumentExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Uuid;
 use App\Support\Types\UserType;
-use App\Support\Types\LanguageType;
 use Illuminate\Support\Facades\Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -37,7 +37,7 @@ class DocumentController extends Controller
             }
         }
 
-        return view('pages.admin.document.create')->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
+        return view('pages.admin.document.create')->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
     }
 
     public function store(Request $req) {
@@ -108,7 +108,7 @@ class DocumentController extends Controller
                 }
             }
         }
-        return view('pages.admin.document.edit')->with('country',$data)->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
+        return view('pages.admin.document.edit')->with('country',$data)->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
     }
 
     public function update(Request $req, $id) {
@@ -194,13 +194,13 @@ class DocumentController extends Controller
         }else{
             $data = DocumentModel::orderBy('id', 'DESC')->paginate(10);
         }
-        return view('pages.admin.document.list')->with('country', $data)->with('languages', LanguageType::lists());
+        return view('pages.admin.document.list')->with('country', $data)->with('languages', LanguageModel::all());
     }
 
     public function display($id) {
         $data = DocumentModel::findOrFail($id);
         $url = "";
-        return view('pages.admin.document.display')->with('country',$data)->with('languages', LanguageType::lists())->with('url',$url);
+        return view('pages.admin.document.display')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
     }
 
     public function excel(){

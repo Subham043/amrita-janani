@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\ImageModel;
+use App\Models\LanguageModel;
 use App\Exports\ImageExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Image;
 use Uuid;
 use App\Support\Types\UserType;
-use App\Support\Types\LanguageType;
 use Illuminate\Support\Facades\Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -38,7 +38,7 @@ class ImageController extends Controller
             }
         }
 
-        return view('pages.admin.image.create')->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
+        return view('pages.admin.image.create')->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
     }
 
     public function store(Request $req) {
@@ -115,7 +115,7 @@ class ImageController extends Controller
                 }
             }
         }
-        return view('pages.admin.image.edit')->with('country',$data)->with('languages', LanguageType::lists())->with("tags_exist",$tags_exist);
+        return view('pages.admin.image.edit')->with('country',$data)->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
     }
 
     public function update(Request $req, $id) {
@@ -209,13 +209,13 @@ class ImageController extends Controller
         }else{
             $data = ImageModel::orderBy('id', 'DESC')->paginate(10);
         }
-        return view('pages.admin.image.list')->with('country', $data)->with('languages', LanguageType::lists());
+        return view('pages.admin.image.list')->with('country', $data)->with('languages', LanguageModel::all());
     }
 
     public function display($id) {
         $data = ImageModel::findOrFail($id);
         $url = "";
-        return view('pages.admin.image.display')->with('country',$data)->with('languages', LanguageType::lists())->with('url',$url);
+        return view('pages.admin.image.display')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
     }
 
     public function excel(){
