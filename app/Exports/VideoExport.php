@@ -43,7 +43,7 @@ class VideoExport implements FromCollection,WithHeadings,WithMapping
              $data->year,
              $data->deity,
              $data->version,
-             LanguageType::lists()[$data->language],
+             $data->LanguageModel->name,
              $data->user->name,
              $data->favourites,
              $data->views,
@@ -56,6 +56,6 @@ class VideoExport implements FromCollection,WithHeadings,WithMapping
     }
     public function collection()
     {
-        return VideoModel::with('User')->get();
+        return VideoModel::with(['User','LanguageModel'])->get();
     }
 }

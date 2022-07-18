@@ -43,7 +43,7 @@ class DocumentExport implements FromCollection,WithHeadings,WithMapping
              $data->year,
              $data->deity,
              $data->version,
-             LanguageType::lists()[$data->language],
+             $data->LanguageModel->name,
              $data->user->name,
              $data->favourites,
              $data->views,
@@ -56,6 +56,6 @@ class DocumentExport implements FromCollection,WithHeadings,WithMapping
     }
     public function collection()
     {
-        return DocumentModel::with('User')->get();
+        return DocumentModel::with(['User','LanguageModel'])->get();
     }
 }

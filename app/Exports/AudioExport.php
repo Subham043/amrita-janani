@@ -43,7 +43,7 @@ class AudioExport implements FromCollection,WithHeadings,WithMapping
              $data->year,
              $data->deity,
              $data->version,
-             LanguageType::lists()[$data->language],
+             $data->LanguageModel->name,
              $data->user->name,
              $data->favourites,
              $data->views,
@@ -56,6 +56,6 @@ class AudioExport implements FromCollection,WithHeadings,WithMapping
     }
     public function collection()
     {
-        return AudioModel::with('User')->get();
+        return AudioModel::with(['User','LanguageModel'])->get();
     }
 }
