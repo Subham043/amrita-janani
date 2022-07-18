@@ -60,14 +60,23 @@
                                 </div>
                             </li> <!-- end Dashboard Menu -->
                             <li class="nav-item">
-                                <a class="nav-link menu-link {{strpos(url()->current(),'image') !== false ? 'active' : ''}}" href="#sidebarDashboards6" data-bs-toggle="collapse" role="button"
-                                    aria-expanded="{{strpos(url()->current(),'image') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards6">
-                                    <i class="ri-image-fill"></i> <span data-key="t-dashboards">Image Management</span>
+                                <a class="nav-link menu-link {{strpos(url()->current(),'image') !== false || strpos(url()->current(),'audio') !== false || strpos(url()->current(),'video') !== false || strpos(url()->current(),'document') !== false ? 'active' : ''}}" href="#sidebarDashboards6" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{strpos(url()->current(),'image') !== false || strpos(url()->current(),'audio') !== false || strpos(url()->current(),'video') !== false || strpos(url()->current(),'document') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards6">
+                                    <i class="ri-image-fill"></i> <span data-key="t-dashboards">Multimedia Management</span>
                                 </a>
-                                <div class="collapse menu-dropdown {{strpos(url()->current(),'image') !== false ? 'show' : ''}}" id="sidebarDashboards6">
+                                <div class="collapse menu-dropdown {{strpos(url()->current(),'image') !== false || strpos(url()->current(),'audio') !== false || strpos(url()->current(),'video') !== false || strpos(url()->current(),'document') !== false ? 'show' : ''}}" id="sidebarDashboards6">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
                                             <a href="{{route('image_view')}}" class="nav-link {{strpos(url()->current(),'image') !== false ? 'active' : ''}}" data-key="t-analytics"> Image </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('audio_view')}}" class="nav-link {{strpos(url()->current(),'audio') !== false ? 'active' : ''}}" data-key="t-analytics"> Audio </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('video_view')}}" class="nav-link {{strpos(url()->current(),'video') !== false ? 'active' : ''}}" data-key="t-analytics"> Video </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('document_view')}}" class="nav-link {{strpos(url()->current(),'document') !== false ? 'active' : ''}}" data-key="t-analytics"> Document </a>
                                         </li>
                                     </ul>
                                 </div>

@@ -24,11 +24,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Documents</h4>
+                    <h4 class="mb-sm-0">Videos</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Documents</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Videos</a></li>
                             <li class="breadcrumb-item active">Edit</li>
                         </ol>
                     </div>
@@ -42,11 +42,11 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Documents</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Videos</h4>
                     </div><!-- end card header -->
                     <div class="card-body">
                         <div class="live-preview">
-                            <form id="countryForm" method="post" action="{{route('document_update', $country->id, $country->id)}}" enctype="multipart/form-data">
+                            <form id="countryForm" method="post" action="{{route('video_update', $country->id, $country->id)}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row gy-4">
                                 <div class="col-xxl-4 col-md-4">
@@ -105,9 +105,9 @@
                                 </div>
                                 <div class="col-xxl-6 col-md-6">
                                     <div>
-                                        <label for="document" class="form-label">Document</label>
-                                        <input class="form-control" type="file" name="document" id="document">
-                                        @error('document') 
+                                        <label for="video" class="form-label">Video</label>
+                                        <input type="text" class="form-control" name="video" id="video" value="{{$country->video}}">
+                                        @error('video') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -366,21 +366,11 @@ validation
         errorMessage: 'Please select a language',
     },
   ])
-  .addField('#document', [
+  .addField('#video', [
     {
-        rule: 'minFilesCount',
-        value: 0,
-        errorMessage: 'Please select an pdf',
-    },
-    {
-        rule: 'files',
-        value: {
-            files: {
-                extensions: ['pdf']
-            },
-        },
-        errorMessage: 'Please select a valid pdf',
-    },
+      rule: 'required',
+      errorMessage: 'Video is required',
+    }
   ])
   .onSuccess(async (event) => {
     // event.target.submit();
@@ -426,9 +416,7 @@ validation
         formData.append('description',quillDescription.root.innerHTML)
         formData.append('status',document.getElementById('flexSwitchCheckRightDisabled').value)
         formData.append('restricted',document.getElementById('flexSwitchCheckRightDisabled2').value)
-        if(document.getElementById('document').files.length > 0){
-            formData.append('document',document.getElementById('document').files[0])
-        }
+        formData.append('video',document.getElementById('video').value)
         if(tagify.value.length > 0){
             var tags = tagify.value.map(item => item.value).join(',')
             // console.log(tags);
@@ -436,7 +424,7 @@ validation
         }
         // formData.append('refreshUrl','{{URL::current()}}')
         
-        const response = await axios.post('{{route('document_update', $country->id)}}', formData)
+        const response = await axios.post('{{route('video_update', $country->id)}}', formData)
         successToast(response.data.message)
         setTimeout(function(){
             window.location.replace(response.data.url);
@@ -464,8 +452,8 @@ validation
         if(error?.response?.data?.form_error?.language){
             errorToast(error?.response?.data?.form_error?.language[0])
         }
-        if(error?.response?.data?.form_error?.document){
-            errorToast(error?.response?.data?.form_error?.document[0])
+        if(error?.response?.data?.form_error?.video){
+            errorToast(error?.response?.data?.form_error?.video[0])
         }
       } finally{
             submitBtn.innerHTML =  `

@@ -24,12 +24,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Documents</h4>
+                    <h4 class="mb-sm-0">Audios</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Documents</a></li>
-                            <li class="breadcrumb-item active">Edit</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Audios</a></li>
+                            <li class="breadcrumb-item active">Create</li>
                         </ol>
                     </div>
 
@@ -42,17 +42,17 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Documents</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Audios</h4>
                     </div><!-- end card header -->
                     <div class="card-body">
                         <div class="live-preview">
-                            <form id="countryForm" method="post" action="{{route('document_update', $country->id, $country->id)}}" enctype="multipart/form-data">
+                            <form id="countryForm" method="post" action="{{route('audio_store')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row gy-4">
                                 <div class="col-xxl-4 col-md-4">
                                     <div>
                                         <label for="title" class="form-label">Title</label>
-                                        <input type="text" class="form-control" name="title" id="title" value="{{$country->title}}">
+                                        <input type="text" class="form-control" name="title" id="title" value="{{old('title')}}">
                                         @error('title') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
@@ -61,7 +61,7 @@
                                 <div class="col-xxl-4 col-md-4">
                                     <div>
                                         <label for="year" class="form-label">Year</label>
-                                        <input type="text" class="form-control" name="year" id="year" value="{{$country->year}}">
+                                        <input type="text" class="form-control" name="year" id="year" value="{{old('year')}}">
                                         @error('year') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
@@ -70,7 +70,7 @@
                                 <div class="col-xxl-4 col-md-4">
                                     <div>
                                         <label for="version" class="form-label">Version</label>
-                                        <input type="text" class="form-control" name="version" id="version" value="{{$country->version}}">
+                                        <input type="text" class="form-control" name="version" id="version" value="{{old('version')}}">
                                         @error('version') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
@@ -79,7 +79,7 @@
                                 <div class="col-xxl-4 col-md-6">
                                     <div>
                                         <label for="deity" class="form-label">Deity</label>
-                                        <input type="text" class="form-control" name="deity" id="deity" value="{{$country->deity}}">
+                                        <input type="text" class="form-control" name="deity" id="deity" value="{{old('deity')}}">
                                         @error('deity') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
@@ -105,9 +105,9 @@
                                 </div>
                                 <div class="col-xxl-6 col-md-6">
                                     <div>
-                                        <label for="document" class="form-label">Document</label>
-                                        <input class="form-control" type="file" name="document" id="document">
-                                        @error('document') 
+                                        <label for="audio" class="form-label">Audio</label>
+                                        <input class="form-control" type="file" name="audio" id="audio">
+                                        @error('audio') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -116,7 +116,7 @@
                                 <div class="col-xxl-12 col-md-12">
                                     <div>
                                         <label for="description" class="form-label">Description</label>
-                                        <div id="description">{!! $country->description !!}</div>
+                                        <div id="description"></div>
                                             @error('description') 
                                                 <div class="invalid-message">{{ $message }}</div>
                                             @enderror
@@ -127,7 +127,7 @@
                                     <div class="mt-4 mt-md-0">
                                         <div>
                                             <div class="form-check form-switch form-check-right mb-2">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckRightDisabled" name="status"  {{$country->status==1 ? 'checked' : ''}}>
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckRightDisabled" name="status" checked>
                                                 <label class="form-check-label" for="flexSwitchCheckRightDisabled">Status</label>
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                                     <div class="mt-4 mt-md-0">
                                         <div>
                                             <div class="form-check form-switch form-check-right mb-2">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckRightDisabled2" name="restricted" {{$country->restricted==1 ? 'checked' : ''}}>
+                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckRightDisabled2" name="restricted">
                                                 <label class="form-check-label" for="flexSwitchCheckRightDisabled2">Restricted</label>
                                             </div>
                                         </div>
@@ -147,7 +147,7 @@
                                 </div><!--end col-->
 
                                 <div class="col-xxl-12 col-md-12">
-                                    <button type="submit" class="btn btn-primary waves-effect waves-light" id="submitBtn">Update</button>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light" id="submitBtn">Create</button>
                                 </div>
                                 
                             </div>
@@ -192,7 +192,6 @@ var quillDescription = new Quill('#description', {
         tagElem.push("{{$tag}}")
         @endforeach
     @endif
-var availableTags = "";
 var tagInput = document.getElementById('tags'),
 tagify = new Tagify(tagInput, {
     whitelist : tagElem,
@@ -204,10 +203,6 @@ tagify = new Tagify(tagInput, {
         highlightFirst: true
     }
 });
-@if($country->tags)
-availableTags = "{{$country->tags}}"
-tagify.addTags(availableTags.split(','))
-@endif
 </script>
 
 <script type="text/javascript">
@@ -219,13 +214,14 @@ const choicesLangauge = new Choices('#language', {
             {
                 value: 'Select the language',
                 label: 'Select the language',
+                selected: {{empty(old('language')) ? 'true' : 'false'}},
                 disabled: true,
             },
         @foreach($languages as $key => $val)
             {
                 value: '{{$key}}',
                 label: '{{$val}}',
-                selected: {{($country->language==$key) ? 'true' : 'false'}},
+                selected: {{(old('language')==$key) ? 'true' : 'false'}},
             },
         @endforeach
     ],
@@ -366,20 +362,20 @@ validation
         errorMessage: 'Please select a language',
     },
   ])
-  .addField('#document', [
+  .addField('#audio', [
     {
         rule: 'minFilesCount',
-        value: 0,
-        errorMessage: 'Please select an pdf',
+        value: 1,
+        errorMessage: 'Please select an audio',
     },
     {
         rule: 'files',
         value: {
             files: {
-                extensions: ['pdf']
+                extensions: ['wav','mp3','aac']
             },
         },
-        errorMessage: 'Please select a valid pdf',
+        errorMessage: 'Please select a valid audio',
     },
   ])
   .onSuccess(async (event) => {
@@ -402,6 +398,7 @@ validation
             });
         }
 
+        
         var submitBtn = document.getElementById('submitBtn')
         submitBtn.innerHTML = `
             <span class="d-flex align-items-center">
@@ -426,9 +423,7 @@ validation
         formData.append('description',quillDescription.root.innerHTML)
         formData.append('status',document.getElementById('flexSwitchCheckRightDisabled').value)
         formData.append('restricted',document.getElementById('flexSwitchCheckRightDisabled2').value)
-        if(document.getElementById('document').files.length > 0){
-            formData.append('document',document.getElementById('document').files[0])
-        }
+        formData.append('audio',document.getElementById('audio').files[0])
         if(tagify.value.length > 0){
             var tags = tagify.value.map(item => item.value).join(',')
             // console.log(tags);
@@ -436,13 +431,13 @@ validation
         }
         // formData.append('refreshUrl','{{URL::current()}}')
         
-        const response = await axios.post('{{route('document_update', $country->id)}}', formData)
+        const response = await axios.post('{{route('audio_store')}}', formData)
         successToast(response.data.message)
         setTimeout(function(){
             window.location.replace(response.data.url);
         }, 1000);
       } catch (error) {
-        //   console.log(error.response);
+          console.log(error);
         if(error?.response?.data?.form_error?.title){
             errorToast(error?.response?.data?.form_error?.title[0])
         }
@@ -464,12 +459,12 @@ validation
         if(error?.response?.data?.form_error?.language){
             errorToast(error?.response?.data?.form_error?.language[0])
         }
-        if(error?.response?.data?.form_error?.document){
-            errorToast(error?.response?.data?.form_error?.document[0])
+        if(error?.response?.data?.form_error?.audio){
+            errorToast(error?.response?.data?.form_error?.audio[0])
         }
       } finally{
             submitBtn.innerHTML =  `
-                Update
+                Submit
                 `
             submitBtn.disabled = false;
         }

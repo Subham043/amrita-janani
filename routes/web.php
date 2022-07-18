@@ -21,6 +21,8 @@ use App\Http\Controllers\Admin\Enquiry\EnquiryController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Image\ImageController;
 use App\Http\Controllers\Admin\Document\DocumentController;
+use App\Http\Controllers\Admin\Audio\AudioController;
+use App\Http\Controllers\Admin\Video\VideoController;
 
 
 /*
@@ -110,6 +112,32 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('/delete/{id}', [DocumentController::class, 'delete', 'as' => 'admin.document.delete'])->name('document_delete');
         Route::get('/bulk-upload', [DocumentController::class, 'bulk_upload', 'as' => 'admin.document.bulk_upload'])->name('document_bulk_upload');
         Route::post('/bulk-upload', [DocumentController::class, 'bulk_upload_store', 'as' => 'admin.document.bulk_upload_store'])->name('document_bulk_upload_store');
+    });
+    
+    Route::prefix('/audio')->group(function () {
+        Route::get('/', [AudioController::class, 'view', 'as' => 'admin.audio.view'])->name('audio_view');
+        Route::get('/view/{id}', [AudioController::class, 'display', 'as' => 'admin.audio.display'])->name('audio_display');
+        Route::get('/create', [AudioController::class, 'create', 'as' => 'admin.audio.create'])->name('audio_create');
+        Route::post('/create', [AudioController::class, 'store', 'as' => 'admin.audio.store'])->name('audio_store');
+        Route::get('/excel', [AudioController::class, 'excel', 'as' => 'admin.audio.excel'])->name('audio_excel');
+        Route::get('/edit/{id}', [AudioController::class, 'edit', 'as' => 'admin.audio.edit'])->name('audio_edit');
+        Route::post('/edit/{id}', [AudioController::class, 'update', 'as' => 'admin.audio.update'])->name('audio_update');
+        Route::get('/delete/{id}', [AudioController::class, 'delete', 'as' => 'admin.audio.delete'])->name('audio_delete');
+        Route::get('/bulk-upload', [AudioController::class, 'bulk_upload', 'as' => 'admin.audio.bulk_upload'])->name('audio_bulk_upload');
+        Route::post('/bulk-upload', [AudioController::class, 'bulk_upload_store', 'as' => 'admin.audio.bulk_upload_store'])->name('audio_bulk_upload_store');
+    });
+    
+    Route::prefix('/video')->group(function () {
+        Route::get('/', [VideoController::class, 'view', 'as' => 'admin.video.view'])->name('video_view');
+        Route::get('/view/{id}', [VideoController::class, 'display', 'as' => 'admin.video.display'])->name('video_display');
+        Route::get('/create', [VideoController::class, 'create', 'as' => 'admin.video.create'])->name('video_create');
+        Route::post('/create', [VideoController::class, 'store', 'as' => 'admin.video.store'])->name('video_store');
+        Route::get('/excel', [VideoController::class, 'excel', 'as' => 'admin.video.excel'])->name('video_excel');
+        Route::get('/edit/{id}', [VideoController::class, 'edit', 'as' => 'admin.video.edit'])->name('video_edit');
+        Route::post('/edit/{id}', [VideoController::class, 'update', 'as' => 'admin.video.update'])->name('video_update');
+        Route::get('/delete/{id}', [VideoController::class, 'delete', 'as' => 'admin.video.delete'])->name('video_delete');
+        Route::get('/bulk-upload', [VideoController::class, 'bulk_upload', 'as' => 'admin.video.bulk_upload'])->name('video_bulk_upload');
+        Route::post('/bulk-upload', [VideoController::class, 'bulk_upload_store', 'as' => 'admin.video.bulk_upload_store'])->name('video_bulk_upload_store');
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');

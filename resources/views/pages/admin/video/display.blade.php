@@ -15,11 +15,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Document</h4>
+                    <h4 class="mb-sm-0">Video</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Document</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Video</a></li>
                             <li class="breadcrumb-item active">View</li>
                         </ol>
                     </div>
@@ -35,8 +35,8 @@
                         <div class="row g-4 mb-3">
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
-                                    <a href="{{route('document_edit', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"><i class="ri-edit-line align-bottom me-1"></i> Edit</a>
-                                    <button onclick="deleteHandler('{{route('document_delete', $country->id)}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>
+                                    <a href="{{route('video_edit', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"><i class="ri-edit-line align-bottom me-1"></i> Edit</a>
+                                    <button onclick="deleteHandler('{{route('video_delete', $country->id)}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -150,10 +150,10 @@
                             @endif
 
                             <div id="image-container">
-                                @if($country->document)
+                                @if($country->video)
                                 <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
-                                    <h6 class="fw-semibold text-uppercase">Document</h6>
-                                    <img src="{{asset('storage/upload/documents/'.$country->document)}}" class="mb-3" style="max-width:30%">
+                                    <h6 class="fw-semibold text-uppercase">Video</h6>
+                                    <img src="{{asset('storage/upload/audios/'.$country->video)}}" class="mb-3" style="max-width:30%">
                                 </div>
                                 @endif
                             </div>
