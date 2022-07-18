@@ -60,6 +60,19 @@
                                 </div>
                             </li> <!-- end Dashboard Menu -->
                             <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'language') !== false ? 'active' : ''}}" href="#sidebarDashboards7" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{strpos(url()->current(),'language') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards7">
+                                    <i class="bx bx-text"></i> <span data-key="t-dashboards">Language Management</span>
+                                </a>
+                                <div class="collapse menu-dropdown {{strpos(url()->current(),'language') !== false ? 'show' : ''}}" id="sidebarDashboards7">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{route('subadmin_view')}}" class="nav-link {{strpos(url()->current(),'language') !== false ? 'active' : ''}}" data-key="t-analytics"> Language </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li> <!-- end Dashboard Menu -->
+                            <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'image') !== false || strpos(url()->current(),'audio') !== false || strpos(url()->current(),'video') !== false || strpos(url()->current(),'document') !== false ? 'active' : ''}}" href="#sidebarDashboards6" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{strpos(url()->current(),'image') !== false || strpos(url()->current(),'audio') !== false || strpos(url()->current(),'video') !== false || strpos(url()->current(),'document') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards6">
                                     <i class="ri-image-fill"></i> <span data-key="t-dashboards">Multimedia Management</span>

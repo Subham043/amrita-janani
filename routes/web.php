@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\Image\ImageController;
 use App\Http\Controllers\Admin\Document\DocumentController;
 use App\Http\Controllers\Admin\Audio\AudioController;
 use App\Http\Controllers\Admin\Video\VideoController;
+use App\Http\Controllers\Admin\Language\LanguageController;
 
 
 /*
@@ -138,6 +139,17 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('/delete/{id}', [VideoController::class, 'delete', 'as' => 'admin.video.delete'])->name('video_delete');
         Route::get('/bulk-upload', [VideoController::class, 'bulk_upload', 'as' => 'admin.video.bulk_upload'])->name('video_bulk_upload');
         Route::post('/bulk-upload', [VideoController::class, 'bulk_upload_store', 'as' => 'admin.video.bulk_upload_store'])->name('video_bulk_upload_store');
+    });
+    
+    Route::prefix('/language')->group(function () {
+        Route::get('/', [LanguageController::class, 'view', 'as' => 'admin.language.view'])->name('language_view');
+        Route::get('/view/{id}', [LanguageController::class, 'display', 'as' => 'admin.language.display'])->name('language_display');
+        Route::get('/create', [LanguageController::class, 'create', 'as' => 'admin.language.create'])->name('language_create');
+        Route::post('/create', [LanguageController::class, 'store', 'as' => 'admin.language.store'])->name('language_store');
+        Route::get('/excel', [LanguageController::class, 'excel', 'as' => 'admin.language.excel'])->name('language_excel');
+        Route::get('/edit/{id}', [LanguageController::class, 'edit', 'as' => 'admin.language.edit'])->name('language_edit');
+        Route::post('/edit/{id}', [LanguageController::class, 'update', 'as' => 'admin.language.update'])->name('language_update');
+        Route::get('/delete/{id}', [LanguageController::class, 'delete', 'as' => 'admin.language.delete'])->name('language_delete');
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
