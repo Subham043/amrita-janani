@@ -14,6 +14,7 @@ use Uuid;
 use App\Support\Types\UserType;
 use Illuminate\Support\Facades\Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Storage;
 
 class DocumentController extends Controller
 {
@@ -214,8 +215,6 @@ class DocumentController extends Controller
     public function bulk_upload_store(Request $req) {
         $rules = array(
             'excel' => ['required','mimes:xls,xlsx'],
-            'upload' => ['required','array','min:1','max:20'],
-            'upload.*' => ['required','mimes:pdf'],
         );
         $messages = array(
             'excel.required' => 'Please select an excel !',
@@ -236,31 +235,32 @@ class DocumentController extends Controller
         }elseif($data->count() > 20)
         {
             return response()->json(["form_error"=>"Maximum 20 rows of data in the excel are allowed."], 400);
-        }elseif($data->count() != count($req->upload))
-        {
-            return response()->json(["form_error"=>"The number of row of data in the excel must match the number of documents."], 400);
         }else{
             foreach ($data as $key => $value) {
-                $exceldata = new DocumentModel;
-                $exceldata->title = $value['title'];
-                $exceldata->year = $value['year'];
-                $exceldata->deity = $value['deity'];
-                $exceldata->tags = $value['tags'];
-                $exceldata->version = $value['version'];
-                $exceldata->language = LanguageType::getStatusId($value['language']);
-                $exceldata->status = 1;
-                $exceldata->restricted = 0;
-                $exceldata->user_id = Auth::user()->id;
+                $language = LanguageModel::where('name','like',$value['language'])->get();
+                if(count($language)>0){
+                    if(file_exists(storage_path('app/public/zip/documents').'/'.$value['document'])){
 
-                
-                $uuid = Uuid::generate(4)->string;
-                $newImage = $uuid.'-'.$req->upload[$key]->getClientOriginalName();
-                
-
-                $req->upload[$key]->storeAs('public/upload/documents',$newImage);
-                $exceldata->document = $newImage;
-
-                $result = $exceldata->save();
+                        $language = LanguageModel::where('name','like',$value['language'])->first();
+                        $exceldata = new DocumentModel;
+                        $exceldata->title = $value['title'];
+                        $exceldata->year = $value['year'];
+                        $exceldata->deity = $value['deity'];
+                        $exceldata->tags = $value['tags'];
+                        $exceldata->version = $value['version'];
+                        $exceldata->language = $language->id;
+                        $exceldata->status = 1;
+                        $exceldata->restricted = 0;
+                        $exceldata->user_id = Auth::user()->id;
+        
+                        
+                        $uuid = Uuid::generate(4)->string;
+                        Storage::move('public/zip/documents'.'/'.$value['document'], 'public/upload/documents'.'/'.$uuid.'-'.$value['document']);
+                        $exceldata->document = $uuid.'-'.$value['document'];
+        
+                        $result = $exceldata->save();
+                    }
+                }
                 
                 
             }

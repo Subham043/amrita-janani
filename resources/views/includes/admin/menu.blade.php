@@ -67,7 +67,7 @@
                                 <div class="collapse menu-dropdown {{strpos(url()->current(),'language') !== false ? 'show' : ''}}" id="sidebarDashboards7">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="{{route('subadmin_view')}}" class="nav-link {{strpos(url()->current(),'language') !== false ? 'active' : ''}}" data-key="t-analytics"> Language </a>
+                                            <a href="{{route('language_view')}}" class="nav-link {{strpos(url()->current(),'language') !== false ? 'active' : ''}}" data-key="t-analytics"> Language </a>
                                         </li>
                                     </ul>
                                 </div>
