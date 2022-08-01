@@ -2,8 +2,6 @@
 
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('admin/libs/filepond/filepond.min.css')}}" type="text/css" />
-<link rel="stylesheet" href="{{ asset('admin/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css')}}">
 @stop
 
 
@@ -84,19 +82,8 @@
 
 @section('javascript')
 <script src="{{ asset('admin/js/pages/axios.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond/filepond.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
 
 <script type="text/javascript">
-
-FilePond.registerPlugin(FilePondPluginImagePreview);
-    // Get a reference to the file input element
-const inputElement = document.querySelector('#upload');
-// Create the FilePond instance
-const pond = FilePond.create(inputElement,{allowMultiple: true});
 
 
 // initialize the validation library
@@ -158,9 +145,6 @@ validation
       try {
         var formData = new FormData();
         formData.append('excel',document.getElementById('excel').files[0])
-        for (var i = 0; i < pond.getFiles().length; i++) {
-            formData.append('upload[]',pond.getFiles()[i].file)
-        }
         // formData.append('refreshUrl','{{URL::current()}}')
         
         const response = await axios.post('{{route('image_bulk_upload_store')}}', formData)

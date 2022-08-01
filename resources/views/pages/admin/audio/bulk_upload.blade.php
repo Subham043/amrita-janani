@@ -2,8 +2,6 @@
 
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('admin/libs/filepond/filepond.min.css')}}" type="text/css" />
-<link rel="stylesheet" href="{{ asset('admin/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css')}}">
 @stop
 
 
@@ -55,15 +53,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-12 col-md-12">
-                                    <div>
-                                        <label for="upload" class="form-label">Upload Document</label>
-                                        <input class="form-control filepond" type="file" name="upload" id="upload" multiple data-allow-reorder="true" data-max-file-size="120MB" data-max-files="20">
-                                        @error('upload') 
-                                            <div class="invalid-message">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
                                 
                                 <div class="col-xxl-12 col-md-12">
                                     <button type="submit" class="btn btn-primary waves-effect waves-light" id="submitBtn">Upload</button>
@@ -93,19 +82,8 @@
 
 @section('javascript')
 <script src="{{ asset('admin/js/pages/axios.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond/filepond.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}"></script>
-<script src="{{ asset('admin/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
 
 <script type="text/javascript">
-
-FilePond.registerPlugin(FilePondPluginImagePreview);
-    // Get a reference to the file input element
-const inputElement = document.querySelector('#upload');
-// Create the FilePond instance
-const pond = FilePond.create(inputElement,{allowMultiple: true});
 
 
 // initialize the validation library
@@ -128,44 +106,6 @@ validation
             },
         },
         errorMessage: 'Please upload a valid excel',
-    },
-  ])
-  .addField('#upload', [
-    {
-        validator: (value, fields) => {
-        if (pond.getFiles().length === 0) {
-            return false;
-        }
-        return true;
-        },
-        errorMessage: 'Please select atleast one upload audio',
-    },
-    {
-        validator: (value, fields) => {
-        if (pond.getFiles().length === 20) {
-            return false;
-        }
-        return true;
-        },
-        errorMessage: 'Maximum 20 audios are allowed',
-    },
-    {
-        validator: (value, fields) => {
-        if (pond.getFiles().length > 0) {
-            for (var i = 0; i < pond.getFiles().length; i++) {
-                switch (pond.getFiles()[i].fileExtension) {
-                    case 'wav':
-                    case 'mp3':
-                    case 'aac':
-                        continue;
-                    default:
-                        return false;
-                }
-            }
-        }
-        return true;
-        },
-        errorMessage: 'Please select a valid upload audios',
     },
   ])
   .onSuccess(async (event) => {
@@ -205,9 +145,6 @@ validation
       try {
         var formData = new FormData();
         formData.append('excel',document.getElementById('excel').files[0])
-        for (var i = 0; i < pond.getFiles().length; i++) {
-            formData.append('upload[]',pond.getFiles()[i].file)
-        }
         // formData.append('refreshUrl','{{URL::current()}}')
         
         const response = await axios.post('{{route('audio_bulk_upload_store')}}', formData)
