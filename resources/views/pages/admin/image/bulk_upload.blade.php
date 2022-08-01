@@ -55,15 +55,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-12 col-md-12">
-                                    <div>
-                                        <label for="upload" class="form-label">Upload Image</label>
-                                        <input class="form-control filepond" type="file" name="upload" id="upload" multiple data-allow-reorder="true" data-max-file-size="120MB" data-max-files="20">
-                                        @error('upload') 
-                                            <div class="invalid-message">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
                                 
                                 <div class="col-xxl-12 col-md-12">
                                     <button type="submit" class="btn btn-primary waves-effect waves-light" id="submitBtn">Upload</button>
@@ -128,45 +119,6 @@ validation
             },
         },
         errorMessage: 'Please upload a valid excel',
-    },
-  ])
-  .addField('#upload', [
-    {
-        validator: (value, fields) => {
-        if (pond.getFiles().length === 0) {
-            return false;
-        }
-        return true;
-        },
-        errorMessage: 'Please select atleast one upload image',
-    },
-    {
-        validator: (value, fields) => {
-        if (pond.getFiles().length === 20) {
-            return false;
-        }
-        return true;
-        },
-        errorMessage: 'Maximum 20 images are allowed',
-    },
-    {
-        validator: (value, fields) => {
-        if (pond.getFiles().length > 0) {
-            for (var i = 0; i < pond.getFiles().length; i++) {
-                switch (pond.getFiles()[i].fileExtension) {
-                    case 'jpg':
-                    case 'jpeg':
-                    case 'png':
-                    case 'webp':
-                        continue;
-                    default:
-                        return false;
-                }
-            }
-        }
-        return true;
-        },
-        errorMessage: 'Please select a valid upload image',
     },
   ])
   .onSuccess(async (event) => {

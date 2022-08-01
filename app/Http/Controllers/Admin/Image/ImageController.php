@@ -15,6 +15,7 @@ use Uuid;
 use App\Support\Types\UserType;
 use Illuminate\Support\Facades\Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Storage;
 
 class ImageController extends Controller
 {
@@ -229,8 +230,6 @@ class ImageController extends Controller
     public function bulk_upload_store(Request $req) {
         $rules = array(
             'excel' => ['required','mimes:xls,xlsx'],
-            'upload' => ['required','array','min:1','max:20'],
-            'upload.*' => ['required','image','mimes:jpeg,png,jpg,webp'],
         );
         $messages = array(
             'excel.required' => 'Please select an excel !',
@@ -251,36 +250,39 @@ class ImageController extends Controller
         }elseif($data->count() > 20)
         {
             return response()->json(["form_error"=>"Maximum 20 rows of data in the excel are allowed."], 400);
-        }elseif($data->count() != count($req->upload))
-        {
-            return response()->json(["form_error"=>"The number of row of data in the excel must match the number of images."], 400);
         }else{
             foreach ($data as $key => $value) {
-                $exceldata = new ImageModel;
-                $exceldata->title = $value['title'];
-                $exceldata->year = $value['year'];
-                $exceldata->deity = $value['deity'];
-                $exceldata->tags = $value['tags'];
-                $exceldata->version = $value['version'];
-                $exceldata->language = LanguageType::getStatusId($value['language']);
-                $exceldata->status = 1;
-                $exceldata->restricted = 0;
-                $exceldata->user_id = Auth::user()->id;
+                $language = LanguageModel::where('name','like',$value['language'])->get();
+                if(count($language)>0){
+                    if(file_exists(storage_path('app/public/zip/images').'/'.$value['image'])){
 
-                
-                $uuid = Uuid::generate(4)->string;
-                $newImage = $uuid.'-'.$req->upload[$key]->getClientOriginalName();
-                
-                
-                $img = Image::make($req->upload[$key]->getRealPath());
-                $img->resize(300, 200, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/upload/images').'/'.'compressed-'.$newImage);
+                        $language = LanguageModel::where('name','like',$value['language'])->first();
+                        $exceldata = new ImageModel;
+                        $exceldata->title = $value['title'];
+                        $exceldata->year = $value['year'];
+                        $exceldata->deity = $value['deity'];
+                        $exceldata->tags = $value['tags'];
+                        $exceldata->version = $value['version'];
+                        $exceldata->language = $language->id;
+                        $exceldata->status = 1;
+                        $exceldata->restricted = 0;
+                        $exceldata->user_id = Auth::user()->id;
 
-                $req->upload[$key]->storeAs('public/upload/images',$newImage);
-                $exceldata->image = $newImage;
+                        
+                        $uuid = Uuid::generate(4)->string;
+                        Storage::move('public/zip/images'.'/'.$value['image'], 'public/upload/images'.'/'.$uuid.'-'.$value['image']);
+                        $exceldata->image = $uuid.'-'.$value['image'];
+                        
+                        
+                        $img = Image::make(storage_path('app/public/upload/images').'/'.$uuid.'-'.$value['image']);
+                        $img->resize(300, 200, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save(storage_path('app/public/upload/images').'/'.'compressed-'.$uuid.'-'.$value['image']);
 
-                $result = $exceldata->save();
+                        $result = $exceldata->save();
+                    }
+                }
+                
                 
                 
             }
