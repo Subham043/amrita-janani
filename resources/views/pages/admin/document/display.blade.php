@@ -31,7 +31,7 @@
         place-items: center;
         outline: none;
         border: none;
-        background:blue;
+        background:#96171c;
         color:white;
         border-radius:5px;
         padding:5px 10px;
@@ -63,7 +63,7 @@
         margin:0;
         padding:0;
         height: 40px;
-        width: 70px;
+        width: 80px;
         background-color:white;
         outline:none;
         border:1px solid #eee;
@@ -71,6 +71,7 @@
         position:relative;
         text-align: center;
         color:black;
+        border-radius: 5px;
     }
     #totalPageCount{
         /* color:white; */
