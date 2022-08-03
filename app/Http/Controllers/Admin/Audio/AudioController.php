@@ -72,7 +72,7 @@ class AudioController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language = $req->language;
+        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->status = $req->status == "on" ? 1 : 0;
@@ -144,7 +144,7 @@ class AudioController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language = $req->language;
+        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->status = $req->status == "on" ? 1 : 0;
@@ -189,7 +189,7 @@ class AudioController extends Controller
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
             ->orWhere('uuid', 'like', '%' . $search . '%')
-            ->orWhere('language', LanguageType::getStatusId($search))
+            ->orWhere('language_id', LanguageType::getStatusId($search))
             ->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
@@ -248,7 +248,7 @@ class AudioController extends Controller
                         $exceldata->deity = $value['deity'];
                         $exceldata->tags = $value['tags'];
                         $exceldata->version = $value['version'];
-                        $exceldata->language = $language->id;
+                        $exceldata->language_id = $language->id;
                         $exceldata->status = 1;
                         $exceldata->restricted = 0;
                         $exceldata->user_id = Auth::user()->id;

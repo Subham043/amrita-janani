@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         DB::table('users')->insert(array('name' => 'subham saha','email' => 'subham.5ine@gmail.com','phone' => '7892156160','otp' => '7892','password' => '$2y$10$lbG32MTjcGqhG7ogF6d13OBGDuVimLeugJApy1oeCUB/LXNl2X5KK'));

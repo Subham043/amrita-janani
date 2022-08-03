@@ -22,7 +22,7 @@ class Audios extends Migration
             $table->text('tags')->nullable();
             $table->string('year')->nullable();
             $table->string('version')->nullable();
-            $table->string('language')->nullable();
+            $table->bigInteger('language_id')->nullable()->references('id')->on('languages')->nullOnDelete();
             $table->string('deity')->nullable();
             $table->bigInteger('views')->default(0);
             $table->bigInteger('favourites')->default(0);
@@ -30,8 +30,9 @@ class Audios extends Migration
             $table->text('topics')->nullable();
             $table->integer('status')->default(1);
             $table->integer('restricted')->default(0);
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -6,12 +6,13 @@ use App\Http\Controllers\Main\CaptchaController;
 use App\Http\Controllers\Main\AboutPageController;
 use App\Http\Controllers\Main\ContactPageController;
 use App\Http\Controllers\Main\FAQPageController;
-use App\Http\Controllers\Main\LoginPageController;
-use App\Http\Controllers\Main\RegisterPageController;
-use App\Http\Controllers\Main\ForgotPasswordPageController;
-use App\Http\Controllers\Main\ResetPasswordPageController;
-use App\Http\Controllers\Main\VerifyRegisteredUserPageController;
-use App\Http\Controllers\Main\DashboardPageController;
+use App\Http\Controllers\Main\Auth\LoginPageController;
+use App\Http\Controllers\Main\Auth\RegisterPageController;
+use App\Http\Controllers\Main\Auth\ForgotPasswordPageController;
+use App\Http\Controllers\Main\Auth\ResetPasswordPageController;
+use App\Http\Controllers\Main\Auth\VerifyRegisteredUserPageController;
+use App\Http\Controllers\Main\Content\DashboardPageController;
+use App\Http\Controllers\Main\Content\ImagePageController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
@@ -58,6 +59,7 @@ Route::get('/captcha-reload', [CaptchaController::class, 'reloadCaptcha', 'as' =
 
 Route::prefix('/content')->group(function () {
     Route::get('/', [DashboardPageController::class, 'index', 'as' => 'content.dashboard'])->name('content_dashboard');
+    Route::get('/image', [ImagePageController::class, 'index', 'as' => 'content.image'])->name('content_image');
 });
 
 

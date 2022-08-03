@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Uuid;
 
 class AudioModel extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table="audios";
 
     public static function boot()
@@ -26,7 +27,7 @@ class AudioModel extends Model
 
     public function LanguageModel()
     {
-        return $this->belongsTo('App\Models\LanguageModel', 'language');
+        return $this->belongsTo('App\Models\LanguageModel', 'language_id');
     }
 
 }
