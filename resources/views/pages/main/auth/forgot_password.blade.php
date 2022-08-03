@@ -33,16 +33,6 @@
                 <div class="invalid-message">{{ $message }}</div>
             @enderror
         </div>
-        <div class="mb-2">
-          <div class="d-flex" style="align-items:center;">
-              <p id="captcha_container">{!!captcha_img()!!} </p>
-              <span class="btn-captcha" onclick="reload_captcha()" style="margin-left:10px;" title="reload captcha"><i class="fas fa-redo"></i></span>
-          </div>
-          <input class="form-control" type="text" name="captcha" id="captcha" placeholder="Captcha" required>
-          @error('captcha') 
-              <div class="invalid-message">{{ $message }}</div>
-          @enderror
-        </div>
         <div class="form-button">
             <button id="submitBtn" type="submit" class="ibtn">Submit</button> <a href="{{route('signin')}}">Remember your password?</a>
         </div>
@@ -78,15 +68,8 @@ validation
       errorMessage: 'Email is invalid!',
     },
   ])
-  .addField('#captcha', [
-    {
-      rule: 'required',
-      errorMessage: 'Captcha is required',
-    }
-  ])
   .onSuccess((event) => {
     event.target.submit();
   });
 </script>
-@include('includes.main.captcha')
 @stop

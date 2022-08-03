@@ -16,7 +16,7 @@ class ForgotPasswordPageController extends Controller
         if (Auth::check()) {
             return redirect(route('index'));
         }
-        return view('pages.main.forgot_password')->with('breadcrumb','Forgot Password');
+        return view('pages.main.auth.forgot_password')->with('breadcrumb','Forgot Password');
     }
 
     public function requestForgotPassword(Request $request) {
@@ -26,12 +26,10 @@ class ForgotPasswordPageController extends Controller
         
         $validator = $request->validate([
             'email' => ['required','email'],
-            'captcha' => ['required','captcha']
         ],
         [
             'email.required' => 'Please enter the email !',
             'email.email' => 'Please enter the valid email !',
-            'captcha.captcha' => 'Please enter the valid captcha !',
         ]);
 
         $user = User::where('email', $request->email)->where('status', 1)->where('userType', 2)->get();

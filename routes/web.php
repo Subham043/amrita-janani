@@ -11,6 +11,7 @@ use App\Http\Controllers\Main\RegisterPageController;
 use App\Http\Controllers\Main\ForgotPasswordPageController;
 use App\Http\Controllers\Main\ResetPasswordPageController;
 use App\Http\Controllers\Main\VerifyRegisteredUserPageController;
+use App\Http\Controllers\Main\DashboardPageController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
@@ -54,6 +55,11 @@ Route::post('/reset-password/{id}', [ResetPasswordPageController::class, 'reques
 Route::get('/verify-user/{id}', [VerifyRegisteredUserPageController::class, 'index', 'as' => 'requestVerifyRegisteredUser.index'])->name('verifyUser');
 Route::post('/verify-user/{id}', [VerifyRegisteredUserPageController::class, 'requestVerifyRegisteredUser', 'as' => 'requestVerifyRegisteredUser.requestVerifyRegisteredUser'])->name('requestVerifyRegisteredUser');
 Route::get('/captcha-reload', [CaptchaController::class, 'reloadCaptcha', 'as' => 'captcha.reload'])->name('captcha_ajax');
+
+Route::prefix('/content')->group(function () {
+    Route::get('/', [DashboardPageController::class, 'index', 'as' => 'content.dashboard'])->name('content_dashboard');
+});
+
 
 Route::prefix('/admin')->group(function () {
     Route::get('/login', [LoginController::class, 'index', 'as' => 'admin.login'])->name('login');

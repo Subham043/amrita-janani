@@ -25,7 +25,7 @@ class ResetPasswordPageController extends Controller
         if(count($user)<1){
             return redirect(route('forgot_password'))->with('error_status', 'Oops! You have entered invalid link');
         }
-        return view('pages.main.reset_password')->with('breadcrumb','Reset Password')->with('encryptedId',$id);
+        return view('pages.main.auth.reset_password')->with('breadcrumb','Reset Password')->with('encryptedId',$id);
     }
 
     public function requestResetPassword(Request $request, $id) {
@@ -45,14 +45,12 @@ class ResetPasswordPageController extends Controller
             'otp' => 'required|integer',
             'password' => 'required',
             'cpassword' => 'required_with:password|same:password',
-            'captcha' => 'required|captcha'
         ],[
             'otp.required' => 'Please enter your otp !',
             'otp.integer' => 'Otp must be a number !',
             'password.required' => 'Please enter your password !',
             'cpassword.required' => 'Please enter your confirm password !',
             'cpassword.same' => 'password & confirm password must be the same !',
-            'captcha.captcha' => 'Please enter the valid captcha !',
         ]);
         $user = User::where('id', $decryptedId)->where('status', 1)->where('allowPasswordChange', 1)->where('userType', 2)->where('otp', $request->otp)->get();
         if(count($user)<1){

@@ -17,33 +17,19 @@
         cursor: pointer;
     }
 </style>
+
 @stop
 
 @section('content')
 
 <div class="form-items">
-    <h3>Get more things done with Registering Amrita Janani.</h3>
+    <h3>Reset password.</h3>
     <p>Access to the most powerfull tool in amrita janani.</p>
-    <div class="page-links">
-        <a href="{{route('signin')}}">Login</a><a href="{{route('index')}}" class="active">Register</a>
-    </div>
-    <form action="{{route('signup_store')}}" method="post" id="loginForm">
-        @csrf
+    <form action="{{route('resetPasswordRequest', $encryptedId)}}" method="post" id="loginForm">
+    @csrf
         <div class="mb-2">
-            <input class="form-control" type="text" name="name" id="name" placeholder="Name" value="{{old('name')}}" required>
-            @error('name') 
-                <div class="invalid-message">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="mb-2">
-        <input class="form-control" type="email" name="email" id="email" placeholder="E-mail Address" value="{{old('email')}}" required>
-        @error('email') 
-            <div class="invalid-message">{{ $message }}</div>
-        @enderror
-        </div>
-        <div class="mb-2">
-        <input class="form-control" type="text" name="phone" id="phone" placeholder="Phone Number" value="{{old('phone')}}" required>
-        @error('phone') 
+        <input class="form-control" type="text" name="otp" id="otp" placeholder="OTP" required>
+        @error('otp') 
             <div class="invalid-message">{{ $message }}</div>
         @enderror
         </div>
@@ -59,28 +45,15 @@
             <div class="invalid-message">{{ $message }}</div>
         @enderror
         </div>
-        <div class="mb-2">
-        <div class="d-flex" style="align-items:center;">
-            <p id="captcha_container">{!!captcha_img()!!} </p>
-            <span class="btn-captcha" onclick="reload_captcha()" style="margin-left:10px;" title="reload captcha"><i class="fas fa-redo"></i></span>
-        </div>
-        <input class="form-control" type="text" name="captcha" id="captcha" placeholder="Captcha" required>
-        @error('captcha') 
-            <div class="invalid-message">{{ $message }}</div>
-        @enderror
-        </div>
-        <div class="mb-2">
-        <input type="checkbox" id="chk1"><label for="chk1">Accept Terms & Condtions</label>
-        </div>
+        
         <div class="form-button">
-            <button id="btnsubmit" type="submit" class="ibtn">Register</button> <a href="{{route('signin')}}">Already a registered user?</a>
+            <button id="submitBtn" type="submit" class="ibtn">Reset Password</button> <a href="{{route('signin')}}">Remember your password?</a>
         </div>
     </form>
+    <!-- <div class="other-links">
+        <span>Or login with</span><a href="#">Facebook</a><a href="#">Google</a><a href="#">Linkedin</a>
+    </div> -->
 </div>
-
-
-
-
 
 @stop
 
@@ -97,36 +70,15 @@ const validation = new JustValidate('#loginForm', {
 });
 // apply rules to form fields
 validation
-.addField('#name', [
+  .addField('#otp', [
     {
       rule: 'required',
-      errorMessage: 'Name is required',
-    },
-    {
-        rule: 'customRegexp',
-        value: /^[a-zA-Z\s]*$/,
-        errorMessage: 'Name is invalid',
-    },
-  ])
-  .addField('#email', [
-    {
-      rule: 'required',
-      errorMessage: 'Email is required',
-    },
-    {
-      rule: 'email',
-      errorMessage: 'Email is invalid!',
-    },
-  ])
-  .addField('#phone', [
-    {
-      rule: 'required',
-      errorMessage: 'Phone is required',
+      errorMessage: 'OTP is required',
     },
     {
         rule: 'customRegexp',
         value: /^[0-9]*$/,
-        errorMessage: 'Phone is invalid',
+        errorMessage: 'OTP is invalid',
     },
   ])
   .addField('#password', [
@@ -158,15 +110,8 @@ validation
         errorMessage: 'Password and Confirm Password must be same',
     },
   ])
-  .addField('#captcha', [
-    {
-      rule: 'required',
-      errorMessage: 'Captcha is required',
-    }
-  ])
   .onSuccess((event) => {
     event.target.submit();
   });
 </script>
-@include('includes.main.captcha')
 @stop

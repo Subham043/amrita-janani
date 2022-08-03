@@ -17,7 +17,7 @@ class RegisterPageController extends Controller
         if (Auth::check()) {
             return redirect(route('index'));
         }
-        return view('pages.main.register')->with('breadcrumb','Sign Up');
+        return view('pages.main.auth.register')->with('breadcrumb','Sign Up');
     }
 
     public function store(Request $req) {
@@ -27,7 +27,6 @@ class RegisterPageController extends Controller
             'phone' => ['required','regex:/^[0-9]*$/','unique:users'],
             'password' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'cpassword' => ['required_with:password|same:password'],
-            'captcha' => ['required','captcha']
         ],
         [
             'name.required' => 'Please enter the name !',
@@ -40,7 +39,6 @@ class RegisterPageController extends Controller
             'password.regex' => 'Please enter the valid password !',
             'cpassword.required' => 'Please enter your confirm password !',
             'cpassword.same' => 'password & confirm password must be the same !',
-            'captcha.captcha' => 'Please enter the valid captcha !',
         ]);
 
         $country = new User;

@@ -25,7 +25,7 @@ class VerifyRegisteredUserPageController extends Controller
         if(count($user)<1){
             return redirect(route('signin'))->with('error_status', 'Oops! You have entered invalid link');
         }
-        return view('pages.main.verify_registered_user')->with('breadcrumb','Verify User')->with('encryptedId',$id);
+        return view('pages.main.auth.verify_registered_user')->with('breadcrumb','Verify User')->with('encryptedId',$id);
     }
 
     public function requestVerifyRegisteredUser(Request $request, $id) {
@@ -43,11 +43,9 @@ class VerifyRegisteredUserPageController extends Controller
         }
         $validator = $request->validate([
             'otp' => 'required|integer',
-            'captcha' => 'required|captcha'
         ],[
             'otp.required' => 'Please enter your otp !',
             'otp.integer' => 'Otp must be a number !',
-            'captcha.captcha' => 'Please enter the valid captcha !',
         ]);
         $user = User::where('id', $decryptedId)->where('status', 0)->where('userType', 2)->where('otp', $request->otp)->get();
         if(count($user)<1){
