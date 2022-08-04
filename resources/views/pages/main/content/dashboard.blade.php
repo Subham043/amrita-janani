@@ -90,6 +90,10 @@ body{
     padding: 5px 10px;
 }
 
+.right-submenu-holder form{
+    margin:0;
+    padding: 0;
+}
 .right-submenu-holder label span{
     color: #fff;
 }
@@ -99,10 +103,11 @@ body{
     border: none;
     background: transparent;
     padding: 0 5px;
+    color: #ffcc00;
 }
 
 .content-holder{
-    background:#f0f8ff;
+    background:#fff;
 }
 
 .content-holder .content-container{
@@ -125,14 +130,36 @@ body{
     padding: 15px;
     text-align: center;
     background-color:white;
-    border-radius:15px;
+    border-radius:5px;
+    border:1px solid #bababa;
+    transition: all 0.3s ease-in-out;
+    padding: 15px 5px;
+}
+
+.content-holder .content-container .media-container .media-holder:hover {
     box-shadow: 3px 4px 4px 3px #bababa;
+    transform: scale(1.1);
+    z-index: 5;
+    position: relative;
+}
+
+.content-holder .content-container .media-container .media-holder:hover > img {
+    transform: rotateY(360deg);
+}
+
+.content-holder .content-container .media-container .media-holder h5{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform:capitalize;
+    padding: 0 5px;
 }
 
 .content-holder .content-container .media-container .media-holder img{
-    height:100px;
+    height:80px;
     object-fit: contain;
     margin-bottom:20px;
+    transition: all 0.5s ease-in-out;
 }
 
 .content-holder .content-container .media-container .media-href{
@@ -169,10 +196,12 @@ body{
             <div class="col-lg-5 col-sm-12">
                 <div class="right-submenu-holder">
                     <button><i class="fas fa-sun"></i></button>
-                    <label for="search">
-                        <span><i class="fas fa-search"></i></span>
-                        <input type="search" id="search" />
-                    </label>
+                    <form  method="get" action="{{route('content_image')}}" class="col-sm-auto" onsubmit="return callSearchHandler()">
+                        <label for="search">
+                            <span><i class="fas fa-search"></i></span>
+                            <input type="search" id="search" />
+                        </label>
+                    </form>
                 </div>
             </div>
         </div>
@@ -183,182 +212,93 @@ body{
 
 <div class="content-holder">
     <div class="container content-container">
+        @if(count($images) > 0)
         <div class="media-container">
             <h3>
                 IMAGES
             </h3>
             <div class="row">
+                @foreach($images as $images)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
+                    <a class="media-href" title="{{$images->title}}" href="">
                         <div class="media-holder">
                             <img src="{{asset('main/images/image.png')}}" alt="">
-                            <h5>File Name</h5>
+                            <h5>{{$images->title}}</h5>
                             <p>3 days ago</p>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/image.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/image.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/image.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
             </div>
             <a href="" class="view-more-href">View More Images</a>
         </div>
+        @endif
+        @if(count($videos) > 0)
         <div class="media-container">
             <h3>
                 VIDEOS
             </h3>
             <div class="row">
+                @foreach($videos as $videos)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
+                    <a class="media-href" title="{{$videos->title}}" href="">
                         <div class="media-holder">
                             <img src="{{asset('main/images/video.png')}}" alt="">
-                            <h5>File Name</h5>
+                            <h5>{{$videos->title}}</h5>
                             <p>3 days ago</p>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/video.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/video.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/video.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
+                
             </div>
             <a href="" class="view-more-href">View More Videos</a>
         </div>
+        @endif
+        @if(count($audios) > 0)
         <div class="media-container">
             <h3>
                 AUDIOS
             </h3>
             <div class="row">
+                @foreach($audios as $audios)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
+                    <a class="media-href" title="{{$audios->title}}" href="">
                         <div class="media-holder">
                             <img src="{{asset('main/images/audio-book.png')}}" alt="">
-                            <h5>File Name</h5>
+                            <h5>{{$audios->title}}</h5>
                             <p>3 days ago</p>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/audio-book.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/audio-book.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/audio-book.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
+                
             </div>
             <a href="" class="view-more-href">View More Audios</a>
         </div>
+        @endif
+        @if(count($documents) > 0)
         <div class="media-container">
             <h3>
                 DOCUMENTS
             </h3>
             <div class="row">
+                @foreach($documents as $documents)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
+                    <a class="media-href" title="{{$documents->title}}" href="">
                         <div class="media-holder">
                             <img src="{{asset('main/images/pdf.png')}}" alt="">
-                            <h5>File Name</h5>
+                            <h5>{{$documents->title}}</h5>
                             <p>3 days ago</p>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/pdf.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/pdf.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" href="">
-                        <div class="media-holder">
-                            <img src="{{asset('main/images/pdf.png')}}" alt="">
-                            <h5>File Name</h5>
-                            <p>3 days ago</p>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
+                
             </div>
             <a href="" class="view-more-href">View More Documents</a>
         </div>
+        @endif
     </div>
 </div>
 

@@ -111,10 +111,17 @@ body {
     border: none;
     background: transparent;
     padding: 0 5px;
+    color: #ffcc00;
+}
+
+.right-submenu-holder form{
+    margin:0;
+    padding: 0;
 }
 
 .content-holder {
-    background: #f0f8ff;
+    /* background: #f0f8ff80; */
+    background: #fff;
 }
 
 .content-holder .content-container {
@@ -136,29 +143,59 @@ body {
 .content-holder .content-container .media-container .media-holder {
     padding: 15px;
     text-align: center;
-    background-color: white;
-    border-radius: 15px;
+    background-color:white;
+    border-radius:5px;
+    border:1px solid #bababa;
+    transition: all 0.3s ease-in-out;
+    padding: 15px 5px;
+}
+
+.content-holder .content-container .media-container .media-holder h5{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform:capitalize;
+    padding: 0 5px;
+}
+
+.content-holder .content-container .media-container .media-holder:hover {
     box-shadow: 3px 4px 4px 3px #bababa;
+    transform: scale(1.1);
+    z-index: 5;
+    position: relative;
+}
+
+.content-holder .content-container .media-container .media-holder:hover > img {
+    transform: rotateY(360deg);
 }
 
 .content-holder .content-container .media-container .media-holder img {
     height: 100px;
     object-fit: contain;
     margin-bottom: 20px;
+    transition: all 0.5s ease-in-out;
 }
 
 .content-holder .content-container .media-container .media-href {
     display: block;
     text-decoration: none;
     margin-bottom: 20px;
+    padding: 5px;
 }
 
-.content-holder .content-container .media-container .view-more-href {
+.content-holder .content-container .media-container .view-more-href, .filter_button {
     padding: 10px 15px;
     background-color: #96171c;
     color: #fff;
     margin: 35px 0;
     border-radius: 5px;
+    outline: none;
+    border:none;
+}
+
+.filter_button {
+    padding: 5px 8px;
+    margin: 20px 0;
 }
 
 .sort-row {
@@ -168,11 +205,11 @@ body {
 .sort-row select {
     height: 45px;
     background: white;
-    border-color: #fff;
+    border-color: #ccc;
 }
 
 .sort-row select:focus {
-    background: white;
+    background: white !important;
 }
 
 .filter-holder .accordion {
@@ -186,6 +223,7 @@ body {
     outline: none;
     transition: 0.4s;
     font-weight: bold;
+    font-size: 18px;
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
@@ -252,10 +290,12 @@ hr {
             <div class="col-lg-5 col-sm-12">
                 <div class="right-submenu-holder">
                     <button><i class="fas fa-sun"></i></button>
-                    <label for="search">
-                        <span><i class="fas fa-search"></i></span>
-                        <input type="search" id="search" />
-                    </label>
+                    <form  method="get" action="{{route('content_image')}}" class="col-sm-auto" onsubmit="return callSearchHandler()">
+                        <label for="search">
+                            <span><i class="fas fa-search"></i></span>
+                            <input type="search" id="search" value="@if(app('request')->has('search') && !empty(app('request')->has('search'))){{app('request')->input('search')}}@endif" />
+                        </label>
+                    </form>
                 </div>
             </div>
         </div>
@@ -282,8 +322,11 @@ hr {
                 <div class="col-lg-12">
                     <div class="row sort-row">
                         <div class="col-lg-2 col-md-12 mb-3">
-                            <select>
-                                <option value="">Newest</option>
+                            <select name="sort" id="sort"  oninput="return callSearchHandler()">
+                                <option value="newest" @if(app('request')->has('sort') && app('request')->input('sort')=="newest") selected @endif>Sort by Newest</option>
+                                <option value="oldest" @if(app('request')->has('sort') && app('request')->input('sort')=='oldest') selected @endif>Sort by Oldest</option>
+                                <option value="a-z" @if(app('request')->has('sort') && app('request')->input('sort')=="a-z") selected @endif>Sort by A-Z</option>
+                                <option value="z-a" @if(app('request')->has('sort') && app('request')->input('sort')=="z-a") selected @endif>Sort by Z-A</option>
                             </select>
                         </div>
                     </div>
@@ -293,50 +336,32 @@ hr {
 
                     <div class="filter-holder">
                         <hr>
+                        @if(count($languages) > 0)
                         <button class="accordion active">Language</button>
                         <div class="panel" style="max-height: 100%;height:auto;">
                             <ul>
+
+                                @foreach($languages as $languages)
                                 <li>
-                                    <label for="">
-                                        <input type="checkbox" name="" id="">
-                                        English
+                                    <label for="language{{$languages->id}}">
+                                        <input type="checkbox" name="language" id="language{{$languages->id}}" value="{{$languages->id}}" @if(app('request')->has('language') && in_array($languages->id, explode(',', app('request')->input('language'))) ) checked @endif>
+                                        {{$languages->name}}
                                     </label>
                                 </li>
-                                <li>
-                                    <label for="">
-                                        <input type="checkbox" name="" id="">
-                                        Hindi
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="">
-                                        <input type="checkbox" name="" id="">
-                                        Telegu
-                                    </label>
-                                </li>
+                                @endforeach
+
                             </ul>
                         </div>
                         <hr>
+                        @endif
 
-                        <button class="accordion active">Language</button>
+                        <button class="accordion active">Other Filter</button>
                         <div class="panel" style="max-height: 100%;height:auto;">
                             <ul>
                                 <li>
-                                    <label for="">
-                                        <input type="checkbox" name="" id="">
-                                        English
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="">
-                                        <input type="checkbox" name="" id="">
-                                        Hindi
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="">
-                                        <input type="checkbox" name="" id="">
-                                        Telegu
+                                    <label for="filter_check">
+                                        <input type="checkbox" id="filter_check" name="filter" value="favourite">
+                                        My Favourite Images
                                     </label>
                                 </li>
                             </ul>
@@ -344,6 +369,10 @@ hr {
                         <hr>
 
 
+                    </div>
+                    <div style="text-align: left">
+                        <button onclick="callSearchHandler()" class="filter_button"> Apply Filters</button>
+                        <a href="{{route('content_image')}}" class="filter_button"> Clear Filters</a>
                     </div>
 
                 </div>
@@ -351,111 +380,35 @@ hr {
                 <div class="col-lg-9">
                     
                     <div class="row">
+
+                        @if($images->count() > 0)
+
+                        @foreach($images->items() as $image)
                         <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" href="">
+                            <a class="media-href" title="{{$image->title}}" href="">
                                 <div class="media-holder">
                                     <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>File Name</h5>
+                                    <h5>{{$image->title}}</h5>
                                     <p>3 days ago</p>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" href="">
-                                <div class="media-holder">
-                                    <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>File Name</h5>
-                                    <p>3 days ago</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" href="">
-                                <div class="media-holder">
-                                    <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>File Name</h5>
-                                    <p>3 days ago</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" href="">
-                                <div class="media-holder">
-                                    <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>File Name</h5>
-                                    <p>3 days ago</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" href="">
-                                <div class="media-holder">
-                                    <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>File Name</h5>
-                                    <p>3 days ago</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" href="">
-                                <div class="media-holder">
-                                    <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>File Name</h5>
-                                    <p>3 days ago</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" href="">
-                                <div class="media-holder">
-                                    <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>File Name</h5>
-                                    <p>3 days ago</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" href="">
-                                <div class="media-holder">
-                                    <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>File Name</h5>
-                                    <p>3 days ago</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" href="">
-                                <div class="media-holder">
-                                    <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>File Name</h5>
-                                    <p>3 days ago</p>
-                                </div>
-                            </a>
-                        </div>
+                        @endforeach
+
+                        @endif
+                        
                     </div>
                 </div>
                 <div class="col-lg-3"></div>
                 <div class="col-lg-9 my-4 nav-flex-direction-end">
-                    <p>Showing 1 to 10 of entries</p>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    @if($images->previousPageUrl()==null)
+                    <p>Showing {{(($images->perPage() * $images->currentPage()) - $images->perPage() + 1)}} to {{($images->currentPage() * $images->perPage())}} of {{$images->total()}} entries</p>
+                    @else
+                    <p>Showing {{(($images->perPage() * $images->currentPage()) - $images->perPage() + 1)}} to {{($images->total())}} of {{$images->total()}} entries</p>
+                    @endif
+
+                    {{ $images->links('pagination::bootstrap-4') }}
+                    
                 </div>
             </div>
 
@@ -485,6 +438,56 @@ for (i = 0; i < acc.length; i++) {
         }
     });
 }
+</script>
+
+<script>
+    const errorToast = (message) =>{
+        iziToast.error({
+            title: 'Error',
+            message: message,
+            position: 'bottomCenter',
+            timeout:7000
+        });
+    }
+    const successToast = (message) =>{
+        iziToast.success({
+            title: 'Success',
+            message: message,
+            position: 'bottomCenter',
+            timeout:6000
+        });
+    }
+
+    function callSearchHandler(){
+        var str= "";
+        var arr = [];
+
+        if(document.getElementById('search').value){
+            arr.push("search="+document.getElementById('search').value)
+        }
+
+        if(document.getElementById('sort').value){
+            arr.push("sort="+document.getElementById('sort').value)
+        }
+
+        var inputElems = document.getElementsByName("language");
+        var languageArr = [];
+        for (var i=0; i<inputElems.length; i++) {
+            if (inputElems[i].type === "checkbox" && inputElems[i].checked === true){
+                languageArr.push(inputElems[i].value);
+            }
+        }
+        if(languageArr.length > 0){
+            languageStr = languageArr.join(';');
+            arr.push("language="+languageStr)
+        }
+
+
+        str = arr.join('&');
+        console.log(str);
+        window.location.replace('{{route('content_image')}}?'+str)
+        return false;
+    }
 </script>
 
 @stop
