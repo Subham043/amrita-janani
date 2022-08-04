@@ -281,8 +281,8 @@ hr {
             <div class="col-lg-7 col-sm-12">
                 <ul class="submenu_holder">
                     <li><a href="">Dashboard</a></li>
-                    <li><a class="active" href="">Images</a></li>
-                    <li><a href="">Videos</a></li>
+                    <li><a href="">Images</a></li>
+                    <li><a class="active" href="">Videos</a></li>
                     <li><a href="">Audios</a></li>
                     <li><a href="">Documents</a></li>
                 </ul>
@@ -290,7 +290,7 @@ hr {
             <div class="col-lg-5 col-sm-12">
                 <div class="right-submenu-holder">
                     <button><i class="fas fa-sun"></i></button>
-                    <form  method="get" action="{{route('content_image')}}" class="col-sm-auto" onsubmit="return callSearchHandler()">
+                    <form  method="get" action="{{route('content_video')}}" class="col-sm-auto" onsubmit="return callSearchHandler()">
                         <label for="search">
                             <span><i class="fas fa-search"></i></span>
                             <input type="search" id="search" value="@if(app('request')->has('search') && !empty(app('request')->has('search'))){{app('request')->input('search')}}@endif" />
@@ -308,7 +308,7 @@ hr {
     <div class="container content-container" style="padding-bottom:0">
         <div class="media-container">
             <h3>
-                IMAGES
+                VIDEOS
             </h3>
 
         </div>
@@ -361,7 +361,7 @@ hr {
                                 <li>
                                     <label for="filter_check">
                                         <input type="checkbox" id="filter_check" name="filter" value="favourite">
-                                        My Favourite Images
+                                        My Favourite Videos
                                     </label>
                                 </li>
                             </ul>
@@ -372,7 +372,7 @@ hr {
                     </div>
                     <div style="text-align: left">
                         <button onclick="callSearchHandler()" class="filter_button"> Apply Filters</button>
-                        <a href="{{route('content_image')}}" class="filter_button"> Clear Filters</a>
+                        <a href="{{route('content_video')}}" class="filter_button"> Clear Filters</a>
                     </div>
 
                 </div>
@@ -381,14 +381,14 @@ hr {
                     
                     <div class="row">
 
-                        @if($images->count() > 0)
+                        @if($videos->count() > 0)
 
-                        @foreach($images->items() as $image)
+                        @foreach($videos->items() as $video)
                         <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" title="{{$image->title}}" href="">
+                            <a class="media-href" title="{{$video->title}}" href="">
                                 <div class="media-holder">
-                                    <img src="{{asset('main/images/image.png')}}" alt="">
-                                    <h5>{{$image->title}}</h5>
+                                    <img src="{{asset('main/images/audio-book.png')}}" alt="">
+                                    <h5>{{$video->title}}</h5>
                                     <p>3 days ago</p>
                                 </div>
                             </a>
@@ -399,20 +399,19 @@ hr {
                         <div class="col-lg-12 col-sm-12" style="text-align:center;">
                             <h6>No items are available.</h6>
                         </div>
-
                         @endif
                         
                     </div>
                 </div>
                 <div class="col-lg-3"></div>
                 <div class="col-lg-9 my-4 nav-flex-direction-end">
-                    @if($images->previousPageUrl()==null)
-                    <p>Showing {{(($images->perPage() * $images->currentPage()) - $images->perPage() + 1)}} to {{($images->currentPage() * $images->perPage())}} of {{$images->total()}} entries</p>
+                    @if($videos->previousPageUrl()==null)
+                    <p>Showing {{(($videos->perPage() * $videos->currentPage()) - $videos->perPage() + 1)}} to {{($videos->currentPage() * $videos->perPage())}} of {{$videos->total()}} entries</p>
                     @else
-                    <p>Showing {{(($images->perPage() * $images->currentPage()) - $images->perPage() + 1)}} to {{($images->total())}} of {{$images->total()}} entries</p>
+                    <p>Showing {{(($videos->perPage() * $videos->currentPage()) - $videos->perPage() + 1)}} to {{($videos->total())}} of {{$videos->total()}} entries</p>
                     @endif
 
-                    {{ $images->links('pagination::bootstrap-4') }}
+                    {{ $videos->links('pagination::bootstrap-4') }}
                     
                 </div>
             </div>
@@ -490,7 +489,7 @@ for (i = 0; i < acc.length; i++) {
 
         str = arr.join('&');
         console.log(str);
-        window.location.replace('{{route('content_image')}}?'+str)
+        window.location.replace('{{route('content_video')}}?'+str)
         return false;
     }
 </script>

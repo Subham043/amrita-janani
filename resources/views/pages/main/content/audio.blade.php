@@ -395,6 +395,10 @@ hr {
                         </div>
                         @endforeach
 
+                        @else
+                        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+                            <h6>No items are available.</h6>
+                        </div>
                         @endif
                         
                     </div>
