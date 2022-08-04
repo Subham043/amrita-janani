@@ -35,6 +35,11 @@ class ImagePageController extends Controller
             ->orWhere('description_unformatted', 'like', '%' . $search . '%')
             ->orWhere('uuid', 'like', '%' . $search . '%');
         }
+
+        if($request->has('language')){
+            $arr = array_map('intval', explode(',', $request->input('language')));
+            $image->whereIn('language_id', $arr);
+        }
         
         $images = $image->paginate(6)->withQueryString();
         
