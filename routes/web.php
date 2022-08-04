@@ -13,6 +13,7 @@ use App\Http\Controllers\Main\Auth\ResetPasswordPageController;
 use App\Http\Controllers\Main\Auth\VerifyRegisteredUserPageController;
 use App\Http\Controllers\Main\Content\DashboardPageController;
 use App\Http\Controllers\Main\Content\ImagePageController;
+use App\Http\Controllers\Main\Content\AudioPageController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
@@ -60,6 +61,7 @@ Route::get('/captcha-reload', [CaptchaController::class, 'reloadCaptcha', 'as' =
 Route::prefix('/content')->group(function () {
     Route::get('/', [DashboardPageController::class, 'index', 'as' => 'content.dashboard'])->name('content_dashboard');
     Route::get('/image', [ImagePageController::class, 'index', 'as' => 'content.image'])->name('content_image');
+    Route::get('/audio', [AudioPageController::class, 'index', 'as' => 'content.audio'])->name('content_audio');
 });
 
 
