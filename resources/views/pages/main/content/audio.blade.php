@@ -280,11 +280,11 @@ hr {
         <div class="row submenu-row">
             <div class="col-lg-7 col-sm-12">
                 <ul class="submenu_holder">
-                    <li><a href="">Dashboard</a></li>
-                    <li><a href="">Images</a></li>
-                    <li><a href="">Videos</a></li>
-                    <li><a class="active" href="">Audios</a></li>
-                    <li><a href="">Documents</a></li>
+                    <li><a href="{{route('content_dashboard')}}">Dashboard</a></li>
+                    <li><a href="{{route('content_image')}}">Images</a></li>
+                    <li><a href="{{route('content_video')}}">Videos</a></li>
+                    <li><a class="active" href="{{route('content_audio')}}">Audios</a></li>
+                    <li><a href="{{route('content_document')}}">Documents</a></li>
                 </ul>
             </div>
             <div class="col-lg-5 col-sm-12">

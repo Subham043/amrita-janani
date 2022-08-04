@@ -186,17 +186,17 @@ body{
         <div class="row submenu-row">
             <div class="col-lg-7 col-sm-12">
                 <ul class="submenu_holder">
-                    <li><a class="active" href="">Dashboard</a></li>
-                    <li><a href="">Images</a></li>
-                    <li><a href="">Videos</a></li>
-                    <li><a href="">Audios</a></li>
-                    <li><a href="">Documents</a></li>
+                    <li><a class="active" href="{{route('content_dashboard')}}">Dashboard</a></li>
+                    <li><a href="{{route('content_image')}}">Images</a></li>
+                    <li><a href="{{route('content_video')}}">Videos</a></li>
+                    <li><a href="{{route('content_audio')}}">Audios</a></li>
+                    <li><a href="{{route('content_document')}}">Documents</a></li>
                 </ul>
             </div>
             <div class="col-lg-5 col-sm-12">
                 <div class="right-submenu-holder">
                     <button><i class="fas fa-sun"></i></button>
-                    <form  method="get" action="{{route('content_image')}}" class="col-sm-auto" onsubmit="return callSearchHandler()">
+                    <form  method="get" action="{{route('content_dashboard')}}" class="col-sm-auto" onsubmit="return callSearchHandler()">
                         <label for="search">
                             <span><i class="fas fa-search"></i></span>
                             <input type="search" id="search" />
@@ -230,7 +230,7 @@ body{
                 </div>
                 @endforeach
             </div>
-            <a href="" class="view-more-href">View More Images</a>
+            <a href="{{route('content_image')}}" class="view-more-href">View More Images</a>
         </div>
         @endif
         @if(count($videos) > 0)
@@ -252,7 +252,7 @@ body{
                 @endforeach
                 
             </div>
-            <a href="" class="view-more-href">View More Videos</a>
+            <a href="{{route('content_video')}}" class="view-more-href">View More Videos</a>
         </div>
         @endif
         @if(count($audios) > 0)
@@ -274,7 +274,7 @@ body{
                 @endforeach
                 
             </div>
-            <a href="" class="view-more-href">View More Audios</a>
+            <a href="{{route('content_audio')}}" class="view-more-href">View More Audios</a>
         </div>
         @endif
         @if(count($documents) > 0)
@@ -296,7 +296,7 @@ body{
                 @endforeach
                 
             </div>
-            <a href="" class="view-more-href">View More Documents</a>
+            <a href="{{route('content_document')}}" class="view-more-href">View More Documents</a>
         </div>
         @endif
     </div>
