@@ -188,6 +188,12 @@ class ImageController extends Controller
 
     public function delete($id){
         $data = ImageModel::findOrFail($id);
+        $data->delete();
+        return redirect()->intended(route('image_view'))->with('success_status', 'Data Deleted successfully.');
+    }
+    
+    public function deletePermanent($id){
+        $data = ImageModel::findOrFail($id);
         if($data->image!=null && file_exists(storage_path('app/public/upload/images').'/'.$data->image)){
             unlink(storage_path('app/public/upload/images/'.$data->image)); 
             unlink(storage_path('app/public/upload/images/compressed-'.$data->image)); 

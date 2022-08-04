@@ -127,6 +127,13 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('/delete/{id}', [DocumentController::class, 'delete', 'as' => 'admin.document.delete'])->name('document_delete');
         Route::get('/bulk-upload', [DocumentController::class, 'bulk_upload', 'as' => 'admin.document.bulk_upload'])->name('document_bulk_upload');
         Route::post('/bulk-upload', [DocumentController::class, 'bulk_upload_store', 'as' => 'admin.document.bulk_upload_store'])->name('document_bulk_upload_store');
+        Route::prefix('/trash')->group(function () {
+            Route::get('/', [DocumentController::class, 'viewTrash', 'as' => 'admin.document.viewTrash'])->name('document_view_trash');
+            Route::get('/restore/{id}', [DocumentController::class, 'restoreTrash', 'as' => 'admin.document.restoreTrash'])->name('document_restore_trash');
+            Route::get('/restore-all', [DocumentController::class, 'restoreAllTrash', 'as' => 'admin.document.restoreAllTrash'])->name('document_restore_all_trash');
+            Route::get('/view/{id}', [DocumentController::class, 'displayTrash', 'as' => 'admin.document.displayTrash'])->name('document_display_trash');
+            Route::get('/delete/{id}', [DocumentController::class, 'deleteTrash', 'as' => 'admin.document.deleteTrash'])->name('document_delete_trash');
+        });
     });
     
     Route::prefix('/audio')->group(function () {

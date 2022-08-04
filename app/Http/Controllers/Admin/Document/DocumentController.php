@@ -172,13 +172,30 @@ class DocumentController extends Controller
         }
     }
 
+    public function restoreTrash($id){
+        $data = DocumentModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
+        $data->restore();
+        return redirect()->intended(route('document_view_trash'))->with('success_status', 'Data Restored successfully.');
+    }
+    
+    public function restoreAllTrash(){
+        $data = DocumentModel::withTrashed()->whereNotNull('deleted_at')->restore();
+        return redirect()->intended(route('document_view_trash'))->with('success_status', 'Data Restored successfully.');
+    }
+    
     public function delete($id){
         $data = DocumentModel::findOrFail($id);
+        $data->delete();
+        return redirect()->intended(route('document_view'))->with('success_status', 'Data Deleted successfully.');
+    }
+    
+    public function deleteTrash($id){
+        $data = DocumentModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
         if($data->document!=null && file_exists(storage_path('app/public/upload/documents').'/'.$data->document)){
             unlink(storage_path('app/public/upload/documents/'.$data->document)); 
         }
-        $data->delete();
-        return redirect()->intended(route('document_view'))->with('success_status', 'Data Deleted successfully.');
+        $data->forceDelete();
+        return redirect()->intended(route('document_view_trash'))->with('success_status', 'Data Deleted permanently.');
     }
 
     public function view(Request $request) {
@@ -197,11 +214,34 @@ class DocumentController extends Controller
         }
         return view('pages.admin.document.list')->with('country', $data)->with('languages', LanguageModel::all());
     }
+    
+    public function viewTrash(Request $request) {
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $data = DocumentModel::withTrashed()->whereNotNull('deleted_at')->where('title', 'like', '%' . $search . '%')
+            ->orWhere('year', 'like', '%' . $search . '%')
+            ->orWhere('deity', 'like', '%' . $search . '%')
+            ->orWhere('version', 'like', '%' . $search . '%')
+            ->orWhere('uuid', 'like', '%' . $search . '%')
+            ->orWhere('language_id', LanguageType::getStatusId($search))
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+        }else{
+            $data = DocumentModel::withTrashed()->whereNotNull('deleted_at')->orderBy('id', 'DESC')->paginate(10);
+        }
+        return view('pages.admin.document.list_trash')->with('country', $data)->with('languages', LanguageModel::all());
+    }
 
     public function display($id) {
         $data = DocumentModel::findOrFail($id);
         $url = "";
         return view('pages.admin.document.display')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
+    }
+    
+    public function displayTrash($id) {
+        $data = DocumentModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
+        $url = "";
+        return view('pages.admin.document.display_trash')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
     }
 
     public function excel(){

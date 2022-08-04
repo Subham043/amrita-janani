@@ -156,6 +156,12 @@ class VideoController extends Controller
         $data->delete();
         return redirect()->intended(route('video_view'))->with('success_status', 'Data Deleted successfully.');
     }
+    
+    public function deletePermanent($id){
+        $data = VideoModel::findOrFail($id);
+        $data->delete();
+        return redirect()->intended(route('video_view'))->with('success_status', 'Data Deleted successfully.');
+    }
 
     public function view(Request $request) {
         if ($request->has('search')) {

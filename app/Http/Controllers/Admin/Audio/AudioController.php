@@ -174,6 +174,12 @@ class AudioController extends Controller
 
     public function delete($id){
         $data = AudioModel::findOrFail($id);
+        $data->delete();
+        return redirect()->intended(route('audio_view'))->with('success_status', 'Data Deleted successfully.');
+    }
+    
+    public function deletePermanent($id){
+        $data = AudioModel::findOrFail($id);
         if($data->audio!=null && file_exists(storage_path('app/public/upload/audios').'/'.$data->audio)){
             unlink(storage_path('app/public/upload/audios/'.$data->audio)); 
         }
