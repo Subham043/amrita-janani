@@ -106,45 +106,43 @@ body{
     color: #ffcc00;
 }
 
-.content-holder{
-    background:#fff;
+.content-holder {
+    /* background: #f0f8ff80; */
+    background: #fff;
 }
 
-.content-holder .content-container{
-    padding:20px 0;
+.content-holder .content-container {
+    padding: 20px 0;
 }
 
-.content-holder .content-container .media-container{
-    padding:15px 0;
-    text-align:center;
-}
-
-.content-holder .content-container .media-container h3{
-    text-align:center;
-    font-size: 21px;
-    margin-bottom:30px;
-    text-transform:uppercase;
-}
-
-.content-holder .content-container .media-container .media-holder{
-    padding: 15px;
+.content-holder .content-container .media-container {
+    padding: 15px 0;
     text-align: center;
+}
+
+.content-holder .content-container .media-container h3 {
+    text-align: center;
+    font-size: 21px;
+    margin-bottom: 0px;
+    text-transform: uppercase;
+}
+
+.content-holder .content-container .media-container .img-holder {
+    
+    background-color:#fff;
+}
+
+.content-holder .content-container .media-container .media-holder {
+    padding: 15px;
+    text-align: left;
     background-color:white;
-    border-radius:5px;
-    border:1px solid #bababa;
     transition: all 0.3s ease-in-out;
-    padding: 15px 5px;
+    background-color:#f1f1f1;
+    border-top: 1px solid #bababa;
 }
 
-.content-holder .content-container .media-container .media-holder:hover {
-    box-shadow: 3px 4px 4px 3px #bababa;
-    transform: scale(1.1);
-    z-index: 5;
-    position: relative;
-}
-
-.content-holder .content-container .media-container .media-holder:hover > img {
-    transform: rotateY(360deg);
+.content-holder .content-container .media-container .media-holder p{
+    margin:0;
 }
 
 .content-holder .content-container .media-container .media-holder h5{
@@ -152,20 +150,41 @@ body{
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform:capitalize;
-    padding: 0 5px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom:5px;
 }
 
-.content-holder .content-container .media-container .media-holder img{
-    height:80px;
+.content-holder .content-container .media-container .media-href:hover {
+    box-shadow: 3px 4px 4px 3px #bababa;
+    transform: scale(1.1);
+    z-index: 5;
+    position: relative;
+    color: #000 !important;
+}
+
+.content-holder .content-container .media-container .media-href:hover > .content-holder .content-container .media-container .img-holder img {
+    transform: rotateY(360deg);
+}
+
+.content-holder .content-container .media-container .media-href:hover > .content-holder .content-container .media-container .media-holder p{
+    color: #000 !important;
+}
+
+.content-holder .content-container .media-container .img-holder img {
+    height: 100px;
     object-fit: contain;
-    margin-bottom:20px;
+    margin: 20px 0;
     transition: all 0.5s ease-in-out;
 }
 
-.content-holder .content-container .media-container .media-href{
+.content-holder .content-container .media-container .media-href {
     display: block;
-    text-decoration:none;
-    margin-bottom:20px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    padding: 5px 0 0;
+    border-radius:5px;
+    border:1px solid #bababa;
 }
 
 .content-holder .content-container .media-container .view-more-href{
@@ -221,10 +240,13 @@ body{
                 @foreach($images as $images)
                 <div class="col-lg-3 col-sm-12">
                     <a class="media-href" title="{{$images->title}}" href="">
-                        <div class="media-holder">
+                        <div class="img-holder">
                             <img src="{{asset('main/images/image.png')}}" alt="">
+                        </div>
+                        <div class="media-holder">
                             <h5>{{$images->title}}</h5>
-                            <p>3 days ago</p>
+                            <p>Format : <b>{{$images->file_format()}}</b></p>
+                            <p>Uploaded : <b>{{$images->time_elapsed()}}</b></p>
                         </div>
                     </a>
                 </div>
@@ -242,10 +264,12 @@ body{
                 @foreach($videos as $videos)
                 <div class="col-lg-3 col-sm-12">
                     <a class="media-href" title="{{$videos->title}}" href="">
-                        <div class="media-holder">
+                        <div class="img-holder">
                             <img src="{{asset('main/images/video.png')}}" alt="">
+                        </div>
+                        <div class="media-holder">
                             <h5>{{$videos->title}}</h5>
-                            <p>3 days ago</p>
+                            <p>Uploaded : {{$videos->time_elapsed()}}</p>
                         </div>
                     </a>
                 </div>
@@ -264,10 +288,13 @@ body{
                 @foreach($audios as $audios)
                 <div class="col-lg-3 col-sm-12">
                     <a class="media-href" title="{{$audios->title}}" href="">
-                        <div class="media-holder">
+                        <div class="img-holder">
                             <img src="{{asset('main/images/audio-book.png')}}" alt="">
+                        </div>
+                        <div class="media-holder">
                             <h5>{{$audios->title}}</h5>
-                            <p>3 days ago</p>
+                            <p>Format : <b>{{$audios->file_format()}}</b></p>
+                            <p>Uploaded : <b>{{$audios->time_elapsed()}}</b></p>
                         </div>
                     </a>
                 </div>
@@ -286,10 +313,13 @@ body{
                 @foreach($documents as $documents)
                 <div class="col-lg-3 col-sm-12">
                     <a class="media-href" title="{{$documents->title}}" href="">
-                        <div class="media-holder">
+                        <div class="img-holder">
                             <img src="{{asset('main/images/pdf.png')}}" alt="">
+                        </div>
+                        <div class="media-holder">
                             <h5>{{$documents->title}}</h5>
-                            <p>3 days ago</p>
+                            <p>Format : <b>{{$documents->file_format()}}</b></p>
+                            <p>Uploaded : <b>{{$documents->time_elapsed()}}</b></p>
                         </div>
                     </a>
                 </div>

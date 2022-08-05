@@ -140,14 +140,22 @@ body {
     text-transform: uppercase;
 }
 
+.content-holder .content-container .media-container .img-holder {
+    
+    background-color:#fff;
+}
+
 .content-holder .content-container .media-container .media-holder {
     padding: 15px;
-    text-align: center;
+    text-align: left;
     background-color:white;
-    border-radius:5px;
-    border:1px solid #bababa;
     transition: all 0.3s ease-in-out;
-    padding: 15px 5px;
+    background-color:#f1f1f1;
+    border-top: 1px solid #bababa;
+}
+
+.content-holder .content-container .media-container .media-holder p{
+    margin:0;
 }
 
 .content-holder .content-container .media-container .media-holder h5{
@@ -155,24 +163,31 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform:capitalize;
-    padding: 0 5px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom:5px;
 }
 
-.content-holder .content-container .media-container .media-holder:hover {
+.content-holder .content-container .media-container .media-href:hover {
     box-shadow: 3px 4px 4px 3px #bababa;
     transform: scale(1.1);
     z-index: 5;
     position: relative;
+    color: #000 !important;
 }
 
-.content-holder .content-container .media-container .media-holder:hover > img {
+.content-holder .content-container .media-container .media-href:hover > .content-holder .content-container .media-container .img-holder img {
     transform: rotateY(360deg);
 }
 
-.content-holder .content-container .media-container .media-holder img {
+.content-holder .content-container .media-container .media-href:hover > .content-holder .content-container .media-container .media-holder p{
+    color: #000 !important;
+}
+
+.content-holder .content-container .media-container .img-holder img {
     height: 100px;
     object-fit: contain;
-    margin-bottom: 20px;
+    margin: 20px 0;
     transition: all 0.5s ease-in-out;
 }
 
@@ -180,7 +195,9 @@ body {
     display: block;
     text-decoration: none;
     margin-bottom: 20px;
-    padding: 5px;
+    padding: 5px 0 0;
+    border-radius:5px;
+    border:1px solid #bababa;
 }
 
 .content-holder .content-container .media-container .view-more-href, .filter_button {
@@ -386,10 +403,12 @@ hr {
                         @foreach($videos->items() as $video)
                         <div class="col-lg-4 col-sm-12">
                             <a class="media-href" title="{{$video->title}}" href="">
+                                <div class="img-holder">
+                                    <img src="{{asset('main/images/video.png')}}" alt="">
+                                </div>
                                 <div class="media-holder">
-                                    <img src="{{asset('main/images/audio-book.png')}}" alt="">
                                     <h5>{{$video->title}}</h5>
-                                    <p>3 days ago</p>
+                                    <p>Uploaded : {{$video->time_elapsed()}}</p>
                                 </div>
                             </a>
                         </div>
