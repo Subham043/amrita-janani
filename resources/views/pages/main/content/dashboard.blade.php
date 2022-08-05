@@ -319,6 +319,7 @@ body{
                         <div class="media-holder">
                             <h5>{{$documents->title}}</h5>
                             <p>Format : <b>{{$documents->file_format()}}</b></p>
+                            <p>Number of Pages : {{$documents->page_number}}</p>
                             <p>Uploaded : <b>{{$documents->time_elapsed()}}</b></p>
                         </div>
                     </a>

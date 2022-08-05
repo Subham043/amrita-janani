@@ -86,6 +86,12 @@ class DocumentController extends Controller
 
             $req->document->storeAs('public/upload/documents',$newImage);
             $data->document = $newImage;
+            
+            $pdftext = file_get_contents(storage_path('app/public/upload/documents/'.$newImage));
+            
+            $num_page = preg_match_all("/\/Page\W/", $pdftext,$dummy);
+            
+            $data->page_number = $num_page;
         }
 
         $result = $data->save();
@@ -161,6 +167,12 @@ class DocumentController extends Controller
 
             $req->document->storeAs('public/upload/documents',$newImage);
             $data->document = $newImage;
+
+            $pdftext = file_get_contents(storage_path('app/public/upload/documents/'.$newImage));
+            
+            $num_page = preg_match_all("/\/Page\W/", $pdftext,$dummy);
+            
+            $data->page_number = $num_page;
         }
 
         $result = $data->save();
@@ -297,6 +309,12 @@ class DocumentController extends Controller
                         $uuid = Uuid::generate(4)->string;
                         Storage::move('public/zip/documents'.'/'.$value['document'], 'public/upload/documents'.'/'.$uuid.'-'.$value['document']);
                         $exceldata->document = $uuid.'-'.$value['document'];
+
+                        $pdftext = file_get_contents(storage_path('app/public/upload/documents/'.$uuid.'-'.$value['document']));
+            
+                        $num_page = preg_match_all("/\/Page\W/", $pdftext,$dummy);
+                        
+                        $exceldata->page_number = $num_page;
         
                         $result = $exceldata->save();
                     }

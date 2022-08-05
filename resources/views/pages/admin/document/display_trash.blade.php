@@ -198,6 +198,12 @@
                                     @endif
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Total Number of Pages :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->page_number}}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Total Favourites :</p>
                                             <h5 class="fs-15 mb-0">{{$country->favourites}}</h5>
                                         </div>
