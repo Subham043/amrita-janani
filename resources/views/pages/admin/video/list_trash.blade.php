@@ -37,14 +37,11 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <a href="{{route('video_create')}}" type="button" class="btn btn-success add-btn" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
-                                        <a href="{{route('video_excel')}}" download type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
-                                        <a href="{{route('video_bulk_upload')}}" type="button" class="btn btn-warning add-btn" id="create-btn"><i class="ri-upload-cloud-2-line align-bottom me-1"></i> Bulk Upload</a>
-                                        <a href="{{route('video_view_trash')}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Trash</a>
+                                    <button onclick="deleteHandler('{{route('video_restore_all_trash')}}')" type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-save-line align-bottom me-1"></i> Restore All</button>
                                     </div>
                                 </div>
                                 <div class="col-sm">
-                                    <form  method="get" action="{{route('video_view')}}">
+                                    <form  method="get" action="{{route('video_view_trash')}}">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
                                                 <input type="text" name="search" class="form-control search" placeholder="Search..." value="@if(app('request')->has('search')) {{app('request')->input('search')}} @endif">
@@ -89,13 +86,13 @@
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <div class="edit">
-                                                        <a href="{{route('video_display', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
-                                                    </div>
-                                                    <div class="edit">
-                                                        <a href="{{route('video_edit', $item->id)}}" class="btn btn-sm btn-success edit-item-btn">Edit</a>
+                                                        <a href="{{route('video_display_trash', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
                                                     <div class="remove">
-                                                        <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('video_delete', $item->id)}}')">Remove</button>
+                                                        <button class="btn btn-sm btn-warning remove-item-btn" onclick="deleteHandler('{{route('video_restore_trash', $item->id)}}')">Restore</button>
+                                                    </div>
+                                                    <div class="remove">
+                                                        <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('video_delete_trash', $item->id)}}')">Remove</button>
                                                     </div>
                                                 </div>
                                             </td>

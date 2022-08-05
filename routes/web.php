@@ -114,6 +114,14 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('/delete/{id}', [ImageController::class, 'delete', 'as' => 'admin.image.delete'])->name('image_delete');
         Route::get('/bulk-upload', [ImageController::class, 'bulk_upload', 'as' => 'admin.image.bulk_upload'])->name('image_bulk_upload');
         Route::post('/bulk-upload', [ImageController::class, 'bulk_upload_store', 'as' => 'admin.image.bulk_upload_store'])->name('image_bulk_upload_store');
+        Route::prefix('/trash')->group(function () {
+            Route::get('/', [ImageController::class, 'viewTrash', 'as' => 'admin.image.viewTrash'])->name('image_view_trash');
+            Route::get('/restore/{id}', [ImageController::class, 'restoreTrash', 'as' => 'admin.image.restoreTrash'])->name('image_restore_trash');
+            Route::get('/restore-all', [ImageController::class, 'restoreAllTrash', 'as' => 'admin.image.restoreAllTrash'])->name('image_restore_all_trash');
+            Route::get('/view/{id}', [ImageController::class, 'displayTrash', 'as' => 'admin.image.displayTrash'])->name('image_display_trash');
+            Route::get('/delete/{id}', [ImageController::class, 'deleteTrash', 'as' => 'admin.image.deleteTrash'])->name('image_delete_trash');
+        });
+
     });
     
     Route::prefix('/document')->group(function () {
@@ -147,6 +155,13 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('/delete/{id}', [AudioController::class, 'delete', 'as' => 'admin.audio.delete'])->name('audio_delete');
         Route::get('/bulk-upload', [AudioController::class, 'bulk_upload', 'as' => 'admin.audio.bulk_upload'])->name('audio_bulk_upload');
         Route::post('/bulk-upload', [AudioController::class, 'bulk_upload_store', 'as' => 'admin.audio.bulk_upload_store'])->name('audio_bulk_upload_store');
+        Route::prefix('/trash')->group(function () {
+            Route::get('/', [AudioController::class, 'viewTrash', 'as' => 'admin.audio.viewTrash'])->name('audio_view_trash');
+            Route::get('/restore/{id}', [AudioController::class, 'restoreTrash', 'as' => 'admin.audio.restoreTrash'])->name('audio_restore_trash');
+            Route::get('/restore-all', [AudioController::class, 'restoreAllTrash', 'as' => 'admin.audio.restoreAllTrash'])->name('audio_restore_all_trash');
+            Route::get('/view/{id}', [AudioController::class, 'displayTrash', 'as' => 'admin.audio.displayTrash'])->name('audio_display_trash');
+            Route::get('/delete/{id}', [AudioController::class, 'deleteTrash', 'as' => 'admin.audio.deleteTrash'])->name('audio_delete_trash');
+        });
     });
     
     Route::prefix('/video')->group(function () {
@@ -160,6 +175,13 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('/delete/{id}', [VideoController::class, 'delete', 'as' => 'admin.video.delete'])->name('video_delete');
         Route::get('/bulk-upload', [VideoController::class, 'bulk_upload', 'as' => 'admin.video.bulk_upload'])->name('video_bulk_upload');
         Route::post('/bulk-upload', [VideoController::class, 'bulk_upload_store', 'as' => 'admin.video.bulk_upload_store'])->name('video_bulk_upload_store');
+        Route::prefix('/trash')->group(function () {
+            Route::get('/', [VideoController::class, 'viewTrash', 'as' => 'admin.video.viewTrash'])->name('video_view_trash');
+            Route::get('/restore/{id}', [VideoController::class, 'restoreTrash', 'as' => 'admin.video.restoreTrash'])->name('video_restore_trash');
+            Route::get('/restore-all', [VideoController::class, 'restoreAllTrash', 'as' => 'admin.video.restoreAllTrash'])->name('video_restore_all_trash');
+            Route::get('/view/{id}', [VideoController::class, 'displayTrash', 'as' => 'admin.video.displayTrash'])->name('video_display_trash');
+            Route::get('/delete/{id}', [VideoController::class, 'deleteTrash', 'as' => 'admin.video.deleteTrash'])->name('video_delete_trash');
+        });
     });
     
     Route::prefix('/language')->group(function () {

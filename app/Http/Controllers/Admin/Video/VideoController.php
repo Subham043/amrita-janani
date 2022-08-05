@@ -151,16 +151,27 @@ class VideoController extends Controller
         }
     }
 
+    public function restoreTrash($id){
+        $data = VideoModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
+        $data->restore();
+        return redirect()->intended(route('video_view_trash'))->with('success_status', 'Data Restored successfully.');
+    }
+    
+    public function restoreAllTrash(){
+        $data = VideoModel::withTrashed()->whereNotNull('deleted_at')->restore();
+        return redirect()->intended(route('video_view_trash'))->with('success_status', 'Data Restored successfully.');
+    }
+
     public function delete($id){
         $data = VideoModel::findOrFail($id);
         $data->delete();
         return redirect()->intended(route('video_view'))->with('success_status', 'Data Deleted successfully.');
     }
     
-    public function deletePermanent($id){
-        $data = VideoModel::findOrFail($id);
-        $data->delete();
-        return redirect()->intended(route('video_view'))->with('success_status', 'Data Deleted successfully.');
+    public function deleteTrash($id){
+        $data = VideoModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
+        $data->forceDelete();
+        return redirect()->intended(route('video_view_trash'))->with('success_status', 'Data Deleted successfully.');
     }
 
     public function view(Request $request) {
@@ -179,11 +190,34 @@ class VideoController extends Controller
         }
         return view('pages.admin.video.list')->with('country', $data)->with('languages', LanguageModel::all());
     }
+    
+    public function viewTrash(Request $request) {
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $data = VideoModel::withTrashed()->whereNotNull('deleted_at')->where('title', 'like', '%' . $search . '%')
+            ->orWhere('year', 'like', '%' . $search . '%')
+            ->orWhere('deity', 'like', '%' . $search . '%')
+            ->orWhere('version', 'like', '%' . $search . '%')
+            ->orWhere('uuid', 'like', '%' . $search . '%')
+            ->orWhere('language_id', LanguageType::getStatusId($search))
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+        }else{
+            $data = VideoModel::withTrashed()->whereNotNull('deleted_at')->orderBy('id', 'DESC')->paginate(10);
+        }
+        return view('pages.admin.video.list_trash')->with('country', $data)->with('languages', LanguageModel::all());
+    }
 
     public function display($id) {
         $data = VideoModel::findOrFail($id);
         $url = "";
         return view('pages.admin.video.display')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
+    }
+    
+    public function displayTrash($id) {
+        $data = VideoModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
+        $url = "";
+        return view('pages.admin.video.display_trash')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
     }
 
     public function excel(){

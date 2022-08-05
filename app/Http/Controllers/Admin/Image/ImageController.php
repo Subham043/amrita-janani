@@ -186,20 +186,31 @@ class ImageController extends Controller
         }
     }
 
+    public function restoreTrash($id){
+        $data = ImageModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
+        $data->restore();
+        return redirect()->intended(route('image_view_trash'))->with('success_status', 'Data Restored successfully.');
+    }
+    
+    public function restoreAllTrash(){
+        $data = ImageModel::withTrashed()->whereNotNull('deleted_at')->restore();
+        return redirect()->intended(route('image_view_trash'))->with('success_status', 'Data Restored successfully.');
+    }
+
     public function delete($id){
         $data = ImageModel::findOrFail($id);
         $data->delete();
         return redirect()->intended(route('image_view'))->with('success_status', 'Data Deleted successfully.');
     }
     
-    public function deletePermanent($id){
-        $data = ImageModel::findOrFail($id);
+    public function deleteTrash($id){
+        $data = ImageModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
         if($data->image!=null && file_exists(storage_path('app/public/upload/images').'/'.$data->image)){
             unlink(storage_path('app/public/upload/images/'.$data->image)); 
             unlink(storage_path('app/public/upload/images/compressed-'.$data->image)); 
         }
-        $data->delete();
-        return redirect()->intended(route('image_view'))->with('success_status', 'Data Deleted successfully.');
+        $data->forceDelete();
+        return redirect()->intended(route('image_view_trash'))->with('success_status', 'Data Deleted permanently.');
     }
 
     public function view(Request $request) {
@@ -218,11 +229,34 @@ class ImageController extends Controller
         }
         return view('pages.admin.image.list')->with('country', $data)->with('languages', LanguageModel::all());
     }
+    
+    public function viewTrash(Request $request) {
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $data = ImageModel::withTrashed()->whereNotNull('deleted_at')->where('title', 'like', '%' . $search . '%')
+            ->orWhere('year', 'like', '%' . $search . '%')
+            ->orWhere('deity', 'like', '%' . $search . '%')
+            ->orWhere('version', 'like', '%' . $search . '%')
+            ->orWhere('uuid', 'like', '%' . $search . '%')
+            ->orWhere('language_id', LanguageType::getStatusId($search))
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+        }else{
+            $data = ImageModel::withTrashed()->whereNotNull('deleted_at')->orderBy('id', 'DESC')->paginate(10);
+        }
+        return view('pages.admin.image.list_trash')->with('country', $data)->with('languages', LanguageModel::all());
+    }
 
     public function display($id) {
         $data = ImageModel::findOrFail($id);
         $url = "";
         return view('pages.admin.image.display')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
+    }
+    
+    public function displayTrash($id) {
+        $data = ImageModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
+        $url = "";
+        return view('pages.admin.image.display_trash')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
     }
 
     public function excel(){
