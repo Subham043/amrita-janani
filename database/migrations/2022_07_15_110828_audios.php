@@ -22,6 +22,7 @@ class Audios extends Migration
             $table->text('tags')->nullable();
             $table->string('year')->nullable();
             $table->string('version')->nullable();
+            $table->string('duration')->nullable();
             $table->bigInteger('language_id')->nullable()->references('id')->on('languages')->nullOnDelete();
             $table->string('deity')->nullable();
             $table->bigInteger('views')->default(0);

@@ -294,6 +294,7 @@ body{
                         <div class="media-holder">
                             <h5>{{$audios->title}}</h5>
                             <p>Format : <b>{{$audios->file_format()}}</b></p>
+                            <p>Duration : {{$audios->duration}}</p>
                             <p>Uploaded : <b>{{$audios->time_elapsed()}}</b></p>
                         </div>
                     </a>

@@ -409,6 +409,7 @@ hr {
                                 <div class="media-holder">
                                     <h5>{{$audio->title}}</h5>
                                     <p>Format : {{$audio->file_format()}}</p>
+                                    <p>Duration : {{$audio->duration}}</p>
                                     <p>Uploaded : {{$audio->time_elapsed()}}</p>
                                 </div>
                             </a>

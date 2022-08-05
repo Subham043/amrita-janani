@@ -15,6 +15,7 @@ use App\Support\Types\UserType;
 use Illuminate\Support\Facades\Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Storage;
+use App\Support\Mp3\MP3File;
 
 class AudioController extends Controller
 {
@@ -86,6 +87,10 @@ class AudioController extends Controller
 
             $req->audio->storeAs('public/upload/audios',$newImage);
             $data->audio = $newImage;
+
+            $mp3file = new MP3File(storage_path('app/public/upload/audios/'.$newImage));//http://www.npr.org/rss/podcast.php?id=510282
+            $duration2 = $mp3file->getDuration();//(slower) for VBR (or CBR)
+            $data->duration = MP3File::formatTime($duration2);
         }
 
         $result = $data->save();
@@ -161,6 +166,10 @@ class AudioController extends Controller
 
             $req->audio->storeAs('public/upload/audios',$newImage);
             $data->audio = $newImage;
+
+            $mp3file = new MP3File(storage_path('app/public/upload/audios/'.$newImage));//http://www.npr.org/rss/podcast.php?id=510282
+            $duration2 = $mp3file->getDuration();//(slower) for VBR (or CBR)
+            $data->duration = MP3File::formatTime($duration2);
         }
 
         $result = $data->save();
@@ -297,6 +306,10 @@ class AudioController extends Controller
                         $uuid = Uuid::generate(4)->string;
                         Storage::move('public/zip/audios'.'/'.$value['audio'], 'public/upload/audios'.'/'.$uuid.'-'.$value['audio']);
                         $exceldata->audio = $uuid.'-'.$value['audio'];
+
+                        $mp3file = new MP3File(storage_path('app/public/upload/audios/'.$uuid.'-'.$value['audio']));//http://www.npr.org/rss/podcast.php?id=510282
+                        $duration2 = $mp3file->getDuration();//(slower) for VBR (or CBR)
+                        $exceldata->duration = MP3File::formatTime($duration2);
 
                         $result = $exceldata->save();
                     }

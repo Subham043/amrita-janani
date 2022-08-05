@@ -185,17 +185,7 @@
                             </div>
                             <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
                                 <div class="row">
-                                    @if($country->tags)
-                                    <div class="col-lg-3 col-sm-6">
-                                        @php $tags = explode(",",$country->tags); @endphp
-                                        <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Tags :</p>
-                                            @foreach($tags as $tag)
-                                            <div class="badge bg-success fs-12">{{$tag}}</div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                    @endif
+                                    
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Total Number of Pages :</p>
@@ -223,6 +213,21 @@
                                     
                                 </div>
                             </div>
+                            @if($country->tags)
+                            <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-6">
+                                        @php $tags = explode(",",$country->tags); @endphp
+                                        <div>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Tags :</p>
+                                            @foreach($tags as $tag)
+                                            <div class="badge bg-success fs-12">{{$tag}}</div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             @if($country->description_unformatted)
                             <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
                                 <h6 class="fw-semibold text-uppercase">Description</h6>
