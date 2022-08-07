@@ -93,7 +93,7 @@
 
                         @foreach($images->items() as $image)
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <a class="media-href" title="{{$image->title}}" href="">
+                            <a class="media-href" title="{{$image->title}}" href="{{route('content_image_view', $image->uuid)}}">
                                 <div class="img-holder">
                                     <img src="{{asset('main/images/image.png')}}" alt="">
                                 </div>

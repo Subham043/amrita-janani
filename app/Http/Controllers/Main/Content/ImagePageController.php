@@ -41,10 +41,16 @@ class ImagePageController extends Controller
             $image->whereIn('language_id', $arr);
         }
         
-        $images = $image->paginate(6)->withQueryString();
+        $images = $image->where('status', 1)->paginate(6)->withQueryString();
         
         return view('pages.main.content.image')->with('breadcrumb','Images')
         ->with('images',$images)
         ->with('languages',LanguageModel::all());
+    }
+
+    public function view($uuid){
+        $image = ImageModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+        return view('pages.main.content.image_view')->with('breadcrumb','Image - '.$image->title)
+        ->with('image',$image);
     }
 }

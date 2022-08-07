@@ -41,7 +41,7 @@ class DocumentPageController extends Controller
             $document->whereIn('language_id', $arr);
         }
         
-        $documents = $document->paginate(6)->withQueryString();
+        $documents = $document->where('status', 1)->paginate(6)->withQueryString();
         
         return view('pages.main.content.document')->with('breadcrumb','Documents')
         ->with('documents',$documents)

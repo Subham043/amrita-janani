@@ -41,7 +41,7 @@ class VideoPageController extends Controller
             $video->whereIn('language_id', $arr);
         }
         
-        $videos = $video->paginate(6)->withQueryString();
+        $videos = $video->where('status', 1)->paginate(6)->withQueryString();
         
         return view('pages.main.content.video')->with('breadcrumb','Videos')
         ->with('videos',$videos)

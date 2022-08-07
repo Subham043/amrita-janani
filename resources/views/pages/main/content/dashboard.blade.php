@@ -22,7 +22,7 @@
             <div class="row">
                 @foreach($images as $images)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" title="{{$images->title}}" href="">
+                    <a class="media-href" title="{{$images->title}}" href="{{route('content_image_view', $images->uuid)}}">
                         <div class="img-holder">
                             <img src="{{asset('main/images/image.png')}}" alt="">
                         </div>

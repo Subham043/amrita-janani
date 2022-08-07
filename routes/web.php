@@ -71,7 +71,7 @@ Route::middleware(['guest'])->group(function () {
         Route::get('/reset-password/{id}', [ResetPasswordController::class, 'index', 'as' => 'admin.reset_password'])->name('reset_password');
         Route::post('/reset-password/{id}', [ResetPasswordController::class, 'requestResetPassword', 'as' => 'admin.requestResetPassword'])->name('requestResetPassword');
     });
-    
+
 });
 
 
@@ -79,6 +79,7 @@ Route::get('/sign-out', [LogoutPageController::class, 'logout', 'as' => 'logout.
 Route::prefix('/content')->middleware(['auth'])->group(function () {
     Route::get('/', [DashboardPageController::class, 'index', 'as' => 'content.dashboard'])->name('content_dashboard');
     Route::get('/image', [ImagePageController::class, 'index', 'as' => 'content.image'])->name('content_image');
+    Route::get('/image/{uuid}', [ImagePageController::class, 'view', 'as' => 'content.image_view'])->name('content_image_view');
     Route::get('/audio', [AudioPageController::class, 'index', 'as' => 'content.audio'])->name('content_audio');
     Route::get('/document', [DocumentPageController::class, 'index', 'as' => 'content.document'])->name('content_document');
     Route::get('/video', [VideoPageController::class, 'index', 'as' => 'content.video'])->name('content_video');
