@@ -41,6 +41,6 @@ class LoginPageController extends Controller
             return redirect()->intended(route('index'))->with('success_status', 'Logged in successfully.');
         }
 
-        return redirect(route('signin'))->with('error_status', 'Oops! You have entered invalid credentials');
+        return redirect(route('content'))->with('error_status', 'Oops! You have entered invalid credentials');
     }
 }

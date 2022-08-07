@@ -7,6 +7,7 @@ use App\Http\Controllers\Main\AboutPageController;
 use App\Http\Controllers\Main\ContactPageController;
 use App\Http\Controllers\Main\FAQPageController;
 use App\Http\Controllers\Main\Auth\LoginPageController;
+use App\Http\Controllers\Main\Auth\LogoutPageController;
 use App\Http\Controllers\Main\Auth\RegisterPageController;
 use App\Http\Controllers\Main\Auth\ForgotPasswordPageController;
 use App\Http\Controllers\Main\Auth\ResetPasswordPageController;
@@ -48,19 +49,34 @@ Route::get('/about', [AboutPageController::class, 'index', 'as' => 'about.index'
 Route::get('/contact', [ContactPageController::class, 'index', 'as' => 'contact.index'])->name('contact');
 Route::post('/contact', [ContactPageController::class, 'contact_ajax', 'as' => 'contact.contact_ajax'])->name('contact_ajax');
 Route::get('/faq', [FAQPageController::class, 'index', 'as' => 'faq.index'])->name('faq');
-Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('signin');
-Route::post('/sign-in', [LoginPageController::class, 'authenticate', 'as' => 'login.authenticate'])->name('signin_authenticate');
-Route::get('/sign-up', [RegisterPageController::class, 'index', 'as' => 'register.index'])->name('signup');
-Route::post('/sign-up', [RegisterPageController::class, 'store', 'as' => 'register.store'])->name('signup_store');
-Route::get('/forgot-password', [ForgotPasswordPageController::class, 'index', 'as' => 'forgot_password.index'])->name('forgot_password');
-Route::post('/forgot-password', [ForgotPasswordPageController::class, 'requestForgotPassword', 'as' => 'forgot_password.requestForgotPassword'])->name('forgot_password_request');
-Route::get('/reset-password/{id}', [ResetPasswordPageController::class, 'index', 'as' => 'reset_password.index'])->name('resetPassword');
-Route::post('/reset-password/{id}', [ResetPasswordPageController::class, 'requestResetPassword', 'as' => 'reset_password.requestResetPassword'])->name('resetPasswordRequest');
-Route::get('/verify-user/{id}', [VerifyRegisteredUserPageController::class, 'index', 'as' => 'requestVerifyRegisteredUser.index'])->name('verifyUser');
-Route::post('/verify-user/{id}', [VerifyRegisteredUserPageController::class, 'requestVerifyRegisteredUser', 'as' => 'requestVerifyRegisteredUser.requestVerifyRegisteredUser'])->name('requestVerifyRegisteredUser');
 Route::get('/captcha-reload', [CaptchaController::class, 'reloadCaptcha', 'as' => 'captcha.reload'])->name('captcha_ajax');
 
-Route::prefix('/content')->group(function () {
+Route::middleware(['guest'])->group(function () {
+    Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('signin');
+    Route::post('/sign-in', [LoginPageController::class, 'authenticate', 'as' => 'login.authenticate'])->name('signin_authenticate');
+    Route::get('/sign-up', [RegisterPageController::class, 'index', 'as' => 'register.index'])->name('signup');
+    Route::post('/sign-up', [RegisterPageController::class, 'store', 'as' => 'register.store'])->name('signup_store');
+    Route::get('/forgot-password', [ForgotPasswordPageController::class, 'index', 'as' => 'forgot_password.index'])->name('forgot_password');
+    Route::post('/forgot-password', [ForgotPasswordPageController::class, 'requestForgotPassword', 'as' => 'forgot_password.requestForgotPassword'])->name('forgot_password_request');
+    Route::get('/reset-password/{id}', [ResetPasswordPageController::class, 'index', 'as' => 'reset_password.index'])->name('resetPassword');
+    Route::post('/reset-password/{id}', [ResetPasswordPageController::class, 'requestResetPassword', 'as' => 'reset_password.requestResetPassword'])->name('resetPasswordRequest');
+    Route::get('/verify-user/{id}', [VerifyRegisteredUserPageController::class, 'index', 'as' => 'requestVerifyRegisteredUser.index'])->name('verifyUser');
+    Route::post('/verify-user/{id}', [VerifyRegisteredUserPageController::class, 'requestVerifyRegisteredUser', 'as' => 'requestVerifyRegisteredUser.requestVerifyRegisteredUser'])->name('requestVerifyRegisteredUser');
+
+    Route::prefix('/admin')->group(function () {
+        Route::get('/login', [LoginController::class, 'index', 'as' => 'admin.login'])->name('login');
+        Route::post('/authenticate', [LoginController::class, 'authenticate', 'as' => 'admin.authenticate'])->name('authenticate');
+        Route::get('/forgot-password', [ForgotPasswordController::class, 'index', 'as' => 'admin.forgot_password'])->name('forgotPassword');
+        Route::post('/forgot-password', [ForgotPasswordController::class, 'requestForgotPassword', 'as' => 'admin.requestForgotPassword'])->name('requestForgotPassword');
+        Route::get('/reset-password/{id}', [ResetPasswordController::class, 'index', 'as' => 'admin.reset_password'])->name('reset_password');
+        Route::post('/reset-password/{id}', [ResetPasswordController::class, 'requestResetPassword', 'as' => 'admin.requestResetPassword'])->name('requestResetPassword');
+    });
+    
+});
+
+
+Route::get('/sign-out', [LogoutPageController::class, 'logout', 'as' => 'logout.index'])->middleware(['auth'])->name('signout');
+Route::prefix('/content')->middleware(['auth'])->group(function () {
     Route::get('/', [DashboardPageController::class, 'index', 'as' => 'content.dashboard'])->name('content_dashboard');
     Route::get('/image', [ImagePageController::class, 'index', 'as' => 'content.image'])->name('content_image');
     Route::get('/audio', [AudioPageController::class, 'index', 'as' => 'content.audio'])->name('content_audio');
@@ -68,17 +84,7 @@ Route::prefix('/content')->group(function () {
     Route::get('/video', [VideoPageController::class, 'index', 'as' => 'content.video'])->name('content_video');
 });
 
-
-Route::prefix('/admin')->group(function () {
-    Route::get('/login', [LoginController::class, 'index', 'as' => 'admin.login'])->name('login');
-    Route::post('/authenticate', [LoginController::class, 'authenticate', 'as' => 'admin.authenticate'])->name('authenticate');
-    Route::get('/forgot-password', [ForgotPasswordController::class, 'index', 'as' => 'admin.forgot_password'])->name('forgotPassword');
-    Route::post('/forgot-password', [ForgotPasswordController::class, 'requestForgotPassword', 'as' => 'admin.requestForgotPassword'])->name('requestForgotPassword');
-    Route::get('/reset-password/{id}', [ResetPasswordController::class, 'index', 'as' => 'admin.reset_password'])->name('reset_password');
-    Route::post('/reset-password/{id}', [ResetPasswordController::class, 'requestResetPassword', 'as' => 'admin.requestResetPassword'])->name('requestResetPassword');
-});
-
-Route::prefix('/admin')->middleware('auth')->group(function () {
+Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
     Route::prefix('/profile')->group(function () {
         Route::get('/', [ProfileController::class, 'index', 'as' => 'admin.profile'])->name('profile');
         Route::post('/update', [ProfileController::class, 'update', 'as' => 'admin.profile_update'])->name('profile_update');

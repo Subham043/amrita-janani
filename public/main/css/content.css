@@ -1,0 +1,282 @@
+body {
+    box-sizing: border-box;
+}
+
+.submenu-wrapper {
+    background-color: #3e1d1e;
+}
+
+.submenu_holder {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.submenu_holder li a.active {
+    background-color: #96171c;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.submenu_holder li {
+    list-style: none;
+    margin-right: 20px;
+}
+
+.submenu_holder li a:hover {
+    color: #ffcc00;
+}
+
+.submenu_holder li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.right-submenu-holder button {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 25px;
+    color: #ffcc00;
+}
+
+.right-submenu-holder {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.right-submenu-holder label {
+    display: flex;
+    background-color: transparent;
+    margin-left: 20px;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    padding: 5px 10px;
+}
+
+.right-submenu-holder label span {
+    color: #fff;
+}
+
+.right-submenu-holder label input {
+    outline: none;
+    border: none;
+    background: transparent;
+    padding: 0 5px;
+    color: #ffcc00;
+}
+
+.right-submenu-holder form{
+    margin:0;
+    padding: 0;
+}
+
+.content-holder {
+    /* background: #f0f8ff80; */
+    background: #fff;
+}
+
+.content-holder .content-container {
+    padding: 20px 0;
+}
+
+.content-holder .content-container .media-container {
+    padding: 15px 0;
+    text-align: center;
+}
+
+.content-holder .content-container .media-container h3 {
+    text-align: center;
+    font-size: 21px;
+    margin-bottom: 0px;
+    text-transform: uppercase;
+}
+
+.content-holder .content-container .media-container h3.dashboard-header{
+    margin-bottom: 3rem;
+}
+
+.content-holder .content-container .media-container .img-holder {
+    
+    background-color:#fff;
+}
+
+.content-holder .content-container .media-container .media-holder {
+    padding: 15px;
+    text-align: left;
+    background-color:white;
+    transition: all 0.3s ease-in-out;
+    background-color:#f1f1f1;
+    border-top: 1px solid #bababa;
+}
+
+.content-holder .content-container .media-container .media-holder p{
+    margin:0;
+}
+
+.content-holder .content-container .media-container .media-holder h5{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform:capitalize;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom:5px;
+}
+
+.content-holder .content-container .media-container .media-href:hover {
+    box-shadow: 3px 4px 4px 3px #bababa;
+    transform: scale(1.1);
+    z-index: 5;
+    position: relative;
+    color: #000 !important;
+}
+
+.content-holder .content-container .media-container .media-href:hover > .content-holder .content-container .media-container .img-holder img {
+    transform: rotateY(360deg);
+}
+
+.content-holder .content-container .media-container .media-href:hover > .content-holder .content-container .media-container .media-holder p{
+    color: #000 !important;
+}
+
+.content-holder .content-container .media-container .img-holder img {
+    height: 100px;
+    object-fit: contain;
+    margin: 20px 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.content-holder .content-container .media-container .media-href {
+    display: block;
+    text-decoration: none;
+    margin-bottom: 20px;
+    padding: 5px 0 0;
+    border-radius:5px;
+    border:1px solid #bababa;
+}
+
+.content-holder .content-container .media-container .view-more-href, .filter_button {
+    padding: 10px 15px;
+    background-color: #96171c;
+    color: #fff;
+    margin: 35px 0;
+    border-radius: 5px;
+    outline: none;
+    border:none;
+}
+
+.filter_button {
+    padding: 5px 8px;
+    margin: 20px 0;
+}
+
+.sort-row {
+    justify-content: flex-end;
+}
+
+.sort-row select {
+    height: 45px;
+    background: white;
+    border-color: #ccc;
+}
+
+.sort-row select:focus {
+    background: white !important;
+}
+
+.filter-holder .accordion {
+    background-color: transparent;
+    color: #868484;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.filter-holder .active,
+.filter-holder .accordion:hover {
+    background-color: transparent;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.filter-holder .panel {
+    padding: 0 18px;
+    background-color: transparent;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    text-align: left;
+}
+
+.filter-holder .accordion:after {
+    content: '\003E';
+    /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+.filter-holder .active:after {
+    content: "\02C5";
+    /* Unicode character for "minus" sign (-) */
+}
+
+hr {
+    margin: 0 !important;
+}
+
+.nav-flex-direction-end{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-flex-direction-end p{
+    color: #868484;
+    font-weight: bold;
+}
+
+.search-col form input{
+    width: 100%;
+}
+
+
+@media only screen and (max-width: 991px) {
+    .sub-menu-col{
+        display: none !important;
+    }
+
+    .search-col{
+        flex: 0 0 100%;
+        width: 100%;
+    }
+
+    .search-col form{
+        width: 96%;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .content-holder .content-container .media-container{
+        padding: 15px;
+    }
+
+    .content-holder .content-container .media-container .media-href:hover {
+        transform:scale(1.01);
+    }
+}
