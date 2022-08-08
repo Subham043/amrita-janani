@@ -280,3 +280,146 @@ hr {
         transform:scale(1.01);
     }
 }
+
+
+/* main-content-view */
+
+.main-content-wrapper{
+    width: 100%;
+    max-width: 100%;
+    padding-bottom:20px;
+}
+
+.main-content-wrapper .main-image-container{
+    /* Add the blur effect */
+    /* filter: blur(8px);
+    -webkit-filter: blur(8px); */
+    /* Full height */
+    min-height: 75vh;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.main-content-wrapper .main-image-container .blur-bg{
+    width:100%;
+    height:100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    padding:20px;
+    display:grid;
+    place-items:center;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 3;
+}
+
+.main-content-wrapper .main-image-container img{
+    max-width:100%;
+    object-fit:contain;
+    height:400px;
+    box-shadow: 0px 5px 11px 4px #222;
+}
+
+.main-content-wrapper hr{
+    border-top: 1px dashed #afabab;
+}
+
+.action-button-row{
+    justify-content: space-between;
+    align-items:center;
+    padding: 15px 0;
+}
+
+.action-button-row .action-button-wrapper{
+    display:flex;
+    justify-content:flex-end;
+}
+
+.action-button-row .action-btn{
+    outline:none;
+    padding:5px;
+    border-radius:5px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color:transparent;
+    text-transform: capitalize;
+}
+
+.action-button-row .action-btn.make-favourite-button{
+    color:#fff;
+    border: 1px solid #ff0000 !important;
+    background-color:#ff0000;
+    color:#fff;
+    box-shadow: 0px 5px 6px 1px #b2b2b2;
+    transition: all 0.5s ease-in-out;
+    margin-right:10px;
+}
+.action-button-row .action-btn.make-favourite-button:hover{
+    background-color:transparent;
+    color:#ff0000;
+    border: 1px solid #ff0000 !important;
+    box-shadow: 0px 5px 6px 1px #b2b2b2;
+}
+
+.action-button-row .action-btn.report-button{
+    
+    border-color:#ff8300;
+    background-color:#ff8300;
+    color:#fff;
+    box-shadow: 0px 5px 6px 1px #b2b2b2;
+    transition: all 0.5s ease-in-out;
+    margin-right:10px;
+}
+
+.action-button-row .action-btn.report-button:hover{
+    background-color:transparent;
+    color:#ff8300;
+    box-shadow: 0px 5px 6px 1px #b2b2b2;
+}
+
+.action-button-row .action-btn.access-button{
+    color:#fff;
+    background-color:#96171c;
+    border-color:#96171c;
+    box-shadow: 0px 5px 6px 1px #b2b2b2;
+    transition: all 0.5s ease-in-out;
+}
+
+.action-button-row .action-btn.access-button:hover{
+    background-color:transparent;
+    border-color:#96171c;
+    color:#96171c;
+}
+
+.info-container{
+    padding:20px 0;
+}
+
+.info-container h5, .info-content h5{
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom:5px;
+    text-transform:capitalize;
+}
+.info-content p{
+    font-size:0.9rem;
+    font-weight:700;
+    margin:0;
+}
+.info-container p{
+    margin:0;
+}
+
+.info-major-content h6{
+    font-weight:600
+}
+
+#view_count{
+    border-right:2px solid #ccc;
+    padding-right:5px;
+}

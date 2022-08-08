@@ -32,6 +32,21 @@ class ImageModel extends Model
         return $this->belongsTo('App\Models\LanguageModel', 'language_id');
     }
 
+    public function ImageFavourite()
+    {
+        return $this->hasMany('App\Models\ImageFavourite', 'image_id');
+    }
+    
+    public function ImageAccess()
+    {
+        return $this->hasMany('App\Models\ImageAccess', 'image_id');
+    }
+    
+    public function ImageReport()
+    {
+        return $this->hasMany('App\Models\ImageReport', 'image_id');
+    }
+
     public function file_format(){
         return File::extension($this->image);
     }

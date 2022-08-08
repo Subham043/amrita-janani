@@ -99,8 +99,8 @@
                                 </div>
                                 <div class="media-holder">
                                     <h5>{{$image->title}}</h5>
-                                    <p>Format : {{$image->file_format()}}</p>
-                                    <p>Uploaded : {{$image->time_elapsed()}}</p>
+                                    <p>Format : <b>{{$image->file_format()}}</b></p>
+                                    <p>Uploaded : <b>{{$image->time_elapsed()}}</b></p>
                                 </div>
                             </a>
                         </div>

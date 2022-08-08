@@ -78,8 +78,15 @@ Route::middleware(['guest'])->group(function () {
 Route::get('/sign-out', [LogoutPageController::class, 'logout', 'as' => 'logout.index'])->middleware(['auth'])->name('signout');
 Route::prefix('/content')->middleware(['auth'])->group(function () {
     Route::get('/', [DashboardPageController::class, 'index', 'as' => 'content.dashboard'])->name('content_dashboard');
-    Route::get('/image', [ImagePageController::class, 'index', 'as' => 'content.image'])->name('content_image');
-    Route::get('/image/{uuid}', [ImagePageController::class, 'view', 'as' => 'content.image_view'])->name('content_image_view');
+
+    Route::prefix('/image')->group(function () {
+        Route::get('/', [ImagePageController::class, 'index', 'as' => 'content.image'])->name('content_image');
+        Route::get('/{uuid}', [ImagePageController::class, 'view', 'as' => 'content.image_view'])->name('content_image_view');
+        Route::get('/{uuid}/make-favourite', [ImagePageController::class, 'makeFavourite', 'as' => 'content.image_makeFavourite'])->name('content_image_makeFavourite');
+        Route::post('/{uuid}/request-access', [ImagePageController::class, 'requestAccess', 'as' => 'content.image_requestAccess'])->name('content_image_requestAccess');
+        Route::post('/{uuid}/report', [ImagePageController::class, 'report', 'as' => 'content.image_report'])->name('content_image_report');
+    });
+
     Route::get('/audio', [AudioPageController::class, 'index', 'as' => 'content.audio'])->name('content_audio');
     Route::get('/document', [DocumentPageController::class, 'index', 'as' => 'content.document'])->name('content_document');
     Route::get('/video', [VideoPageController::class, 'index', 'as' => 'content.video'])->name('content_video');
