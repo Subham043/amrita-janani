@@ -93,7 +93,7 @@
 
                         @foreach($documents->items() as $document)
                         <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" title="{{$document->title}}" href="">
+                            <a class="media-href" title="{{$document->title}}" href="{{route('content_document_view', $document->uuid)}}">
                                 <div class="img-holder">
                                     <img src="{{asset('main/images/pdf.png')}}" alt="">
                                 </div>

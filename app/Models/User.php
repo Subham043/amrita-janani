@@ -56,5 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\ImageFavourite', 'image_id');
     }
+    
+    public function DocumentFavourite()
+    {
+        return $this->hasMany('App\Models\DocumentFavourite', 'document_id');
+    }
 }
 ?>

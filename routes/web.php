@@ -87,8 +87,16 @@ Route::prefix('/content')->middleware(['auth'])->group(function () {
         Route::post('/{uuid}/report', [ImagePageController::class, 'report', 'as' => 'content.image_report'])->name('content_image_report');
     });
 
+    Route::prefix('/document')->group(function () {
+        Route::get('/', [DocumentPageController::class, 'index', 'as' => 'content.document'])->name('content_document');
+        Route::get('/{uuid}', [DocumentPageController::class, 'view', 'as' => 'content.document_view'])->name('content_document_view');
+        Route::get('/{uuid}/make-favourite', [DocumentPageController::class, 'makeFavourite', 'as' => 'content.document_makeFavourite'])->name('content_document_makeFavourite');
+        Route::post('/{uuid}/request-access', [DocumentPageController::class, 'requestAccess', 'as' => 'content.document_requestAccess'])->name('content_document_requestAccess');
+        Route::post('/{uuid}/report', [DocumentPageController::class, 'report', 'as' => 'content.document_report'])->name('content_document_report');
+
+    });
+
     Route::get('/audio', [AudioPageController::class, 'index', 'as' => 'content.audio'])->name('content_audio');
-    Route::get('/document', [DocumentPageController::class, 'index', 'as' => 'content.document'])->name('content_document');
     Route::get('/video', [VideoPageController::class, 'index', 'as' => 'content.video'])->name('content_video');
 });
 

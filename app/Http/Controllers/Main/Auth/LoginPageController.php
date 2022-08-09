@@ -38,9 +38,9 @@ class LoginPageController extends Controller
         $credentials['status'] = 1;
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('index'))->with('success_status', 'Logged in successfully.');
+            return redirect()->intended(route('content'))->with('success_status', 'Logged in successfully.');
         }
 
-        return redirect(route('content'))->with('error_status', 'Oops! You have entered invalid credentials');
+        return redirect(route('signin'))->with('error_status', 'Oops! You have entered invalid credentials');
     }
 }

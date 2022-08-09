@@ -32,6 +32,21 @@ class DocumentModel extends Model
         return $this->belongsTo('App\Models\LanguageModel', 'language_id');
     }
 
+    public function DocumentFavourite()
+    {
+        return $this->hasMany('App\Models\DocumentFavourite', 'document_id');
+    }
+    
+    public function DocumentAccess()
+    {
+        return $this->hasMany('App\Models\DocumentAccess', 'document_id');
+    }
+    
+    public function DocumentReport()
+    {
+        return $this->hasMany('App\Models\DocumentReport', 'document_id');
+    }
+
     public function file_format(){
         return File::extension($this->document);
     }

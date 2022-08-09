@@ -103,7 +103,7 @@
     <!-- Plugins JS (Please remove the comment from below plugins.min.js for better website load performance and remove plugin js files from avobe) -->
 
     
-    <script src="{{ asset('main/js/plugins/plugins.min.js') }}"></script>
+    <!-- <script src="{{ asset('main/js/plugins/plugins.min.js') }}"></script> -->
    
 
     <!-- Main JS -->

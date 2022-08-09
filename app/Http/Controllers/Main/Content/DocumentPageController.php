@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Main\Content;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 use App\Models\DocumentModel;
+use App\Models\DocumentFavourite;
+use App\Models\DocumentAccess;
+use App\Models\DocumentReport;
 use App\Models\LanguageModel;
 
 class DocumentPageController extends Controller
@@ -46,5 +50,132 @@ class DocumentPageController extends Controller
         return view('pages.main.content.document')->with('breadcrumb','Documents')
         ->with('documents',$documents)
         ->with('languages',LanguageModel::all());
+    }
+
+    public function view($uuid){
+        $document = DocumentModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+        $document->views = $document->views +1;
+        $document->save();
+
+        try {
+            $documentFav = DocumentFavourite::where('document_id', $document->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $documentFav = null;
+        }
+
+        try {
+            $documentAccess = DocumentAccess::where('document_id', $document->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $documentAccess = null;
+        }
+
+        return view('pages.main.content.document_view')->with('breadcrumb','Document - '.$document->title)
+        ->with('documentAccess',$documentAccess)
+        ->with('documentFav',$documentFav)
+        ->with('document',$document);
+    }
+
+    public function makeFavourite($uuid){
+        $document = DocumentModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+        $documentFav = DocumentFavourite::where('document_id', $document->id)->where('user_id', Auth::user()->id)->get();
+
+        if(count($documentFav)>0){
+            $documentFav = DocumentFavourite::where('document_id', $document->id)->where('user_id', Auth::user()->id)->first();
+            if($documentFav->status==1){
+                $documentFav->status=0;
+                $documentFav->save();
+                $document->favourites = $document->favourites -1;
+
+                $document->save();
+                return redirect()->intended(route('content_document_view', $uuid))->with('success_status', 'Made unfavourite successfully.');
+            }else{
+                $documentFav->status=1;
+                $document->favourites = $document->favourites +1;
+                $document->save();
+                $documentFav->save();
+                return redirect()->intended(route('content_document_view', $uuid))->with('success_status', 'Made favourite successfully.');
+            }
+        }else{
+            $documentFav = new DocumentFavourite;
+            $documentFav->document_id = $document->id;
+            $documentFav->user_id = Auth::user()->id;
+            $documentFav->status = 1;
+            $documentFav->save();
+            $documentFav->status=1;
+            $document->favourites = $document->favourites +1;
+            $document->save();
+            return redirect()->intended(route('content_document_view', $uuid))->with('success_status', 'Made favourite successfully.');
+        }
+
+    }
+
+    public function requestAccess(Request $req, $uuid){
+        $document = DocumentModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+
+        $rules = array(
+            'message' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'captcha' => ['required','captcha']
+        );
+        $messages = array(
+            'message.required' => 'Please enter the reason !',
+            'message.regex' => 'Please enter the valid reason !',
+            'captcha.captcha' => 'Please enter the valid captcha !',
+        );
+
+        $validator = Validator::make($req->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return response()->json(["form_error"=>$validator->errors()], 400);
+        }
+
+        $documentFav = DocumentAccess::where('document_id', $document->id)->where('user_id', Auth::user()->id)->get();
+
+        if(count($documentFav)>0){
+            $documentFav = DocumentAccess::where('document_id', $document->id)->where('user_id', Auth::user()->id)->first();
+            $documentFav->status=0;
+            $documentFav->message=$req->message;
+            $documentFav->save();
+            
+        }else{
+            $documentFav = new DocumentAccess;
+            $documentFav->document_id = $document->id;
+            $documentFav->user_id = Auth::user()->id;
+            $documentFav->status = 0;
+            $documentFav->message=$req->message;
+            $documentFav->save();
+        }
+
+        return response()->json(["message" => "Access requested successfully."], 201);
+    }
+
+    public function report(Request $req, $uuid){
+        $document = DocumentModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+
+        $rules = array(
+            'message' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'captcha' => ['required','captcha']
+        );
+        $messages = array(
+            'message.required' => 'Please enter the message !',
+            'message.regex' => 'Please enter the valid message !',
+            'captcha.captcha' => 'Please enter the valid captcha !',
+        );
+
+        $validator = Validator::make($req->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return response()->json(["form_error"=>$validator->errors()], 400);
+        }
+
+        $documentFav = new DocumentReport;
+        $documentFav->document_id = $document->id;
+        $documentFav->user_id = Auth::user()->id;
+        $documentFav->status = 0;
+        $documentFav->message=$req->message;
+        $documentFav->save();
+
+        return response()->json(["message" => "Reported successfully."], 201);
     }
 }
