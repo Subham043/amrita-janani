@@ -2,7 +2,7 @@
 
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('admin/css/image-previewer.css')}}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('main/css/plugins/plyr.css')}}" type="text/css" />
 @stop
 
 
@@ -153,7 +153,18 @@
                                 @if($country->video)
                                 <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
                                     <h6 class="fw-semibold text-uppercase">Video</h6>
-                                    <img src="{{asset('storage/upload/audios/'.$country->video)}}" class="mb-3" style="max-width:30%">
+                                    <div class="plyr__video-embed" id="player">
+                                        <iframe
+                                            @if(strpos($country->video,'vimeo') !== false)
+                                            src="{{$country->video}}?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media"
+                                            @else
+                                            src="{{$country->video}}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                                            @endif
+                                            allowfullscreen
+                                            allowtransparency
+                                            allow="autoplay"
+                                        ></iframe>
+                                    </div>
                                 </div>
                                 @endif
                             </div>
@@ -176,7 +187,7 @@
 @stop          
 
 @section('javascript')
-<script src="{{ asset('admin/js/pages/img-previewer.min.js') }}"></script>
+<script src="{{ asset('main/js/plugins/plyr.js') }}"></script>
 <script>
     function deleteHandler(url){
         iziToast.question({
@@ -212,26 +223,26 @@
     }
 </script>
 <script>
-    const myViewer = new ImgPreviewer('#image-container',{
-      // aspect ratio of image
-        fillRatio: 0.9,
-        // attribute that holds the image
-        dataUrlKey: 'src',
-        // additional styles
-        style: {
-            modalOpacity: 0.6,
-            headerOpacity: 0,
-            zIndex: 99
-        },
-        // zoom options
-        imageZoom: { 
-            min: 0.1,
-            max: 5,
-            step: 0.1
-        },
-        // detect whether the parent element of the image is hidden by the css style
-        bubblingLevel: 0,
-        
-    });
+const controls = [
+    'play-large', // The large play button in the center
+    'restart', // Restart playback
+    'rewind', // Rewind by the seek time (default 10 seconds)
+    'play', // Play/pause playback
+    'fast-forward', // Fast forward by the seek time (default 10 seconds)
+    'progress', // The progress bar and scrubber for playback and buffering
+    'current-time', // The current time of playback
+    'duration', // The full duration of the media
+    'mute', // Toggle mute
+    'volume', // Volume control
+    'captions', // Toggle captions
+    'settings', // Settings menu
+    'pip', 
+    'airplay', 
+    'fullscreen'
+];
+
+const player = new Plyr('#player', {
+    controls,
+});
 </script>
 @stop
