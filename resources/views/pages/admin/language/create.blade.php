@@ -152,7 +152,7 @@ validation
       try {
         var formData = new FormData();
         formData.append('name',document.getElementById('name').value)
-        formData.append('status',document.getElementById('flexSwitchCheckRightDisabled').value)
+        formData.append('status',document.getElementById('flexSwitchCheckRightDisabled').checked === true ? 'on' : 'off')
         // formData.append('refreshUrl','{{URL::current()}}')
         
         const response = await axios.post('{{route('language_store')}}', formData)

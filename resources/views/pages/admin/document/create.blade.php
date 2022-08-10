@@ -421,8 +421,8 @@ validation
         formData.append('language',document.getElementById('language').value)
         formData.append('description_unformatted',quillDescription.getText())
         formData.append('description',quillDescription.root.innerHTML)
-        formData.append('status',document.getElementById('flexSwitchCheckRightDisabled').value)
-        formData.append('restricted',document.getElementById('flexSwitchCheckRightDisabled2').value)
+        formData.append('status',document.getElementById('flexSwitchCheckRightDisabled').checked === true ? 'on' : 'off')
+        formData.append('restricted',document.getElementById('flexSwitchCheckRightDisabled2').checked === true ? 'on' : 'off')
         formData.append('document',document.getElementById('document').files[0])
         if(tagify.value.length > 0){
             var tags = tagify.value.map(item => item.value).join(',')

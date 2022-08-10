@@ -424,8 +424,8 @@ validation
         formData.append('language',document.getElementById('language').value)
         formData.append('description_unformatted',quillDescription.getText())
         formData.append('description',quillDescription.root.innerHTML)
-        formData.append('status',document.getElementById('flexSwitchCheckRightDisabled').value)
-        formData.append('restricted',document.getElementById('flexSwitchCheckRightDisabled2').value)
+        formData.append('status',document.getElementById('flexSwitchCheckRightDisabled').checked === true ? 'on' : 'off')
+        formData.append('restricted',document.getElementById('flexSwitchCheckRightDisabled2').checked === true ? 'on' : 'off')
         if(document.getElementById('audio').files.length > 0){
             formData.append('audio',document.getElementById('audio').files[0])
         }
