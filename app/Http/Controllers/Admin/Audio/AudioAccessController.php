@@ -25,7 +25,14 @@ class AudioAccessController extends Controller
     public function viewaccess(Request $request) {
         if ($request->has('search')) {
             $search = $request->input('search');
-            $data = AudioAccess::with(['AudioModel','User'])->orWhereHas('AudioModel', function($q)  use ($search){
+            $data = AudioAccess::with(['AudioModel','User'])
+            ->whereHas('AudioModel', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->whereHas('User', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->orWhereHas('AudioModel', function($q)  use ($search){
                 $q->where('title', 'like', '%' . $search . '%')
                 ->orWhere('uuid', 'like', '%' . $search . '%');
             })
@@ -36,20 +43,41 @@ class AudioAccessController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
-            $data = AudioAccess::orderBy('id', 'DESC')->paginate(10);
+            $data = AudioAccess::with(['AudioModel','User'])
+            ->whereHas('AudioModel', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->whereHas('User', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.audio.access_list')
         ->with('country', $data);
     }
 
     public function deleteAccess($id){
-        $data = AudioAccess::findOrFail($id);
+        $data = AudioAccess::with(['AudioModel','User'])
+        ->whereHas('AudioModel', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->whereHas('User', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->findOrFail($id);
         $data->forceDelete();
         return redirect()->intended(route('audio_view_access'))->with('success_status', 'Data Deleted successfully.');
     }
 
     public function toggleAccess($id){
-        $data = AudioAccess::findOrFail($id);
+        $data = AudioAccess::with(['AudioModel','User'])
+        ->whereHas('AudioModel', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->whereHas('User', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->findOrFail($id);
         if($data->status == '1'){
             $data->status = 0;
             $data->admin_id = Auth::user()->id;
@@ -64,7 +92,14 @@ class AudioAccessController extends Controller
     }
 
     public function displayAccess($id) {
-        $data = AudioAccess::findOrFail($id);
+        $data = AudioAccess::with(['AudioModel','User'])
+        ->whereHas('AudioModel', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->whereHas('User', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->findOrFail($id);
         return view('pages.admin.audio.access_display')->with('country',$data);
     }
     

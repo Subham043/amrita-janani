@@ -25,7 +25,14 @@ class VideoAccessController extends Controller
     public function viewaccess(Request $request) {
         if ($request->has('search')) {
             $search = $request->input('search');
-            $data = VideoAccess::with(['VideoModel','User'])->orWhereHas('VideoModel', function($q)  use ($search){
+            $data = VideoAccess::with(['VideoModel','User'])
+            ->whereHas('VideoModel', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->whereHas('User', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->orWhereHas('VideoModel', function($q)  use ($search){
                 $q->where('title', 'like', '%' . $search . '%')
                 ->orWhere('uuid', 'like', '%' . $search . '%');
             })
@@ -36,20 +43,41 @@ class VideoAccessController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
-            $data = VideoAccess::orderBy('id', 'DESC')->paginate(10);
+            $data = VideoAccess::with(['VideoModel','User'])
+            ->whereHas('VideoModel', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->whereHas('User', function($q) {
+                $q->whereNull('deleted_at');
+            })
+            ->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.video.access_list')
         ->with('country', $data);
     }
 
     public function deleteAccess($id){
-        $data = VideoAccess::findOrFail($id);
+        $data = VideoAccess::with(['VideoModel','User'])
+        ->whereHas('VideoModel', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->whereHas('User', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->findOrFail($id);
         $data->forceDelete();
         return redirect()->intended(route('video_view_access'))->with('success_status', 'Data Deleted successfully.');
     }
 
     public function toggleAccess($id){
-        $data = VideoAccess::findOrFail($id);
+        $data = VideoAccess::with(['VideoModel','User'])
+        ->whereHas('VideoModel', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->whereHas('User', function($q) {
+            $q->whereNull('deleted_at');
+        })
+        ->findOrFail($id);
         if($data->status == '1'){
             $data->status = 0;
             $data->admin_id = Auth::user()->id;
