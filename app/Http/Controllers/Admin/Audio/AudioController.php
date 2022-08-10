@@ -215,7 +215,6 @@ class AudioController extends Controller
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
             ->orWhere('uuid', 'like', '%' . $search . '%')
-            ->orWhere('language_id', LanguageType::getStatusId($search))
             ->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
@@ -232,7 +231,6 @@ class AudioController extends Controller
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
             ->orWhere('uuid', 'like', '%' . $search . '%')
-            ->orWhere('language_id', LanguageType::getStatusId($search))
             ->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
