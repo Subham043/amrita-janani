@@ -70,7 +70,7 @@
             <div class="row">
                 @foreach($audios as $audios)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" title="{{$audios->title}}" href="">
+                    <a class="media-href" title="{{$audios->title}}" href="{{route('content_audio_view', $audios->uuid)}}">
                         <div class="img-holder">
                             <img src="{{asset('main/images/audio-book.png')}}" alt="">
                         </div>

@@ -96,7 +96,14 @@ Route::prefix('/content')->middleware(['auth'])->group(function () {
 
     });
 
-    Route::get('/audio', [AudioPageController::class, 'index', 'as' => 'content.audio'])->name('content_audio');
+    Route::prefix('/audio')->group(function () {
+        Route::get('/', [AudioPageController::class, 'index', 'as' => 'content.audio'])->name('content_audio');
+        Route::get('/{uuid}', [AudioPageController::class, 'view', 'as' => 'content.audio_view'])->name('content_audio_view');
+        Route::get('/{uuid}/make-favourite', [AudioPageController::class, 'makeFavourite', 'as' => 'content.audio_makeFavourite'])->name('content_audio_makeFavourite');
+        Route::post('/{uuid}/request-access', [AudioPageController::class, 'requestAccess', 'as' => 'content.audio_requestAccess'])->name('content_audio_requestAccess');
+        Route::post('/{uuid}/report', [AudioPageController::class, 'report', 'as' => 'content.audio_report'])->name('content_audio_report');
+    });
+
     Route::get('/video', [VideoPageController::class, 'index', 'as' => 'content.video'])->name('content_video');
 });
 

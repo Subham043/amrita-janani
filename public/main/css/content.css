@@ -303,6 +303,16 @@ hr {
     position: relative;
 }
 
+.main-content-wrapper .main-audio-container{
+    min-height: 5vh;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: white;
+    width: 100%;
+    z-index: 10;
+}
+
 .main-content-wrapper .main-image-container .blur-bg{
     width:100%;
     height:100%;

@@ -93,7 +93,7 @@
 
                         @foreach($audios->items() as $audio)
                         <div class="col-lg-4 col-sm-12">
-                            <a class="media-href" title="{{$audio->title}}" href="">
+                            <a class="media-href" title="{{$audio->title}}" href="{{route('content_audio_view', $audio->uuid)}}">
                                 <div class="img-holder">
                                     <img src="{{asset('main/images/audio-book.png')}}" alt="">
                                 </div>

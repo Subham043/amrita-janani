@@ -32,6 +32,21 @@ class AudioModel extends Model
         return $this->belongsTo('App\Models\LanguageModel', 'language_id');
     }
 
+    public function AudioFavourite()
+    {
+        return $this->hasMany('App\Models\AudioFavourite', 'audio_id');
+    }
+    
+    public function AudioAccess()
+    {
+        return $this->hasMany('App\Models\AudioAccess', 'audio_id');
+    }
+    
+    public function AudioReport()
+    {
+        return $this->hasMany('App\Models\AudioReport', 'audio_id');
+    }
+
     public function file_format(){
         return File::extension($this->audio);
     }

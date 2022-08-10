@@ -51,6 +51,21 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\ImageModel', 'user_id');
     }
+    
+    public function DocumentModel()
+    {
+        return $this->hasMany('App\Models\DocumentModel', 'user_id');
+    }
+    
+    public function AudioModel()
+    {
+        return $this->hasMany('App\Models\AudioModel', 'user_id');
+    }
+    
+    public function VideoModel()
+    {
+        return $this->hasMany('App\Models\VideoModel', 'user_id');
+    }
 
     public function ImageFavourite()
     {
@@ -60,6 +75,16 @@ class User extends Authenticatable
     public function DocumentFavourite()
     {
         return $this->hasMany('App\Models\DocumentFavourite', 'document_id');
+    }
+    
+    public function AudioFavourite()
+    {
+        return $this->hasMany('App\Models\AudioFavourite', 'audio_id');
+    }
+    
+    public function VideoFavourite()
+    {
+        return $this->hasMany('App\Models\VideoFavourite', 'video_id');
     }
 }
 ?>

@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Main\Content;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 use App\Models\AudioModel;
+use App\Models\AudioFavourite;
+use App\Models\AudioAccess;
+use App\Models\AudioReport;
 use App\Models\LanguageModel;
 
 class AudioPageController extends Controller
@@ -46,5 +50,132 @@ class AudioPageController extends Controller
         return view('pages.main.content.audio')->with('breadcrumb','Audios')
         ->with('audios',$audios)
         ->with('languages',LanguageModel::all());
+    }
+
+    public function view($uuid){
+        $audio = AudioModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+        $audio->views = $audio->views +1;
+        $audio->save();
+
+        try {
+            $audioFav = AudioFavourite::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $audioFav = null;
+        }
+
+        try {
+            $audioAccess = AudioAccess::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $audioAccess = null;
+        }
+
+        return view('pages.main.content.audio_view')->with('breadcrumb','Audio - '.$audio->title)
+        ->with('audioAccess',$audioAccess)
+        ->with('audioFav',$audioFav)
+        ->with('audio',$audio);
+    }
+
+    public function makeFavourite($uuid){
+        $audio = AudioModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+        $audioFav = AudioFavourite::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->get();
+
+        if(count($audioFav)>0){
+            $audioFav = AudioFavourite::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->first();
+            if($audioFav->status==1){
+                $audioFav->status=0;
+                $audioFav->save();
+                $audio->favourites = $audio->favourites -1;
+
+                $audio->save();
+                return redirect()->intended(route('content_audio_view', $uuid))->with('success_status', 'Made unfavourite successfully.');
+            }else{
+                $audioFav->status=1;
+                $audio->favourites = $audio->favourites +1;
+                $audio->save();
+                $audioFav->save();
+                return redirect()->intended(route('content_audio_view', $uuid))->with('success_status', 'Made favourite successfully.');
+            }
+        }else{
+            $audioFav = new AudioFavourite;
+            $audioFav->audio_id = $audio->id;
+            $audioFav->user_id = Auth::user()->id;
+            $audioFav->status = 1;
+            $audioFav->save();
+            $audioFav->status=1;
+            $audio->favourites = $audio->favourites +1;
+            $audio->save();
+            return redirect()->intended(route('content_audio_view', $uuid))->with('success_status', 'Made favourite successfully.');
+        }
+
+    }
+
+    public function requestAccess(Request $req, $uuid){
+        $audio = AudioModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+
+        $rules = array(
+            'message' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'captcha' => ['required','captcha']
+        );
+        $messages = array(
+            'message.required' => 'Please enter the reason !',
+            'message.regex' => 'Please enter the valid reason !',
+            'captcha.captcha' => 'Please enter the valid captcha !',
+        );
+
+        $validator = Validator::make($req->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return response()->json(["form_error"=>$validator->errors()], 400);
+        }
+
+        $audioFav = AudioAccess::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->get();
+
+        if(count($audioFav)>0){
+            $audioFav = AudioAccess::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->first();
+            $audioFav->status=0;
+            $audioFav->message=$req->message;
+            $audioFav->save();
+            
+        }else{
+            $audioFav = new AudioAccess;
+            $audioFav->audio_id = $audio->id;
+            $audioFav->user_id = Auth::user()->id;
+            $audioFav->status = 0;
+            $audioFav->message=$req->message;
+            $audioFav->save();
+        }
+
+        return response()->json(["message" => "Access requested successfully."], 201);
+    }
+
+    public function report(Request $req, $uuid){
+        $audio = AudioModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+
+        $rules = array(
+            'message' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'captcha' => ['required','captcha']
+        );
+        $messages = array(
+            'message.required' => 'Please enter the message !',
+            'message.regex' => 'Please enter the valid message !',
+            'captcha.captcha' => 'Please enter the valid captcha !',
+        );
+
+        $validator = Validator::make($req->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return response()->json(["form_error"=>$validator->errors()], 400);
+        }
+
+        $audioFav = new AudioReport;
+        $audioFav->audio_id = $audio->id;
+        $audioFav->user_id = Auth::user()->id;
+        $audioFav->status = 0;
+        $audioFav->message=$req->message;
+        $audioFav->save();
+
+        return response()->json(["message" => "Reported successfully."], 201);
     }
 }
