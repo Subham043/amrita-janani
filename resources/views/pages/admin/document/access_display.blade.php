@@ -2,7 +2,6 @@
 
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('admin/css/image-previewer.css')}}" type="text/css" />
 <style>
     #canvas_container {
         width: 100%;
@@ -90,7 +89,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Document</h4>
+                    <h4 class="mb-sm-0">Access Request</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
@@ -110,8 +109,12 @@
                         <div class="row g-4 mb-3">
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
-                                    <a href="{{route('document_edit', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"><i class="ri-edit-line align-bottom me-1"></i> Edit</a>
-                                    <button onclick="deleteHandler('{{route('document_delete', $country->id)}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>
+                                    @if($country->status == 1)
+                                    <a href="{{route('document_toggle_access', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"> Revoke Access</a>
+                                    @else
+                                    <a href="{{route('document_toggle_access', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"> Grant Access</a>
+                                    @endif
+                                    <button onclick="deleteHandler('{{route('document_delete_access', $country->id)}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -121,26 +124,26 @@
                                     
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Title :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->title}}</h5>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Document Title :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->DocumentModel->title}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Year :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->year}}</h5>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Document UUID :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->DocumentModel->uuid}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Language :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->LanguageModel->name}}</h5>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">User Name :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->User->name}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Deity :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->deity}}</h5>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">User Email :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->User->email}}</h5>
                                         </div>
                                     </div>
                                     
@@ -151,30 +154,14 @@
                                     
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Version :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->version}}</h5>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Requested Date :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->created_at}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Uploaded By :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->user->name}}</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Status :</p>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Accessible :</p>
                                             @if($country->status == 1)
-                                            <div class="badge bg-success fs-12">Active</div>
-                                            @else
-                                            <div class="badge bg-danger fs-12">Inactive</div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Restricted :</p>
-                                            @if($country->restricted == 1)
                                             <div class="badge bg-success fs-12">Yes</div>
                                             @else
                                             <div class="badge bg-danger fs-12">No</div>
@@ -183,59 +170,16 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            @if($country->message)
                             <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Total Number of Pages :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->page_number}}</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Total Favourites :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->favourites}}</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Total Views :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->views}}</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Create Date :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->created_at}}</h5>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            @if($country->tags)
-                            <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-6">
-                                        @php $tags = explode(",",$country->tags); @endphp
-                                        <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Tags :</p>
-                                            @foreach($tags as $tag)
-                                            <div class="badge bg-success fs-12">{{$tag}}</div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-                            @if($country->description_unformatted)
-                            <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
-                                <h6 class="fw-semibold text-uppercase">Description</h6>
-                                <p>{!!$country->description!!}</p>
+                                <h6 class="fw-semibold text-uppercase">Message From {{$country->User->name}}</h6>
+                                <p>{!!$country->message!!}</p>
                             </div>
                             @endif
 
                             <div id="image-container">
-                                @if($country->document)
+                                @if($country->DocumentModel->document)
                                 <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
                                     <h6 class="fw-semibold text-uppercase">Document</h6>
 
@@ -286,7 +230,6 @@
 @stop          
 
 @section('javascript')
-<script src="{{ asset('admin/js/pages/img-previewer.min.js') }}"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
 <script>
     function deleteHandler(url){
@@ -323,30 +266,6 @@
     }
 </script>
 <script>
-    const myViewer = new ImgPreviewer('#image-container',{
-      // aspect ratio of image
-        fillRatio: 0.9,
-        // attribute that holds the image
-        dataUrlKey: 'src',
-        // additional styles
-        style: {
-            modalOpacity: 0.6,
-            headerOpacity: 0,
-            zIndex: 99
-        },
-        // zoom options
-        imageZoom: { 
-            min: 0.1,
-            max: 5,
-            step: 0.1
-        },
-        // detect whether the parent element of the image is hidden by the css style
-        bubblingLevel: 0,
-        
-    });
-</script>
-
-<script>
 
     
     var myState = {
@@ -355,7 +274,7 @@
         zoom: 1
     }
     
-    pdfjsLib.getDocument('{{asset('storage/upload/documents/'.$country->document)}}').then((pdf) => {
+    pdfjsLib.getDocument('{{asset('storage/upload/documents/'.$country->DocumentModel->document)}}').then((pdf) => {
     
         myState.pdf = pdf;
         document.getElementById("totalPageCount").innerHTML = myState.pdf._pdfInfo.numPages;

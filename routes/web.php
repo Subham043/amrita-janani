@@ -26,9 +26,13 @@ use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Enquiry\EnquiryController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Image\ImageController;
+use App\Http\Controllers\Admin\Image\ImageAccessController;
 use App\Http\Controllers\Admin\Document\DocumentController;
+use App\Http\Controllers\Admin\Document\DocumentAccessController;
 use App\Http\Controllers\Admin\Audio\AudioController;
+use App\Http\Controllers\Admin\Audio\AudioAccessController;
 use App\Http\Controllers\Admin\Video\VideoController;
+use App\Http\Controllers\Admin\Video\VideoAccessController;
 use App\Http\Controllers\Admin\Language\LanguageController;
 
 
@@ -157,9 +161,36 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
             Route::get('/view/{id}', [ImageController::class, 'displayTrash', 'as' => 'admin.image.displayTrash'])->name('image_display_trash');
             Route::get('/delete/{id}', [ImageController::class, 'deleteTrash', 'as' => 'admin.image.deleteTrash'])->name('image_delete_trash');
         });
-
+        
     });
     
+    Route::prefix('/access-request')->group(function () {
+        Route::prefix('/image')->group(function () {
+            Route::get('/', [ImageAccessController::class, 'viewaccess', 'as' => 'admin.image.viewaccess'])->name('image_view_access');
+            Route::get('/display/{id}', [ImageAccessController::class, 'displayAccess', 'as' => 'admin.image.displayAccess'])->name('image_display_access');
+            Route::get('/delete/{id}', [ImageAccessController::class, 'deleteAccess', 'as' => 'admin.image.deleteAccess'])->name('image_delete_access');
+            Route::get('/toggle/{id}', [ImageAccessController::class, 'toggleAccess', 'as' => 'admin.image.toggleAccess'])->name('image_toggle_access');
+        });
+        Route::prefix('/document')->group(function () {
+            Route::get('/', [DocumentAccessController::class, 'viewaccess', 'as' => 'admin.document.viewaccess'])->name('document_view_access');
+            Route::get('/display/{id}', [DocumentAccessController::class, 'displayAccess', 'as' => 'admin.document.displayAccess'])->name('document_display_access');
+            Route::get('/delete/{id}', [DocumentAccessController::class, 'deleteAccess', 'as' => 'admin.document.deleteAccess'])->name('document_delete_access');
+            Route::get('/toggle/{id}', [DocumentAccessController::class, 'toggleAccess', 'as' => 'admin.document.toggleAccess'])->name('document_toggle_access');
+        });
+        Route::prefix('/audio')->group(function () {
+            Route::get('/', [AudioAccessController::class, 'viewaccess', 'as' => 'admin.audio.viewaccess'])->name('audio_view_access');
+            Route::get('/display/{id}', [AudioAccessController::class, 'displayAccess', 'as' => 'admin.audio.displayAccess'])->name('audio_display_access');
+            Route::get('/delete/{id}', [AudioAccessController::class, 'deleteAccess', 'as' => 'admin.audio.deleteAccess'])->name('audio_delete_access');
+            Route::get('/toggle/{id}', [AudioAccessController::class, 'toggleAccess', 'as' => 'admin.audio.toggleAccess'])->name('audio_toggle_access');
+        });
+        Route::prefix('/video')->group(function () {
+            Route::get('/', [VideoAccessController::class, 'viewaccess', 'as' => 'admin.video.viewaccess'])->name('video_view_access');
+            Route::get('/display/{id}', [VideoAccessController::class, 'displayAccess', 'as' => 'admin.video.displayAccess'])->name('video_display_access');
+            Route::get('/delete/{id}', [VideoAccessController::class, 'deleteAccess', 'as' => 'admin.video.deleteAccess'])->name('video_delete_access');
+            Route::get('/toggle/{id}', [VideoAccessController::class, 'toggleAccess', 'as' => 'admin.video.toggleAccess'])->name('video_toggle_access');
+        });
+    });
+
     Route::prefix('/document')->group(function () {
         Route::get('/', [DocumentController::class, 'view', 'as' => 'admin.document.view'])->name('document_view');
         Route::get('/view/{id}', [DocumentController::class, 'display', 'as' => 'admin.document.display'])->name('document_display');
