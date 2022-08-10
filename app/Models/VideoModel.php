@@ -31,6 +31,21 @@ class VideoModel extends Model
         return $this->belongsTo('App\Models\LanguageModel', 'language_id');
     }
 
+    public function VideoFavourite()
+    {
+        return $this->hasMany('App\Models\VideoFavourite', 'video_id');
+    }
+    
+    public function VideoAccess()
+    {
+        return $this->hasMany('App\Models\VideoAccess', 'video_id');
+    }
+    
+    public function VideoReport()
+    {
+        return $this->hasMany('App\Models\VideoReport', 'video_id');
+    }
+
     public function time_elapsed(){
 
         $dt = Carbon::parse($this->created_at);

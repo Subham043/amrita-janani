@@ -46,7 +46,7 @@
             <div class="row">
                 @foreach($videos as $videos)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" title="{{$videos->title}}" href="">
+                    <a class="media-href" title="{{$videos->title}}" href="{{route('content_video_view', $videos->uuid)}}">
                         <div class="img-holder">
                             <img src="{{asset('main/images/video.png')}}" alt="">
                         </div>
