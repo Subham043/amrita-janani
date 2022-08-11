@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
     integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('main/css/content.css') }}">
+    <link rel="stylesheet" href="{{ asset('main/css/plugins/easy-autocomplete.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('main/css/plugins/easy-autocomplete.themes.css')}}" type="text/css" />
 @stop
 
 @section('content')
@@ -136,6 +138,38 @@
 @stop
 
 @section('javascript')
+<script src="{{ asset('main/js/plugins/jquery.easy-autocomplete.js') }}"></script>
+<script>
+    var options = {
+    url: function(phrase) {
+        return "{{route('content_video_search_query')}}";
+    },
+    ajaxSettings: {
+        dataType: "json",
+        method: "POST",
+        data: {
+            dataType: "json"
+        }
+    },
+    preparePostData: function(data) {
+        data.phrase = $("#search").val();
+        data._token= "{{ csrf_token() }}";
+        return data;
+    },
+    getValue: function(element) {
+        return element.name;
+    },
+
+
+    list: {
+    match: {
+      enabled: true
+    }
+  },
+};
+
+$("#search").easyAutocomplete(options);
+</script>
 
 <script>
 var acc = document.getElementsByClassName("accordion");

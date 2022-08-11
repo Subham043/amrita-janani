@@ -370,4 +370,20 @@ validationModal2
         } finally{}
     }
 </script>
+
+<script>
+    function callSearchHandler(){
+        var str= "";
+        var arr = [];
+
+        if(document.getElementById('search').value){
+            arr.push("search="+document.getElementById('search').value)
+        }
+
+
+        str = arr.join('&');
+        window.location.replace('{{route('content_dashboard')}}?'+str)
+        return false;
+    }
+</script>
 @stop

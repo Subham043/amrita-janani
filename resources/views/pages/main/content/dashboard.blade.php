@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
         integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset('main/css/content.css') }}">
+        <link rel="stylesheet" href="{{ asset('main/css/plugins/easy-autocomplete.css')}}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('main/css/plugins/easy-autocomplete.themes.css')}}" type="text/css" />
 @stop
 
 @section('content')
@@ -14,11 +16,11 @@
 
 <div class="content-holder">
     <div class="container content-container">
-        @if(count($images) > 0)
         <div class="media-container">
             <h3 class="dashboard-header">
                 IMAGES
             </h3>
+            @if(count($images) > 0)
             <div class="row">
                 @foreach($images as $images)
                 <div class="col-lg-3 col-sm-12">
@@ -35,14 +37,16 @@
                 </div>
                 @endforeach
             </div>
+            @else
+            <p style="text-align:center">No images available.</p>
+            @endif
             <a href="{{route('content_image')}}" class="view-more-href">View More Images</a>
         </div>
-        @endif
-        @if(count($videos) > 0)
         <div class="media-container">
             <h3 class="dashboard-header">
                 VIDEOS
             </h3>
+            @if(count($videos) > 0)
             <div class="row">
                 @foreach($videos as $videos)
                 <div class="col-lg-3 col-sm-12">
@@ -59,14 +63,16 @@
                 @endforeach
                 
             </div>
+            @else
+            <p style="text-align:center">No videos available.</p>
+            @endif
             <a href="{{route('content_video')}}" class="view-more-href">View More Videos</a>
         </div>
-        @endif
-        @if(count($audios) > 0)
         <div class="media-container">
             <h3 class="dashboard-header">
                 AUDIOS
             </h3>
+            @if(count($audios) > 0)
             <div class="row">
                 @foreach($audios as $audios)
                 <div class="col-lg-3 col-sm-12">
@@ -85,14 +91,16 @@
                 @endforeach
                 
             </div>
+            @else
+            <p style="text-align:center">No audios available.</p>
+            @endif
             <a href="{{route('content_audio')}}" class="view-more-href">View More Audios</a>
         </div>
-        @endif
-        @if(count($documents) > 0)
         <div class="media-container">
             <h3 class="dashboard-header">
                 DOCUMENTS
             </h3>
+            @if(count($documents) > 0)
             <div class="row">
                 @foreach($documents as $documents)
                 <div class="col-lg-3 col-sm-12">
@@ -111,12 +119,64 @@
                 @endforeach
                 
             </div>
+            @else
+            <p style="text-align:center">No documents available.</p>
+            @endif
             <a href="{{route('content_document')}}" class="view-more-href">View More Documents</a>
         </div>
-        @endif
     </div>
 </div>
 
 
 
+@stop
+
+@section('javascript')
+<script src="{{ asset('main/js/plugins/jquery.easy-autocomplete.js') }}"></script>
+<script>
+    var options = {
+    url: function(phrase) {
+        return "{{route('content_search_query')}}";
+    },
+    ajaxSettings: {
+        dataType: "json",
+        method: "POST",
+        data: {
+            dataType: "json"
+        }
+    },
+    preparePostData: function(data) {
+        data.phrase = $("#search").val();
+        data._token= "{{ csrf_token() }}";
+        return data;
+    },
+    getValue: function(element) {
+        return element.name;
+    },
+
+
+    list: {
+    match: {
+      enabled: true
+    }
+  },
+};
+
+$("#search").easyAutocomplete(options);
+</script>
+<script>
+    function callSearchHandler(){
+        var str= "";
+        var arr = [];
+
+        if(document.getElementById('search').value){
+            arr.push("search="+document.getElementById('search').value)
+        }
+
+
+        str = arr.join('&');
+        window.location.replace('{{route('content_dashboard')}}?'+str)
+        return false;
+    }
+</script>
 @stop

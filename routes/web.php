@@ -86,6 +86,7 @@ Route::middleware(['guest'])->group(function () {
 Route::get('/sign-out', [LogoutPageController::class, 'logout', 'as' => 'logout.index'])->middleware(['auth'])->name('signout');
 Route::prefix('/content')->middleware(['auth'])->group(function () {
     Route::get('/', [DashboardPageController::class, 'index', 'as' => 'content.dashboard'])->name('content_dashboard');
+    Route::post('/search-query', [DashboardPageController::class, 'search_query', 'as' => 'content.search_query'])->name('content_search_query');
 
     Route::prefix('/image')->group(function () {
         Route::get('/', [ImagePageController::class, 'index', 'as' => 'content.image'])->name('content_image');
@@ -93,6 +94,7 @@ Route::prefix('/content')->middleware(['auth'])->group(function () {
         Route::get('/{uuid}/make-favourite', [ImagePageController::class, 'makeFavourite', 'as' => 'content.image_makeFavourite'])->name('content_image_makeFavourite');
         Route::post('/{uuid}/request-access', [ImagePageController::class, 'requestAccess', 'as' => 'content.image_requestAccess'])->name('content_image_requestAccess');
         Route::post('/{uuid}/report', [ImagePageController::class, 'report', 'as' => 'content.image_report'])->name('content_image_report');
+        Route::post('/search-query', [ImagePageController::class, 'search_query', 'as' => 'content.image_search_query'])->name('content_image_search_query');
     });
 
     Route::prefix('/document')->group(function () {
@@ -101,6 +103,7 @@ Route::prefix('/content')->middleware(['auth'])->group(function () {
         Route::get('/{uuid}/make-favourite', [DocumentPageController::class, 'makeFavourite', 'as' => 'content.document_makeFavourite'])->name('content_document_makeFavourite');
         Route::post('/{uuid}/request-access', [DocumentPageController::class, 'requestAccess', 'as' => 'content.document_requestAccess'])->name('content_document_requestAccess');
         Route::post('/{uuid}/report', [DocumentPageController::class, 'report', 'as' => 'content.document_report'])->name('content_document_report');
+        Route::post('/search-query', [DocumentPageController::class, 'search_query', 'as' => 'content.document_search_query'])->name('content_document_search_query');
 
     });
 
@@ -110,6 +113,7 @@ Route::prefix('/content')->middleware(['auth'])->group(function () {
         Route::get('/{uuid}/make-favourite', [AudioPageController::class, 'makeFavourite', 'as' => 'content.audio_makeFavourite'])->name('content_audio_makeFavourite');
         Route::post('/{uuid}/request-access', [AudioPageController::class, 'requestAccess', 'as' => 'content.audio_requestAccess'])->name('content_audio_requestAccess');
         Route::post('/{uuid}/report', [AudioPageController::class, 'report', 'as' => 'content.audio_report'])->name('content_audio_report');
+        Route::post('/search-query', [AudioPageController::class, 'search_query', 'as' => 'content.audio_search_query'])->name('content_audio_search_query');
     });
 
     Route::prefix('/video')->group(function () {
@@ -118,6 +122,7 @@ Route::prefix('/content')->middleware(['auth'])->group(function () {
         Route::get('/{uuid}/make-favourite', [VideoPageController::class, 'makeFavourite', 'as' => 'content.video_makeFavourite'])->name('content_video_makeFavourite');
         Route::post('/{uuid}/request-access', [VideoPageController::class, 'requestAccess', 'as' => 'content.video_requestAccess'])->name('content_video_requestAccess');
         Route::post('/{uuid}/report', [VideoPageController::class, 'report', 'as' => 'content.video_report'])->name('content_video_report');
+        Route::post('/search-query', [VideoPageController::class, 'search_query', 'as' => 'content.video_search_query'])->name('content_video_search_query');
     });
 
 });

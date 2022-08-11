@@ -217,6 +217,7 @@ class DocumentController extends Controller
             ->orWhere('year', 'like', '%' . $search . '%')
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
+            ->orWhere('tags', 'like', '%' . $search . '%')
             ->orWhere('uuid', 'like', '%' . $search . '%')
             ->orderBy('id', 'DESC')
             ->paginate(10);
@@ -233,6 +234,7 @@ class DocumentController extends Controller
             ->orWhere('year', 'like', '%' . $search . '%')
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
+            ->orWhere('tags', 'like', '%' . $search . '%')
             ->orWhere('uuid', 'like', '%' . $search . '%')
             ->orderBy('id', 'DESC')
             ->paginate(10);

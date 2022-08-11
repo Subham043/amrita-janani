@@ -178,4 +178,26 @@ class DocumentPageController extends Controller
 
         return response()->json(["message" => "Reported successfully."], 201);
     }
+
+    public function search_query(Request $request){
+
+        $search  = $request->phrase;
+        $data = [];
+        
+        $documents = DocumentModel::where('status', 1)->where('title', 'like', '%' . $search . '%')
+        ->orWhere('year', 'like', '%' . $search . '%')
+        ->orWhere('deity', 'like', '%' . $search . '%')
+        ->orWhere('version', 'like', '%' . $search . '%')
+        ->orWhere('tags', 'like', '%' . $search . '%')
+        ->orWhere('description_unformatted', 'like', '%' . $search . '%')
+        ->orWhere('uuid', 'like', '%' . $search . '%')
+        ->get();
+
+        foreach ($documents as $value) {
+            array_push($data,array("name"=>$value->title));
+            array_push($data,array("name"=>$value->uuid));
+        }
+
+        return $data;
+    }
 }
