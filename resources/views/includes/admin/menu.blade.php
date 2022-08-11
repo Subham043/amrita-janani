@@ -116,6 +116,28 @@
                                     </ul>
                                 </div>
                             </li> <!-- end Dashboard Menu -->
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'report/image') !== false || strpos(url()->current(),'report/audio') !== false || strpos(url()->current(),'report/video') !== false || strpos(url()->current(),'report/document') !== false ? 'active' : ''}}" href="#sidebarDashboards9" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{strpos(url()->current(),'report/image') !== false || strpos(url()->current(),'report/audio') !== false || strpos(url()->current(),'report/video') !== false || strpos(url()->current(),'report/document') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards9">
+                                    <i class="ri-image-fill"></i> <span data-key="t-dashboards">Reports</span>
+                                </a>
+                                <div class="collapse menu-dropdown {{strpos(url()->current(),'report/image') !== false || strpos(url()->current(),'report/audio') !== false || strpos(url()->current(),'report/video') !== false || strpos(url()->current(),'report/document') !== false ? 'show' : ''}}" id="sidebarDashboards9">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{route('image_view_report')}}" class="nav-link {{strpos(url()->current(),'report/image') !== false ? 'active' : ''}}" data-key="t-analytics"> Image </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('audio_view_report')}}" class="nav-link {{strpos(url()->current(),'report/audio') !== false ? 'active' : ''}}" data-key="t-analytics"> Audio </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('video_view_report')}}" class="nav-link {{strpos(url()->current(),'report/video') !== false ? 'active' : ''}}" data-key="t-analytics"> Video </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('document_view_report')}}" class="nav-link {{strpos(url()->current(),'report/document') !== false ? 'active' : ''}}" data-key="t-analytics"> Document </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li> <!-- end Dashboard Menu -->
                         </ul>
                     </div>
                     <!-- Sidebar -->

@@ -27,12 +27,16 @@ use App\Http\Controllers\Admin\Enquiry\EnquiryController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Image\ImageController;
 use App\Http\Controllers\Admin\Image\ImageAccessController;
+use App\Http\Controllers\Admin\Image\ImageReportController;
 use App\Http\Controllers\Admin\Document\DocumentController;
 use App\Http\Controllers\Admin\Document\DocumentAccessController;
+use App\Http\Controllers\Admin\Document\DocumentReportController;
 use App\Http\Controllers\Admin\Audio\AudioController;
 use App\Http\Controllers\Admin\Audio\AudioAccessController;
+use App\Http\Controllers\Admin\Audio\AudioReportController;
 use App\Http\Controllers\Admin\Video\VideoController;
 use App\Http\Controllers\Admin\Video\VideoAccessController;
+use App\Http\Controllers\Admin\Video\VideoReportController;
 use App\Http\Controllers\Admin\Language\LanguageController;
 
 
@@ -188,6 +192,33 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
             Route::get('/display/{id}', [VideoAccessController::class, 'displayAccess', 'as' => 'admin.video.displayAccess'])->name('video_display_access');
             Route::get('/delete/{id}', [VideoAccessController::class, 'deleteAccess', 'as' => 'admin.video.deleteAccess'])->name('video_delete_access');
             Route::get('/toggle/{id}', [VideoAccessController::class, 'toggleAccess', 'as' => 'admin.video.toggleAccess'])->name('video_toggle_access');
+        });
+    });
+    
+    Route::prefix('/report')->group(function () {
+        Route::prefix('/image')->group(function () {
+            Route::get('/', [ImageReportController::class, 'viewreport', 'as' => 'admin.image.viewreport'])->name('image_view_report');
+            Route::get('/display/{id}', [ImageReportController::class, 'displayReport', 'as' => 'admin.image.displayReport'])->name('image_display_report');
+            Route::get('/delete/{id}', [ImageReportController::class, 'deleteReport', 'as' => 'admin.image.deleteReport'])->name('image_delete_report');
+            Route::get('/toggle/{id}', [ImageReportController::class, 'toggleReport', 'as' => 'admin.image.toggleReport'])->name('image_toggle_report');
+        });
+        Route::prefix('/document')->group(function () {
+            Route::get('/', [DocumentReportController::class, 'viewreport', 'as' => 'admin.document.viewreport'])->name('document_view_report');
+            Route::get('/display/{id}', [DocumentReportController::class, 'displayReport', 'as' => 'admin.document.displayReport'])->name('document_display_report');
+            Route::get('/delete/{id}', [DocumentReportController::class, 'deleteReport', 'as' => 'admin.document.deleteReport'])->name('document_delete_report');
+            Route::get('/toggle/{id}', [DocumentReportController::class, 'toggleReport', 'as' => 'admin.document.toggleReport'])->name('document_toggle_report');
+        });
+        Route::prefix('/audio')->group(function () {
+            Route::get('/', [AudioReportController::class, 'viewreport', 'as' => 'admin.audio.viewreport'])->name('audio_view_report');
+            Route::get('/display/{id}', [AudioReportController::class, 'displayReport', 'as' => 'admin.audio.displayReport'])->name('audio_display_report');
+            Route::get('/delete/{id}', [AudioReportController::class, 'deleteReport', 'as' => 'admin.audio.deleteReport'])->name('audio_delete_report');
+            Route::get('/toggle/{id}', [AudioReportController::class, 'toggleReport', 'as' => 'admin.audio.toggleReport'])->name('audio_toggle_report');
+        });
+        Route::prefix('/video')->group(function () {
+            Route::get('/', [VideoReportController::class, 'viewreport', 'as' => 'admin.video.viewreport'])->name('video_view_report');
+            Route::get('/display/{id}', [VideoReportController::class, 'displayReport', 'as' => 'admin.video.displayReport'])->name('video_display_report');
+            Route::get('/delete/{id}', [VideoReportController::class, 'deleteReport', 'as' => 'admin.video.deleteReport'])->name('video_delete_report');
+            Route::get('/toggle/{id}', [VideoReportController::class, 'toggleReport', 'as' => 'admin.video.toggleReport'])->name('video_toggle_report');
         });
     });
 
