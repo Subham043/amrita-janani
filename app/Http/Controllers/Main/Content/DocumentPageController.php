@@ -11,6 +11,7 @@ use App\Models\DocumentFavourite;
 use App\Models\DocumentAccess;
 use App\Models\DocumentReport;
 use App\Models\LanguageModel;
+use App\Models\SearchHistory;
 
 class DocumentPageController extends Controller
 {
@@ -38,6 +39,12 @@ class DocumentPageController extends Controller
             ->orWhere('version', 'like', '%' . $search . '%')
             ->orWhere('description_unformatted', 'like', '%' . $search . '%')
             ->orWhere('uuid', 'like', '%' . $search . '%');
+
+            $searchHistory = new SearchHistory;
+            $searchHistory->search = $search;
+            $searchHistory->user_id = Auth::user()->id;
+            $searchHistory->screen = 3;
+            $searchHistory->save();
         }
 
         if($request->has('language')){
@@ -194,8 +201,20 @@ class DocumentPageController extends Controller
         ->get();
 
         foreach ($documents as $value) {
-            array_push($data,array("name"=>$value->title));
-            array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title), $data)){
+                array_push($data,array("name"=>$value->title));
+            }
+            if(!in_array(array("name"=>$value->uuid), $data)){
+                array_push($data,array("name"=>$value->uuid));
+            }
+        }
+
+        $searchHistory = SearchHistory::where('screen', 3)->where('search', 'like', '%' . $search . '%')->get();
+
+        foreach ($searchHistory as $value) {
+            if(!in_array(array("name"=>$value->search), $data)){
+                array_push($data,array("name"=>$value->search));
+            }
         }
 
         return response()->json(["data"=>$data], 200);

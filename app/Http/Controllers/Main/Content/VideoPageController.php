@@ -11,6 +11,7 @@ use App\Models\VideoFavourite;
 use App\Models\VideoAccess;
 use App\Models\VideoReport;
 use App\Models\LanguageModel;
+use App\Models\SearchHistory;
 
 class VideoPageController extends Controller
 {
@@ -39,6 +40,12 @@ class VideoPageController extends Controller
             ->orWhere('tags', 'like', '%' . $search . '%')
             ->orWhere('description_unformatted', 'like', '%' . $search . '%')
             ->orWhere('uuid', 'like', '%' . $search . '%');
+
+            $searchHistory = new SearchHistory;
+            $searchHistory->search = $search;
+            $searchHistory->user_id = Auth::user()->id;
+            $searchHistory->screen = 5;
+            $searchHistory->save();
         }
 
         if($request->has('language')){
@@ -195,8 +202,20 @@ class VideoPageController extends Controller
         ->get();
 
         foreach ($videos as $value) {
-            array_push($data,array("name"=>$value->title));
-            array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title), $data)){
+                array_push($data,array("name"=>$value->title));
+            }
+            if(!in_array(array("name"=>$value->uuid), $data)){
+                array_push($data,array("name"=>$value->uuid));
+            }
+        }
+
+        $searchHistory = SearchHistory::where('screen', 5)->where('search', 'like', '%' . $search . '%')->get();
+
+        foreach ($searchHistory as $value) {
+            if(!in_array(array("name"=>$value->search), $data)){
+                array_push($data,array("name"=>$value->search));
+            }
         }
 
         return response()->json(["data"=>$data], 200);

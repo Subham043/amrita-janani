@@ -9,6 +9,7 @@ use App\Models\AudioModel;
 use App\Models\ImageModel;
 use App\Models\DocumentModel;
 use App\Models\VideoModel;
+use App\Models\SearchHistory;
 
 class DashboardPageController extends Controller
 {
@@ -51,6 +52,12 @@ class DashboardPageController extends Controller
             ->orWhere('tags', 'like', '%' . $search . '%')
             ->orWhere('description_unformatted', 'like', '%' . $search . '%')
             ->orWhere('uuid', 'like', '%' . $search . '%');
+
+            $searchHistory = new SearchHistory;
+            $searchHistory->search = $search;
+            $searchHistory->user_id = Auth::user()->id;
+            $searchHistory->screen = 1;
+            $searchHistory->save();
         }
 
         $images = $images->take(8)->orderBy('id', 'DESC')->get();
@@ -80,8 +87,12 @@ class DashboardPageController extends Controller
         ->get();
 
         foreach ($audios as $value) {
-            array_push($data,array("name"=>$value->title));
-            array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title), $data)){
+                array_push($data,array("name"=>$value->title));
+            }
+            if(!in_array(array("name"=>$value->uuid), $data)){
+                array_push($data,array("name"=>$value->uuid));
+            }
         }
         
         $images = ImageModel::where('status', 1)->where('title', 'like', '%' . $search . '%')
@@ -94,8 +105,12 @@ class DashboardPageController extends Controller
         ->get();
 
         foreach ($images as $value) {
-            array_push($data,array("name"=>$value->title));
-            array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title), $data)){
+                array_push($data,array("name"=>$value->title));
+            }
+            if(!in_array(array("name"=>$value->uuid), $data)){
+                array_push($data,array("name"=>$value->uuid));
+            }
         }
         
         $documents = DocumentModel::where('status', 1)->where('title', 'like', '%' . $search . '%')
@@ -108,8 +123,12 @@ class DashboardPageController extends Controller
         ->get();
 
         foreach ($documents as $value) {
-            array_push($data,array("name"=>$value->title));
-            array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title), $data)){
+                array_push($data,array("name"=>$value->title));
+            }
+            if(!in_array(array("name"=>$value->uuid), $data)){
+                array_push($data,array("name"=>$value->uuid));
+            }
         }
         
         $videos = VideoModel::where('status', 1)->where('title', 'like', '%' . $search . '%')
@@ -122,9 +141,22 @@ class DashboardPageController extends Controller
         ->get();
 
         foreach ($videos as $value) {
-            array_push($data,array("name"=>$value->title));
-            array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title), $data)){
+                array_push($data,array("name"=>$value->title));
+            }
+            if(!in_array(array("name"=>$value->uuid), $data)){
+                array_push($data,array("name"=>$value->uuid));
+            }
         }
+        
+        $searchHistory = SearchHistory::where('screen', 1)->where('search', 'like', '%' . $search . '%')->get();
+
+        foreach ($searchHistory as $value) {
+            if(!in_array(array("name"=>$value->search), $data)){
+                array_push($data,array("name"=>$value->search));
+            }
+        }
+
 
         return response()->json(["data"=>$data], 200);
     }
