@@ -16,7 +16,7 @@
                     <form  method="get" class="col-sm-auto" onsubmit="return callSearchHandler()">
                         <label for="search">
                             <span><i class="fas fa-search"></i></span>
-                            <input type="search" id="search" value="@if(app('request')->has('search') && !empty(app('request')->has('search'))){{app('request')->input('search')}}@endif" />
+                            <input type="search" id="search"  autocomplete="off" value="@if(app('request')->has('search') && !empty(app('request')->has('search'))){{app('request')->input('search')}}@endif" />
                         </label>
                     </form>
                 </div>

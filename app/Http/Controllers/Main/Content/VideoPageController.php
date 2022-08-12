@@ -199,6 +199,6 @@ class VideoPageController extends Controller
             array_push($data,array("name"=>$value->uuid));
         }
 
-        return $data;
+        return response()->json(["data"=>$data], 200);
     }
 }
