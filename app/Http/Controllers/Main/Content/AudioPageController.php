@@ -177,12 +177,22 @@ class AudioPageController extends Controller
             return response()->json(["form_error"=>$validator->errors()], 400);
         }
 
-        $audioFav = new AudioReport;
-        $audioFav->audio_id = $audio->id;
-        $audioFav->user_id = Auth::user()->id;
-        $audioFav->status = 0;
-        $audioFav->message=$req->message;
-        $audioFav->save();
+        $audioFav = AudioReport::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->get();
+
+        if(count($audioFav)>0){
+            $audioFav = AudioReport::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->first();
+            $audioFav->status = 0;
+            $audioFav->message=$req->message;
+            $audioFav->save();
+            
+        }else{
+            $audioFav = new AudioReport;
+            $audioFav->audio_id = $audio->id;
+            $audioFav->user_id = Auth::user()->id;
+            $audioFav->status = 0;
+            $audioFav->message=$req->message;
+            $audioFav->save();
+        }
 
         return response()->json(["message" => "Reported successfully."], 201);
     }

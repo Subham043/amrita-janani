@@ -25,7 +25,7 @@
                 <div class="col-lg-3 col-sm-12">
                     <a class="media-href" title="{{$images->title}}" href="{{route('content_image_view', $images->uuid)}}">
                         <div class="img-holder">
-                            <img src="{{asset('main/images/image.png')}}" alt="">
+                            <img src="{{asset('storage/upload/images/compressed-'.$images->image)}}" alt="">
                         </div>
                         <div class="media-holder">
                             <h5>{{$images->title}}</h5>
@@ -36,10 +36,11 @@
                 </div>
                 @endforeach
             </div>
+            <a href="{{route('content_image')}}" class="view-more-href">View More Images</a>
             @else
             <p style="text-align:center">No images available.</p>
+            <a href="{{route('content_image')}}" class="view-more-href">View Other Images</a>
             @endif
-            <a href="{{route('content_image')}}" class="view-more-href">View More Images</a>
         </div>
         <div class="media-container">
             <h3 class="dashboard-header">
@@ -62,10 +63,11 @@
                 @endforeach
                 
             </div>
+            <a href="{{route('content_video')}}" class="view-more-href">View More Videos</a>
             @else
             <p style="text-align:center">No videos available.</p>
+            <a href="{{route('content_video')}}" class="view-more-href">View Other Videos</a>
             @endif
-            <a href="{{route('content_video')}}" class="view-more-href">View More Videos</a>
         </div>
         <div class="media-container">
             <h3 class="dashboard-header">
@@ -90,10 +92,12 @@
                 @endforeach
                 
             </div>
+            <a href="{{route('content_audio')}}" class="view-more-href">View More Audios</a>
             @else
             <p style="text-align:center">No audios available.</p>
+            <a href="{{route('content_audio')}}" class="view-more-href">View Other Audios</a>
             @endif
-            <a href="{{route('content_audio')}}" class="view-more-href">View More Audios</a>
+            
         </div>
         <div class="media-container">
             <h3 class="dashboard-header">
@@ -118,10 +122,11 @@
                 @endforeach
                 
             </div>
+            <a href="{{route('content_document')}}" class="view-more-href">View More Documents</a>
             @else
             <p style="text-align:center">No documents available.</p>
+            <a href="{{route('content_document')}}" class="view-more-href">View Other Documents</a>
             @endif
-            <a href="{{route('content_document')}}" class="view-more-href">View More Documents</a>
         </div>
     </div>
 </div>

@@ -148,7 +148,7 @@ body {
 }
 
 .content-holder .content-container .media-container .img-holder img {
-    height: 100px;
+    height: 120px;
     object-fit: contain;
     margin: 20px 0;
     transition: all 0.5s ease-in-out;
@@ -223,7 +223,8 @@ body {
 }
 
 .filter-holder .accordion:after {
-    content: '\003E';
+    /* content: '\003E'; */
+    content: '';
     /* Unicode character for "plus" sign (+) */
     font-size: 13px;
     color: #777;
@@ -232,7 +233,8 @@ body {
 }
 
 .filter-holder .active:after {
-    content: "\02C5";
+    /* content: "\02C5"; */
+    content: "";
     /* Unicode character for "minus" sign (-) */
 }
 
@@ -304,13 +306,28 @@ hr {
 }
 
 .main-content-wrapper .main-audio-container{
-    min-height: 5vh;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    padding:10px 0px;
     background: white;
     width: 100%;
     z-index: 10;
+    display: flex;
+    align-items: center;
+}
+
+.main-content-wrapper .main-audio-container img{
+    object-fit: contain;
+    height:100px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.main-content-wrapper .main-audio-container audio{
+    flex:1;
+}
+
+.main-content-wrapper .main-audio-container .plyr--audio {
+    display: block;
+    flex: 1;
 }
 
 .main-content-wrapper .main-image-container .blur-bg{
@@ -350,7 +367,7 @@ hr {
     justify-content:flex-end;
 }
 
-.action-button-row .action-btn{
+.action-button-row .action-btn, .request-access-button{
     outline:none;
     padding:5px;
     border-radius:5px;
@@ -392,7 +409,7 @@ hr {
     box-shadow: 0px 5px 6px 1px #b2b2b2;
 }
 
-.action-button-row .action-btn.access-button{
+.action-button-row .action-btn.access-button, .request-access-button{
     color:#fff;
     background-color:#96171c;
     border-color:#96171c;
@@ -400,7 +417,7 @@ hr {
     transition: all 0.5s ease-in-out;
 }
 
-.action-button-row .action-btn.access-button:hover{
+.action-button-row .action-btn.access-button:hover, .request-access-button:hover{
     background-color:transparent;
     border-color:#96171c;
     color:#96171c;
@@ -432,4 +449,28 @@ hr {
 #view_count{
     border-right:2px solid #ccc;
     padding-right:5px;
+}
+
+.main-denied-container{
+    width:100%;
+    background-color: #cbcbcb;
+    padding:20px 0;
+}
+
+.main-denied-container .denied-inner-wrapper{
+    /* display:flex; */
+    align-items: center;
+}
+
+.main-denied-container .denied-inner-wrapper img{
+    object-fit: contain;
+    height: 120px;
+    margin-bottom: 20px;
+}
+
+.main-denied-container .denied-inner-wrapper .denied-text-container{
+    flex:1;
+    padding:0 20px;
+    text-align: center;
+    font-weight: 600;
 }

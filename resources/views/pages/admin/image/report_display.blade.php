@@ -33,6 +33,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row g-4 mb-3">
+                            <div class="col-sm-auto">
+                                    <div>
+                                        <a href="{{route('image_display', $country->ImageModel->id)}}" type="button" class="btn btn-success add-btn" id="create-btn"><i class="ri-arrow-go-back-line"></i> Go To Image</a>
+                                    </div>
+                            </div>
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
                                     <form action="{{route('image_toggle_report', $country->id)}}" method="get" style="margin-right:10px;">

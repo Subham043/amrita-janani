@@ -32,11 +32,11 @@ class ForgotPasswordPageController extends Controller
             'email.email' => 'Please enter the valid email !',
         ]);
 
-        $user = User::where('email', $request->email)->where('status', 1)->where('userType', 2)->get();
+        $user = User::where('email', $request->email)->where('status', 1)->where('userType', '!=', 1)->get();
         if(count($user)<1){
             return redirect(route('forgot_password'))->with('error_status', 'Oops! You have entered invalid credentials');
         }else{
-            $user = User::where('email', $request->email)->where('status', 1)->where('userType', 2)->first();
+            $user = User::where('email', $request->email)->where('status', 1)->where('userType', '!=', 1)->first();
             $user->allowPasswordChange = 1;
             $user->otp = rand(1000,9999);
             $user->save();

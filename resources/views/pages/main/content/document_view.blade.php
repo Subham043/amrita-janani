@@ -90,7 +90,7 @@
 
 
 <div class="main-content-wrapper">
-    @if($document->restricted==0)
+    @if($document->restricted==0 || Auth::user()->userType!=2)
     <div class="main-image-container" id="image-container"
         style="background-image:url({{asset('storage/upload/documents/'.$document->image)}})">
 
@@ -122,7 +122,7 @@
     </div>
     @else
     @if(empty($documentAccess) || $documentAccess->status==0)
-        @include('pages.main.content.common.denied_img')
+        @include('pages.main.content.common.denied_img', ['text'=>'document'])
     @else
     <div class="main-image-container" id="image-container" >
         <div id="my_pdf_viewer" oncontextmenu="return false">
@@ -171,9 +171,9 @@
                     class="action-btn make-favourite-button">
                     @if($documentFav)
                     @if($documentFav->status == 1)
-                    <i class="far fa-heart"></i> Make Unfavourite
+                    <i class="fas fa-heart-broken"></i> Unmark Favourite
                     @else
-                    <i class="far fa-heart"></i> Make Favourite
+                    <i class="far fa-heart"></i> Mark Favourite
                     @endif
                     @else
                     <i class="far fa-heart"></i> Make Favourite
@@ -181,12 +181,6 @@
                 </a>
                 <button class="action-btn report-button" data-toggle="modal" data-target="#reportModal"><i
                         class="far fa-flag"></i> Report</button>
-                @if($document->restricted==1)
-                @if(empty($documentAccess) || $documentAccess->status==0)
-                <button class="action-btn access-button" data-toggle="modal" data-target="#requestAccessModal"><i
-                        class="far fa-question-circle"></i> Request Access</button>
-                @endif
-                @endif
             </div>
         </div>
     </div>
@@ -237,7 +231,7 @@ $(function() {
 
 @include('pages.main.content.common.reload_captcha_js')
 
-@if(($document->restricted==0) || (!empty($documentAccess) && $documentAccess->status==1))
+@if(($document->restricted==0 || Auth::user()->userType!=2) || (!empty($documentAccess) && $documentAccess->status==1))
 <script>
 
     

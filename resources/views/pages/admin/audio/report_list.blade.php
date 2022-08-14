@@ -91,6 +91,9 @@
                                                     <div class="edit">
                                                         <a href="{{route('audio_display_report', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
+                                                    <div class="edit">
+                                                        <a href="{{route('audio_display', $item->AudioModel->id)}}" class="btn btn-sm btn-warning edit-item-btn">Go To Audio</a>
+                                                    </div>
                                                     <div class="remove">
                                                         <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('audio_delete_report', $item->id)}}')">Remove</button>
                                                     </div>

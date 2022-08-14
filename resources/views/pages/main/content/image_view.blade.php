@@ -15,7 +15,7 @@
 
 
 <div class="main-content-wrapper">
-    @if($image->restricted==0)
+    @if($image->restricted==0 || Auth::user()->userType!=2)
     <div class="main-image-container" id="image-container" style="background-image:url({{asset('storage/upload/images/'.$image->image)}})">
         <div class="blur-bg">
             <img src="{{asset('storage/upload/images/'.$image->image)}}" />
@@ -23,7 +23,7 @@
     </div>
     @else
     @if(empty($imageAccess) || $imageAccess->status==0)
-        @include('pages.main.content.common.denied_img')
+        @include('pages.main.content.common.denied_img', ['text'=>'image'])
     @else
     <div class="main-image-container" id="image-container" style="background-image:url({{asset('storage/upload/images/'.$image->image)}})">
         <div class="blur-bg">
@@ -49,20 +49,15 @@
                 <a href="{{route('content_image_makeFavourite',$image->uuid)}}" class="action-btn make-favourite-button">
                     @if($imageFav)
                     @if($imageFav->status == 1)
-                    <i class="far fa-heart"></i> Make Unfavourite
+                    <i class="fas fa-heart-broken"></i> Unmark Favourite
                     @else
-                    <i class="far fa-heart"></i> Make Favourite
+                    <i class="far fa-heart"></i> Mark Favourite
                     @endif
                     @else
                     <i class="far fa-heart"></i> Make Favourite
                     @endif
                 </a>
                 <button class="action-btn report-button" data-toggle="modal" data-target="#reportModal"><i class="far fa-flag"></i> Report</button>
-                @if($image->restricted==1)
-                @if(empty($imageAccess) || $imageAccess->status==0)
-                <button class="action-btn access-button"  data-toggle="modal" data-target="#requestAccessModal" ><i class="far fa-question-circle"></i> Request Access</button>
-                @endif
-                @endif
             </div>
         </div>
     </div>

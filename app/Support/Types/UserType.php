@@ -17,5 +17,6 @@ class UserType extends AbstractFor
         '0' => 'user_type',
         '1' => 'Admin',
         '2' => 'User',
+        '3' => 'Privileged User',
     ];
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use URL;
 use Illuminate\Support\Facades\View;
 use App\Support\Types\UserType;
 use App\Models\User;
@@ -31,6 +32,7 @@ class UserController extends Controller
     public function store(Request $req) {
         $validator = $req->validate([
             'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+            'userType' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email','unique:users'],
             'phone' => ['required','regex:/^[0-9]*$/','unique:users'],
             'password' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
@@ -39,6 +41,8 @@ class UserController extends Controller
         [
             'name.required' => 'Please enter the name !',
             'name.regex' => 'Please enter the valid name !',
+            'userType.required' => 'Please enter the user type !',
+            'userType.regex' => 'Please enter the valid user type !',
             'email.required' => 'Please enter the email !',
             'email.email' => 'Please enter the valid email !',
             'phone.required' => 'Please enter the phone !',
@@ -53,7 +57,7 @@ class UserController extends Controller
         $country->name = $req->name;
         $country->email = $req->email;
         $country->phone = $req->phone;
-        $country->userType = 2;
+        $country->userType = $req->userType;
         $country->password = Hash::make($req->password);
         $country->otp = rand(1000,9999);
         $country->status = $req->status == "on" ? 1 : 2;
@@ -66,7 +70,7 @@ class UserController extends Controller
     }
 
     public function edit($id) {
-        $country = User::findOrFail($id);
+        $country = User::where('id', '!=' , Auth::user()->id)->findOrFail($id);
         return view('pages.admin.user.edit')->with('country',$country);
     }
 
@@ -74,6 +78,7 @@ class UserController extends Controller
         $country = User::findOrFail($id);
         $rules = array(
             'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+            'userType' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email'],
             'phone' => ['required','regex:/^[0-9]*$/'],
             'password' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
@@ -81,6 +86,8 @@ class UserController extends Controller
         $messages = array(
             'name.required' => 'Please enter the name !',
             'name.regex' => 'Please enter the valid name !',
+            'userType.required' => 'Please enter the user type !',
+            'userType.regex' => 'Please enter the valid user type !',
             'email.required' => 'Please enter the email !',
             'email.email' => 'Please enter the valid email !',
             'phone.required' => 'Please enter the phone !',
@@ -103,6 +110,7 @@ class UserController extends Controller
         $country->name = $req->name;
         $country->email = $req->email;
         $country->phone = $req->phone;
+        $country->userType = $req->userType;
         if(!empty($req->password)){
             $country->password = Hash::make($req->password);
         }
@@ -117,7 +125,7 @@ class UserController extends Controller
     }
 
     public function delete($id){
-        $country = User::findOrFail($id);
+        $country = User::where('id', '!=' , Auth::user()->id)->findOrFail($id);
         $country->delete();
         return redirect()->intended(route('subadmin_view'))->with('success_status', 'Data Deleted successfully.');
     }
@@ -125,20 +133,31 @@ class UserController extends Controller
     public function view(Request $request) {
         if ($request->has('search')) {
             $search = $request->input('search');
-            $country = User::where("userType", "!=" , 1)->where(function ($query) use ($search) {
+            $country = User::where("id", "!=" , Auth::user()->id)->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                       ->orWhere('email', 'like', '%' . $search . '%')
                       ->orWhere('phone', 'like', '%' . $search . '%');
             })->paginate(10);
         }else{
-            $country = User::where('userType', '!=' , 1)->orderBy('id', 'DESC')->paginate(10);
+            $country = User::where('id', '!=' , Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.user.list')->with('country', $country);
     }
 
     public function display($id) {
-        $country = User::findOrFail($id);
+        $country = User::where('id', '!=' , Auth::user()->id)->findOrFail($id);
         return view('pages.admin.user.display')->with('country',$country);
+    }
+
+    public function makeUserPreviledge($id){
+        $country = User::where('id', '!=' , Auth::user()->id)->where('userType', '!=' , 1)->findOrFail($id);
+        if($country->userType==2){
+            $country->userType = 3; 
+        }else{
+            $country->userType = 2; 
+        }
+        $country->save(); 
+        return redirect()->intended(URL::previous())->with('success_status', 'Changed user accessibility successfully.');
     }
 
     public function excel(){

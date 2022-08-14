@@ -150,6 +150,7 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/edit/{id}', [UserController::class, 'edit', 'as' => 'admin.subadmin.edit'])->name('subadmin_edit');
         Route::post('/edit/{id}', [UserController::class, 'update', 'as' => 'admin.subadmin.update'])->name('subadmin_update');
         Route::get('/delete/{id}', [UserController::class, 'delete', 'as' => 'admin.subadmin.delete'])->name('subadmin_delete');
+        Route::get('/make-previledge/{id}', [UserController::class, 'makeUserPreviledge', 'as' => 'admin.subadmin.makeUserPreviledge'])->name('subadmin_makeUserPreviledge');
     });
 
     Route::prefix('/image')->group(function () {

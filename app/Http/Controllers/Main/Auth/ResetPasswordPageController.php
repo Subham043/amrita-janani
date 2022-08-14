@@ -21,7 +21,7 @@ class ResetPasswordPageController extends Controller
         } catch (DecryptException $e) {
             return redirect(route('forgot_password'))->with('error_status', 'Oops! You have entered invalid link');
         }
-        $user = User::where('id', $decryptedId)->where('status', 1)->where('allowPasswordChange', 1)->where('userType', 2)->get();
+        $user = User::where('id', $decryptedId)->where('status', 1)->where('allowPasswordChange', 1)->where('userType', '!=', 1)->get();
         if(count($user)<1){
             return redirect(route('forgot_password'))->with('error_status', 'Oops! You have entered invalid link');
         }
@@ -37,7 +37,7 @@ class ResetPasswordPageController extends Controller
         } catch (DecryptException $e) {
             return redirect(route('forgot_password'))->with('error_status', 'Oops! You have entered invalid link');
         }
-        $user = User::where('id', $decryptedId)->where('status', 1)->where('allowPasswordChange', 1)->where('userType', 2)->get();
+        $user = User::where('id', $decryptedId)->where('status', 1)->where('allowPasswordChange', 1)->where('userType', '!=', 1)->get();
         if(count($user)<1){
             return redirect(route('forgot_password'))->with('error_status', 'Oops! You have entered invalid link');
         }
@@ -52,11 +52,11 @@ class ResetPasswordPageController extends Controller
             'cpassword.required' => 'Please enter your confirm password !',
             'cpassword.same' => 'password & confirm password must be the same !',
         ]);
-        $user = User::where('id', $decryptedId)->where('status', 1)->where('allowPasswordChange', 1)->where('userType', 2)->where('otp', $request->otp)->get();
+        $user = User::where('id', $decryptedId)->where('status', 1)->where('allowPasswordChange', 1)->where('userType', '!=', 1)->where('otp', $request->otp)->get();
         if(count($user)<1){
             return redirect(route('resetPasswordRequest',Crypt::encryptString($decryptedId)))->with('error_status', 'Oops! Invalid OTP');
         }else{
-            $user = User::where('id', $decryptedId)->where('status', 1)->where('allowPasswordChange', 1)->where('userType', 2)->where('otp', $request->otp)->first();
+            $user = User::where('id', $decryptedId)->where('status', 1)->where('allowPasswordChange', 1)->where('userType', '!=', 1)->where('otp', $request->otp)->first();
             $user->allowPasswordChange = 0;
             $user->otp = rand(1000,9999);
             $user->password = Hash::make($request->password);

@@ -16,7 +16,7 @@
 
 
 <div class="main-content-wrapper">
-    @if($video->restricted==0)
+    @if($video->restricted==0 || Auth::user()->userType!=2)
     <div class="main-image-container" >
         <div class="plyr__video-embed" id="player">
             <iframe
@@ -33,7 +33,7 @@
     </div>
     @else
     @if(empty($videoAccess) || $videoAccess->status==0)
-        @include('pages.main.content.common.denied_img')
+        @include('pages.main.content.common.denied_img', ['text'=>'video'])
     @else
     <div class="main-image-container" >
         <div class="plyr__video-embed" id="player">
@@ -68,20 +68,15 @@
                 <a href="{{route('content_video_makeFavourite',$video->uuid)}}" class="action-btn make-favourite-button">
                     @if($videoFav)
                     @if($videoFav->status == 1)
-                    <i class="far fa-heart"></i> Make Unfavourite
+                    <i class="fas fa-heart-broken"></i> Unmark Favourite
                     @else
-                    <i class="far fa-heart"></i> Make Favourite
+                    <i class="far fa-heart"></i> Mark Favourite
                     @endif
                     @else
                     <i class="far fa-heart"></i> Make Favourite
                     @endif
                 </a>
                 <button class="action-btn report-button" data-toggle="modal" data-target="#reportModal"><i class="far fa-flag"></i> Report</button>
-                @if($video->restricted==1)
-                @if(empty($videoAccess) || $videoAccess->status==0)
-                <button class="action-btn access-button"  data-toggle="modal" data-target="#requestAccessModal" ><i class="far fa-question-circle"></i> Request Access</button>
-                @endif
-                @endif
             </div>
         </div>
     </div>
@@ -127,7 +122,7 @@
 @include('pages.main.content.common.reload_captcha_js')
 
 
-@if(($video->restricted==0) || (!empty($videoAccess) && $videoAccess->status==1))
+@if(($video->restricted==0 || Auth::user()->userType!=2) || (!empty($videoAccess) && $videoAccess->status==1))
 <script>
 const controls = [
     'play-large', // The large play button in the center

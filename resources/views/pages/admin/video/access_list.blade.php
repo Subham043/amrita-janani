@@ -69,10 +69,14 @@
                                             <td class="customer_name">{{$item->VideoModel->uuid}}</td>
                                             <td class="customer_name">{{$item->User->name}}</td>
                                             <td class="customer_name">{{$item->User->email}}</td>
+                                            @if($item->User->userType == 2)
                                             @if($item->status == 1)
                                             <td class="status"><span class="badge badge-soft-success text-uppercase">Yes</span></td>
                                             @else
                                             <td class="status"><span class="badge badge-soft-danger text-uppercase">No</span></td>
+                                            @endif
+                                            @else
+                                            <td class="status"><span class="badge badge-soft-success text-uppercase">Yes</span></td>
                                             @endif
                                             <td class="date">{{$item->created_at}}</td>
                                             <td>
@@ -80,6 +84,16 @@
                                                     <div class="edit">
                                                         <a href="{{route('video_display_access', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
+                                                    @if($item->User->userType == 2)
+                                                    <div class="edit">
+                                                        <a href="{{route('subadmin_makeUserPreviledge', $item->User->id)}}" class="btn btn-sm btn-dark edit-item-btn">Grant User Previledge Access</a>
+                                                    </div>
+                                                    @elseif($item->User->userType == 3)
+                                                    <div class="edit">
+                                                        <a href="{{route('subadmin_makeUserPreviledge', $item->User->id)}}" class="btn btn-sm btn-dark edit-item-btn">Revoke User Previledge Access</a>
+                                                    </div>
+                                                    @endif
+                                                    @if($item->User->userType == 2)
                                                     @if($item->status == 1)
                                                     <div class="edit">
                                                         <a href="{{route('video_toggle_access', $item->id)}}" class="btn btn-sm btn-warning edit-item-btn">Revoke Access</a>
@@ -88,6 +102,7 @@
                                                     <div class="edit">
                                                         <a href="{{route('video_toggle_access', $item->id)}}" class="btn btn-sm btn-warning edit-item-btn">Grant Access</a>
                                                     </div>
+                                                    @endif
                                                     @endif
                                                     <div class="remove">
                                                         <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('video_delete_access', $item->id)}}')">Remove</button>

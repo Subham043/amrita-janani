@@ -176,12 +176,22 @@ class DocumentPageController extends Controller
             return response()->json(["form_error"=>$validator->errors()], 400);
         }
 
-        $documentFav = new DocumentReport;
-        $documentFav->document_id = $document->id;
-        $documentFav->user_id = Auth::user()->id;
-        $documentFav->status = 0;
-        $documentFav->message=$req->message;
-        $documentFav->save();
+        $documentFav = DocumentReport::where('document_id', $document->id)->where('user_id', Auth::user()->id)->get();
+
+        if(count($documentFav)>0){
+            $documentFav = DocumentReport::where('document_id', $document->id)->where('user_id', Auth::user()->id)->first();
+            $documentFav->status=0;
+            $documentFav->message=$req->message;
+            $documentFav->save();
+            
+        }else{
+            $documentFav = new DocumentReport;
+            $documentFav->document_id = $document->id;
+            $documentFav->user_id = Auth::user()->id;
+            $documentFav->status = 0;
+            $documentFav->message=$req->message;
+            $documentFav->save();
+        }
 
         return response()->json(["message" => "Reported successfully."], 201);
     }

@@ -177,12 +177,22 @@ class ImagePageController extends Controller
             return response()->json(["form_error"=>$validator->errors()], 400);
         }
 
-        $imageFav = new ImageReport;
-        $imageFav->image_id = $image->id;
-        $imageFav->user_id = Auth::user()->id;
-        $imageFav->status = 0;
-        $imageFav->message=$req->message;
-        $imageFav->save();
+        $imageFav = ImageReport::where('image_id', $image->id)->where('user_id', Auth::user()->id)->get();
+
+        if(count($imageFav)>0){
+            $imageFav = ImageReport::where('image_id', $image->id)->where('user_id', Auth::user()->id)->first();
+            $imageFav->status=0;
+            $imageFav->message=$req->message;
+            $imageFav->save();
+            
+        }else{
+            $imageFav = new ImageReport;
+            $imageFav->image_id = $image->id;
+            $imageFav->user_id = Auth::user()->id;
+            $imageFav->status = 0;
+            $imageFav->message=$req->message;
+            $imageFav->save();
+        }
 
         return response()->json(["message" => "Reported successfully."], 201);
     }

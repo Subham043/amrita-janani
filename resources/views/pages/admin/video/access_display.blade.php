@@ -35,10 +35,17 @@
                         <div class="row g-4 mb-3">
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
+                                    @if($country->User->userType == 2)
+                                    <a href="{{route('subadmin_makeUserPreviledge', $country->User->id)}}" type="button" class="btn btn-warning add-btn me-2" id="create-btn"> Grant User Previledge Access</a>
+                                    @elseif($country->User->userType == 3)
+                                    <a href="{{route('subadmin_makeUserPreviledge', $country->User->id)}}" type="button" class="btn btn-warning add-btn me-2" id="create-btn"> Revoke User Previledge Access</a>
+                                    @endif
+                                    @if($country->User->userType == 2)
                                     @if($country->status == 1)
                                     <a href="{{route('video_toggle_access', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"> Revoke Access</a>
                                     @else
                                     <a href="{{route('video_toggle_access', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"> Grant Access</a>
+                                    @endif
                                     @endif
                                     <button onclick="deleteHandler('{{route('video_delete_access', $country->id)}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>
                                 </div>
@@ -87,10 +94,14 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Accessible :</p>
+                                            @if($country->User->userType == 2)
                                             @if($country->status == 1)
                                             <div class="badge bg-success fs-12">Yes</div>
                                             @else
                                             <div class="badge bg-danger fs-12">No</div>
+                                            @endif
+                                            @else
+                                            <div class="badge bg-success fs-12">Yes</div>
                                             @endif
                                         </div>
                                     </div>

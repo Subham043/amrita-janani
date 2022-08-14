@@ -177,12 +177,22 @@ class VideoPageController extends Controller
             return response()->json(["form_error"=>$validator->errors()], 400);
         }
 
-        $videoFav = new VideoReport;
-        $videoFav->video_id = $video->id;
-        $videoFav->user_id = Auth::user()->id;
-        $videoFav->status = 0;
-        $videoFav->message=$req->message;
-        $videoFav->save();
+        $videoFav = VideoReport::where('video_id', $video->id)->where('user_id', Auth::user()->id)->get();
+
+        if(count($videoFav)>0){
+            $videoFav = VideoReport::where('video_id', $video->id)->where('user_id', Auth::user()->id)->first();
+            $videoFav->status=0;
+            $videoFav->message=$req->message;
+            $videoFav->save();
+            
+        }else{
+            $videoFav = new VideoReport;
+            $videoFav->video_id = $video->id;
+            $videoFav->user_id = Auth::user()->id;
+            $videoFav->status = 0;
+            $videoFav->message=$req->message;
+            $videoFav->save();
+        }
 
         return response()->json(["message" => "Reported successfully."], 201);
     }

@@ -21,7 +21,7 @@ class VerifyRegisteredUserPageController extends Controller
         } catch (DecryptException $e) {
             return redirect(route('forgot_password'))->with('error_status', 'Oops! You have entered invalid link');
         }
-        $user = User::where('id', $decryptedId)->where('status', 0)->where('userType', 2)->get();
+        $user = User::where('id', $decryptedId)->where('status', 0)->where('userType', '!=', 1)->get();
         if(count($user)<1){
             return redirect(route('signin'))->with('error_status', 'Oops! You have entered invalid link');
         }
@@ -37,7 +37,7 @@ class VerifyRegisteredUserPageController extends Controller
         } catch (DecryptException $e) {
             return redirect(route('signin'))->with('error_status', 'Oops! You have entered invalid link');
         }
-        $user = User::where('id', $decryptedId)->where('status', 0)->where('userType', 2)->get();
+        $user = User::where('id', $decryptedId)->where('status', 0)->where('userType', '!=', 1)->get();
         if(count($user)<1){
             return redirect(route('signin'))->with('error_status', 'Oops! You have entered invalid link');
         }
@@ -47,11 +47,11 @@ class VerifyRegisteredUserPageController extends Controller
             'otp.required' => 'Please enter your otp !',
             'otp.integer' => 'Otp must be a number !',
         ]);
-        $user = User::where('id', $decryptedId)->where('status', 0)->where('userType', 2)->where('otp', $request->otp)->get();
+        $user = User::where('id', $decryptedId)->where('status', 0)->where('userType', '!=', 1)->where('otp', $request->otp)->get();
         if(count($user)<1){
             return redirect(route('verifyUser',Crypt::encryptString($decryptedId)))->with('error_status', 'Oops! Invalid OTP');
         }else{
-            $user = User::where('id', $decryptedId)->where('status', 0)->where('userType', 2)->where('otp', $request->otp)->first();
+            $user = User::where('id', $decryptedId)->where('status', 0)->where('userType', '!=', 1)->where('otp', $request->otp)->first();
             $user->status = 1;
             $user->save();
             return redirect(route('signin'))->with('success_status', 'User Verification Successful.');
