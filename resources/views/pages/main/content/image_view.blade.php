@@ -5,8 +5,6 @@
     integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ asset('admin/css/image-previewer.css')}}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('main/css/content.css') }}">
-<!-- <link rel="stylesheet" href="{{ asset('main/css/plugins/easy-autocomplete.css')}}" type="text/css" />
-<link rel="stylesheet" href="{{ asset('main/css/plugins/easy-autocomplete.themes.css')}}" type="text/css" /> -->
 <link rel="stylesheet" href="{{ asset('main/css/plugins/autocomplete.css')}}" type="text/css" />
 
 @stop
@@ -25,11 +23,7 @@
     </div>
     @else
     @if(empty($imageAccess) || $imageAccess->status==0)
-    <div class="main-image-container" id="image-container" style="background-image:url({{asset('main/images/access-denied.jpg')}})">
-        <div class="blur-bg" data-toggle="tooltip" data-placement="bottom" title="You do not have permission to access this image. Kindly request access for this image from admin by clicking on the request access button">
-            <img src="{{asset('main/images/access-denied.jpg')}}" />
-        </div>
-    </div>
+        @include('pages.main.content.common.denied_img')
     @else
     <div class="main-image-container" id="image-container" style="background-image:url({{asset('storage/upload/images/'.$image->image)}})">
         <div class="blur-bg">
@@ -89,118 +83,20 @@
     </div>
     @endif
 
-    <!-- Request Access Modal -->
-    <div class="modal fade" id="requestAccessModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Request Access</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post" id="requestAccessForm">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="reasonForAccess">Reason For Access</label>
-                            <textarea class="form-control" id="reasonForAccess" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="reasonForAccess">Captcha</label>
-                            <div class="d-flex" style="align-items:center;">
-                                <p id="captcha_container1">{!!captcha_img()!!} </p>
-                                <span class="btn-captcha" onclick="reload_captcha('captcha_container1')" style="margin-left:10px;cursor:pointer;" title="reload captcha"><i class="fas fa-redo"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="captcha1" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="SubmitBtn">Request</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    @include('pages.main.content.common.request_access_modal')
     
-    <!-- Report Modal -->
-    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Report An Issue</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post" id="reportForm">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="reasonForAccess">Describe briefly about the issue with the current image.</label>
-                            <textarea class="form-control" id="reportMessage" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="reasonForAccess">Captcha</label>
-                            <div class="d-flex" style="align-items:center;">
-                                <p id="captcha_container2">{!!captcha_img()!!} </p>
-                                <span class="btn-captcha" onclick="reload_captcha('captcha_container2')" style="margin-left:10px;cursor:pointer;" title="reload captcha"><i class="fas fa-redo"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="captcha2" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="SubmitBtn2">Report</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    @include('pages.main.content.common.report_modal', ['text'=>'image'])
 
 </div>
 
 @stop
 
 @section('javascript')
-<script src="{{ asset('main/js/plugins/autocomplete.js') }}"></script>
 <script src="{{ asset('admin/js/pages/img-previewer.min.js') }}"></script>
 <script src="{{ asset('main/js/plugins/just-validate.production.min.js') }}"></script>
 <script src="{{ asset('main/js/plugins/axios.min.js') }}"></script> 
 
-<script>
-
-autocomplete({
-    input: document.getElementById('search'),
-    minLength: 1,
-    onSelect: function (item, inputfield) {
-        inputfield.value = item.name
-    },
-    fetch: async function (text, callback) {
-        var match = text.toLowerCase();
-        var formData = new FormData();
-        formData.append('phrase',match)
-        const response = await axios.post('{{route('content_search_query')}}', formData)
-        callback(response.data.data.filter(function(n) { return n.name.toLowerCase().indexOf(match) !== -1; }));
-    },
-    render: function(item, value) {
-        var itemElement = document.createElement("div");
-        // if (charsAllowed(value)) {
-        //     var regex = new RegExp(value, 'gi');
-        //     var inner = item.label.replace(regex, function(match) { return "<strong>" + match + "</strong>" });
-        //     itemElement.innerHTML = inner;
-        // } else {
-        // }
-        itemElement.textContent = item.name;
-        return itemElement;
-    },
-    emptyMsg: "No items found",
-    customize: function(input, inputRect, container, maxHeight) {
-        if (maxHeight < 100) {
-            container.style.top = "";
-            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + "px";
-            container.style.maxHeight = "140px";
-        }
-    }
-})
-</script>
+@include('pages.main.content.common.search_js', ['search_url'=>route('content_search_query')])
 
 <script>
     const myViewer = new ImgPreviewer('#image-container',{
@@ -232,202 +128,13 @@ autocomplete({
     })
 </script>
 
-<script type="text/javascript">
-
-const validationModal = new JustValidate('#requestAccessForm', {
-    errorFieldCssClass: 'is-invalid',
-});
-
-validationModal
-.addField('#reasonForAccess', [
-{
-    rule: 'required',
-    errorMessage: 'Reason is required',
-},
-{
-    rule: 'customRegexp',
-    value: /^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i,
-    errorMessage: 'Reason is containing invalid characters',
-},
-])
-.addField('#captcha1', [
-{
-    rule: 'required',
-    errorMessage: 'Captcha is required',
-}
-])
-.onSuccess(async (event) => {
-    event.target.preventDefault;
-    const errorToast = (message) =>{
-        iziToast.error({
-            title: 'Error',
-            message: message,
-            position: 'bottomCenter',
-            timeout:7000
-        });
-    }
-    const successToast = (message) =>{
-        iziToast.success({
-            title: 'Success',
-            message: message,
-            position: 'bottomCenter',
-            timeout:6000
-        });
-    }
-    var submitBtn = document.getElementById('SubmitBtn')
-    submitBtn.innerHTML = `
-        <span class="d-flex align-items-center">
-            <span class="spinner-border flex-shrink-0" role="status">
-                <span class="visually-hidden"></span>
-            </span>
-            <span class="flex-grow-1 ms-2">
-                &nbsp; Submiting...
-            </span>
-        </span>
-        `
-    submitBtn.disabled = true;
-    try {
-        var formData = new FormData();
-        formData.append('message',document.getElementById('reasonForAccess').value)
-        formData.append('captcha',document.getElementById('captcha1').value)
-        const response = await axios.post('{{route('content_image_requestAccess', $image->uuid)}}', formData)
-        successToast(response.data.message)
-        event.target.reset()
-        setTimeout(()=>{
-            location.reload()
-        }, 1000)
-    } catch (error) {
-        if(error?.response?.data?.form_error?.message){
-            errorToast(error?.response?.data?.form_error?.message[0])
-        }
-        if(error?.response?.data?.form_error?.captcha){
-            errorToast(error?.response?.data?.form_error?.captcha[0])
-        }
-        if(error?.response?.data?.error){
-            errorToast(error?.response?.data?.error)
-        }
-    } finally{
-        submitBtn.innerHTML =  `
-            Request
-            `
-        submitBtn.disabled = false;
-    }
-})
-
-</script>
-
-<script type="text/javascript">
-
-const validationModal2 = new JustValidate('#reportForm', {
-    errorFieldCssClass: 'is-invalid',
-});
-
-validationModal2
-.addField('#reportMessage', [
-{
-    rule: 'required',
-    errorMessage: 'Message is required',
-},
-{
-    rule: 'customRegexp',
-    value: /^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i,
-    errorMessage: 'Message is containing invalid characters',
-},
-])
-.addField('#captcha2', [
-{
-    rule: 'required',
-    errorMessage: 'Captcha is required',
-}
-])
-.onSuccess(async (event) => {
-    event.target.preventDefault;
-    const errorToast = (message) =>{
-        iziToast.error({
-            title: 'Error',
-            message: message,
-            position: 'bottomCenter',
-            timeout:7000
-        });
-    }
-    const successToast = (message) =>{
-        iziToast.success({
-            title: 'Success',
-            message: message,
-            position: 'bottomCenter',
-            timeout:6000
-        });
-    }
-    var submitBtn = document.getElementById('SubmitBtn2')
-    submitBtn.innerHTML = `
-        <span class="d-flex align-items-center">
-            <span class="spinner-border flex-shrink-0" role="status">
-                <span class="visually-hidden"></span>
-            </span>
-            <span class="flex-grow-1 ms-2">
-                &nbsp; Submiting...
-            </span>
-        </span>
-        `
-    submitBtn.disabled = true;
-    try {
-        var formData = new FormData();
-        formData.append('message',document.getElementById('reportMessage').value)
-        formData.append('captcha',document.getElementById('captcha2').value)
-        const response = await axios.post('{{route('content_image_report', $image->uuid)}}', formData)
-        successToast(response.data.message)
-        event.target.reset()
-        setTimeout(()=>{
-            location.reload()
-        }, 1000)
-    } catch (error) {
-        if(error?.response?.data?.form_error?.message){
-            errorToast(error?.response?.data?.form_error?.message[0])
-        }
-        if(error?.response?.data?.form_error?.captcha){
-            errorToast(error?.response?.data?.form_error?.captcha[0])
-        }
-        if(error?.response?.data?.error){
-            errorToast(error?.response?.data?.error)
-        }
-    } finally{
-        submitBtn.innerHTML =  `
-            Report
-            `
-        submitBtn.disabled = false;
-    }
-})
-
-</script>
-
-<script type="text/javascript">
-    async function reload_captcha(id){
-        try {
-            const response = await axios.get('{{route('captcha_ajax')}}')
-            document.getElementById(id).innerHTML = response.data.captcha
-        } catch (error) {
-            if(error?.response?.data?.error){
-                errorToast(error?.response?.data?.error)
-            }
-        } finally{}
-    }
-</script>
-
-<script>
-    function callSearchHandler(){
-        var str= "";
-        var arr = [];
-
-        if(document.getElementById('search').value){
-            arr.push("search="+document.getElementById('search').value)
-        }
+@include('pages.main.content.common.request_access_form_js', ['url'=>route('content_image_requestAccess', $image->uuid)])
+@include('pages.main.content.common.report_form_js', ['url'=>route('content_image_report', $image->uuid)])
 
 
-        str = arr.join('&');
-        window.location.replace('{{route('content_dashboard')}}?'+str)
-        return false;
-    }
-</script>
+@include('pages.main.content.common.reload_captcha_js')
+
+@include('pages.main.content.common.dashboard_search_handler', ['search_url'=>route('content_dashboard')])
 
 
 @stop
