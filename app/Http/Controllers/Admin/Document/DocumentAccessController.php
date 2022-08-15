@@ -23,24 +23,40 @@ class DocumentAccessController extends Controller
     }
 
     public function viewaccess(Request $request) {
-        if ($request->has('search')) {
+        if ($request->has('search') || $request->has('filter')) {
             $search = $request->input('search');
-            $data = DocumentAccess::with(['DocumentModel','User'])
-            ->whereHas('DocumentModel', function($q) {
+            $data = DocumentAccess::with(['DocumentModel','User']);
+            $data->whereHas('DocumentModel', function($q) {
                 $q->whereNull('deleted_at');
             })
             ->whereHas('User', function($q) {
                 $q->whereNull('deleted_at');
-            })
-            ->orWhereHas('DocumentModel', function($q)  use ($search){
-                $q->where('title', 'like', '%' . $search . '%')
-                ->orWhere('uuid', 'like', '%' . $search . '%');
-            })
-            ->orWhereHas('User', function($q)  use ($search){
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
-            })
-            ->orderBy('id', 'DESC')
+            });
+            if ($request->has('filter') && $request->input('filter')!='all') {
+                $filter = $request->input('filter');
+                if($request->input('filter')==0){
+                    $data->whereHas('User', function($q){
+                        $q->where('userType', 2);
+                    });
+                    $data->orWhere('status',0);
+                }else{
+                    $data->where('status',1);
+                    $data->orWhereHas('User', function($q){
+                        $q->where('userType', '!=', 2);
+                    });
+                }
+            }
+            if ($request->has('search')) {
+                $data->whereHas('DocumentModel', function($q)  use ($search){
+                    $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('uuid', 'like', '%' . $search . '%');
+                });
+                $data->orWhereHas('User', function($q)  use ($search){
+                    $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+                });
+            }
+            $data = $data->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
             $data = DocumentAccess::with(['DocumentModel','User'])

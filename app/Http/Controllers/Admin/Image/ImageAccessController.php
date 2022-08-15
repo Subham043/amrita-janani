@@ -23,24 +23,40 @@ class ImageAccessController extends Controller
     }
 
     public function viewaccess(Request $request) {
-        if ($request->has('search')) {
+        if ($request->has('search') || $request->has('filter')) {
             $search = $request->input('search');
-            $data = ImageAccess::with(['ImageModel','User'])
-            ->whereHas('ImageModel', function($q) {
+            $data = ImageAccess::with(['ImageModel','User']);
+            $data->whereHas('ImageModel', function($q) {
                 $q->whereNull('deleted_at');
             })
             ->whereHas('User', function($q) {
                 $q->whereNull('deleted_at');
-            })
-            ->orWhereHas('ImageModel', function($q)  use ($search){
-                $q->where('title', 'like', '%' . $search . '%')
-                ->orWhere('uuid', 'like', '%' . $search . '%');
-            })
-            ->orWhereHas('User', function($q)  use ($search){
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
-            })
-            ->orderBy('id', 'DESC')
+            });
+            if ($request->has('filter') && $request->input('filter')!='all') {
+                $filter = $request->input('filter');
+                if($request->input('filter')==0){
+                    $data->whereHas('User', function($q){
+                        $q->where('userType', 2);
+                    });
+                    $data->orWhere('status',0);
+                }else{
+                    $data->where('status',1);
+                    $data->orWhereHas('User', function($q){
+                        $q->where('userType', '!=', 2);
+                    });
+                }
+            }
+            if ($request->has('search')) {
+                $data->whereHas('ImageModel', function($q)  use ($search){
+                    $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('uuid', 'like', '%' . $search . '%');
+                });
+                $data->orWhereHas('User', function($q)  use ($search){
+                    $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+                });
+            }
+            $data = $data->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
             $data = ImageAccess::with(['ImageModel','User'])
