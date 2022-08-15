@@ -237,19 +237,16 @@ class VideoPageController extends Controller
         ->get();
 
         foreach ($videos as $value) {
-            if(!in_array(array("name"=>$value->title), $data)){
-                array_push($data,array("name"=>$value->title));
-            }
-            if(!in_array(array("name"=>$value->uuid), $data)){
-                array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title, "group"=>"Videos"), $data)){
+                array_push($data,array("name"=>$value->title, "group"=>"Videos"));
             }
         }
 
         $searchHistory = SearchHistory::where('screen', 5)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search), $data)){
-                array_push($data,array("name"=>$value->search));
+            if(!in_array(array("name"=>$value->search, "group"=>"Videos"), $data)){
+                array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }
 

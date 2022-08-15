@@ -237,19 +237,16 @@ class AudioPageController extends Controller
         ->get();
 
         foreach ($audios as $value) {
-            if(!in_array(array("name"=>$value->title), $data)){
-                array_push($data,array("name"=>$value->title));
-            }
-            if(!in_array(array("name"=>$value->uuid), $data)){
-                array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title, "group"=>"Audios"), $data)){
+                array_push($data,array("name"=>$value->title, "group"=>"Audios"));
             }
         }
 
         $searchHistory = SearchHistory::where('screen', 2)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search), $data)){
-                array_push($data,array("name"=>$value->search));
+            if(!in_array(array("name"=>$value->search, "group"=>"Audios"), $data)){
+                array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }
 

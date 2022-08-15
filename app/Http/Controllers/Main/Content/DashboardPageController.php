@@ -87,11 +87,8 @@ class DashboardPageController extends Controller
         ->get();
 
         foreach ($audios as $value) {
-            if(!in_array(array("name"=>$value->title), $data)){
-                array_push($data,array("name"=>$value->title));
-            }
-            if(!in_array(array("name"=>$value->uuid), $data)){
-                array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title, "group"=>"Audios"), $data)){
+                array_push($data,array("name"=>$value->title, "group"=>"Audios"));
             }
         }
         
@@ -105,11 +102,8 @@ class DashboardPageController extends Controller
         ->get();
 
         foreach ($images as $value) {
-            if(!in_array(array("name"=>$value->title), $data)){
-                array_push($data,array("name"=>$value->title));
-            }
-            if(!in_array(array("name"=>$value->uuid), $data)){
-                array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title, "group"=>"Images"), $data)){
+                array_push($data,array("name"=>$value->title, "group"=>"Images"));
             }
         }
         
@@ -123,11 +117,8 @@ class DashboardPageController extends Controller
         ->get();
 
         foreach ($documents as $value) {
-            if(!in_array(array("name"=>$value->title), $data)){
-                array_push($data,array("name"=>$value->title));
-            }
-            if(!in_array(array("name"=>$value->uuid), $data)){
-                array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title, "group"=>"Documents"), $data)){
+                array_push($data,array("name"=>$value->title, "group"=>"Documents"));
             }
         }
         
@@ -141,19 +132,16 @@ class DashboardPageController extends Controller
         ->get();
 
         foreach ($videos as $value) {
-            if(!in_array(array("name"=>$value->title), $data)){
-                array_push($data,array("name"=>$value->title));
-            }
-            if(!in_array(array("name"=>$value->uuid), $data)){
-                array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title, "group"=>"Videos"), $data)){
+                array_push($data,array("name"=>$value->title, "group"=>"Videos"));
             }
         }
         
         $searchHistory = SearchHistory::where('screen', 1)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search), $data)){
-                array_push($data,array("name"=>$value->search));
+            if(!in_array(array("name"=>$value->search, "group"=>"Audios"), $data) && !in_array(array("name"=>$value->search, "group"=>"Images"), $data) && !in_array(array("name"=>$value->search, "group"=>"Videos"), $data) && !in_array(array("name"=>$value->search, "group"=>"Documents"), $data)){
+                array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }
 

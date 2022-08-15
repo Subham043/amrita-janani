@@ -1,6 +1,11 @@
 <script src="{{ asset('main/js/plugins/autocomplete.js') }}"></script>
 <script>
 
+var allowedChars = new RegExp(/^[a-zA-Z0-9\s\-\_\.]+$/)
+function charsAllowed(value) {
+    return allowedChars.test(value);
+}
+
 autocomplete({
     input: document.getElementById('search'),
     minLength: 1,
@@ -16,13 +21,13 @@ autocomplete({
     },
     render: function(item, value) {
         var itemElement = document.createElement("div");
-        // if (charsAllowed(value)) {
-        //     var regex = new RegExp(value, 'gi');
-        //     var inner = item.label.replace(regex, function(match) { return "<strong>" + match + "</strong>" });
-        //     itemElement.innerHTML = inner;
-        // } else {
-        // }
-        itemElement.textContent = item.name;
+        if (charsAllowed(value)) {
+            var regex = new RegExp(value, 'gi');
+            var inner = item.name.replace(regex, function(match) { return "<span style='font-weight: bold !important'>" + match + "</span>" });
+            itemElement.innerHTML = inner;
+        } else {
+            itemElement.textContent = item.name;
+        }
         return itemElement;
     },
     emptyMsg: "No items found",

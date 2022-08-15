@@ -485,3 +485,13 @@ span.hashtags {
     background: #8ac6fb33;
     font-size: 0.8rem;
 }
+
+.autocomplete > div:hover:not(.group), .autocomplete > div.selected {
+    background: #eee !important;
+    cursor: pointer;
+}
+
+.autocomplete .group {
+    background: #96171c !important;
+    color: #fff;
+}

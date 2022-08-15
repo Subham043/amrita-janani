@@ -237,19 +237,16 @@ class ImagePageController extends Controller
         ->get();
 
         foreach ($images as $value) {
-            if(!in_array(array("name"=>$value->title), $data)){
-                array_push($data,array("name"=>$value->title));
-            }
-            if(!in_array(array("name"=>$value->uuid), $data)){
-                array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title, "group"=>"Images"), $data)){
+                array_push($data,array("name"=>$value->title, "group"=>"Images"));
             }
         }
 
         $searchHistory = SearchHistory::where('screen', 4)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search), $data)){
-                array_push($data,array("name"=>$value->search));
+            if(!in_array(array("name"=>$value->search, "group"=>"Images"), $data)){
+                array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }
 

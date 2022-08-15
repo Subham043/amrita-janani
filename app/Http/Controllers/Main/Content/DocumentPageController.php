@@ -236,19 +236,16 @@ class DocumentPageController extends Controller
         ->get();
 
         foreach ($documents as $value) {
-            if(!in_array(array("name"=>$value->title), $data)){
-                array_push($data,array("name"=>$value->title));
-            }
-            if(!in_array(array("name"=>$value->uuid), $data)){
-                array_push($data,array("name"=>$value->uuid));
+            if(!in_array(array("name"=>$value->title, "group"=>"Documents"), $data)){
+                array_push($data,array("name"=>$value->title, "group"=>"Documents"));
             }
         }
 
         $searchHistory = SearchHistory::where('screen', 3)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search), $data)){
-                array_push($data,array("name"=>$value->search));
+            if(!in_array(array("name"=>$value->search, "group"=>"Documents"), $data)){
+                array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }
 
