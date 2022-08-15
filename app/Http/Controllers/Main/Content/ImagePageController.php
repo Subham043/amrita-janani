@@ -52,6 +52,13 @@ class ImagePageController extends Controller
             $arr = array_map('intval', explode(',', $request->input('language')));
             $image->whereIn('language_id', $arr);
         }
+
+        if($request->has('filter')){
+            $image->with(['imageFavourite']);
+            $image->whereHas('imageFavourite', function($q) {
+                $q->where('user_id', Auth::user()->id);
+            });
+        }
         
         $images = $image->where('status', 1)->paginate(6)->withQueryString();
         

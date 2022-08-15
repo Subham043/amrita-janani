@@ -69,7 +69,7 @@
                             <ul>
                                 <li>
                                     <label for="filter_check">
-                                        <input type="checkbox" id="filter_check" name="filter" value="favourite">
+                                    <input type="checkbox" id="filter_check" name="filter" value="favourite" @if(app('request')->has('filter') && app('request')->input('filter')=="favourite") checked @endif>
                                         My Favourite Documents
                                     </label>
                                 </li>

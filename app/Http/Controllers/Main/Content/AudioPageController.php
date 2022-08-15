@@ -52,6 +52,13 @@ class AudioPageController extends Controller
             $arr = array_map('intval', explode(',', $request->input('language')));
             $audio->whereIn('language_id', $arr);
         }
+
+        if($request->has('filter')){
+            $audio->with(['AudioFavourite']);
+            $audio->whereHas('AudioFavourite', function($q) {
+                $q->where('user_id', Auth::user()->id);
+            });
+        }
         
         $audios = $audio->where('status', 1)->paginate(6)->withQueryString();
         

@@ -45,31 +45,14 @@
 
                     <div class="filter-holder">
                         <hr>
-                        @if(count($languages) > 0)
-                        <button class="accordion active">Language</button>
-                        <div class="panel" style="max-height: 100%;height:auto;">
-                            <ul>
-
-                                @foreach($languages as $languages)
-                                <li>
-                                    <label for="language{{$languages->id}}">
-                                        <input type="checkbox" name="language" id="language{{$languages->id}}" value="{{$languages->id}}" @if(app('request')->has('language') && in_array($languages->id, explode(',', app('request')->input('language'))) ) checked @endif>
-                                        {{$languages->name}}
-                                    </label>
-                                </li>
-                                @endforeach
-
-                            </ul>
-                        </div>
-                        <hr>
-                        @endif
+                        
 
                         <button class="accordion active">Other Filter</button>
                         <div class="panel" style="max-height: 100%;height:auto;">
                             <ul>
                                 <li>
                                     <label for="filter_check">
-                                        <input type="checkbox" id="filter_check" name="filter" value="favourite">
+                                        <input type="checkbox" id="filter_check" name="filter" value="favourite" @if(app('request')->has('filter') && app('request')->input('filter')=="favourite") checked @endif>
                                         My Favourite Images
                                     </label>
                                 </li>
@@ -166,6 +149,30 @@
 
 </script>
 
-@include('pages.main.content.common.multimedia_search_handler', ['search_url'=>route('content_image')])
+<script>
+    function callSearchHandler(){
+        var str= "";
+        var arr = [];
+
+        if(document.getElementById('search').value){
+            arr.push("search="+document.getElementById('search').value)
+        }
+
+        if(document.getElementById('sort').value){
+            arr.push("sort="+document.getElementById('sort').value)
+        }
+
+        var filter_check = document.getElementById("filter_check");
+        if (filter_check.type === "checkbox" && filter_check.checked === true){
+            arr.push("filter="+document.getElementById('filter_check').value)
+        }
+
+
+        str = arr.join('&');
+        window.location.replace('{{route('content_image')}}?'+str)
+        return false;
+    }
+</script>
+
 
 @stop

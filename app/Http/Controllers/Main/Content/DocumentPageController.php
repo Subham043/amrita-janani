@@ -51,6 +51,13 @@ class DocumentPageController extends Controller
             $arr = array_map('intval', explode(',', $request->input('language')));
             $document->whereIn('language_id', $arr);
         }
+
+        if($request->has('filter')){
+            $document->with(['DocumentFavourite']);
+            $document->whereHas('DocumentFavourite', function($q) {
+                $q->where('user_id', Auth::user()->id);
+            });
+        }
         
         $documents = $document->where('status', 1)->paginate(6)->withQueryString();
         

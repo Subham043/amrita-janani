@@ -23,9 +23,13 @@
             arr.push("language="+languageStr)
         }
 
+        var filter_check = document.getElementById("filter_check");
+        if (filter_check.type === "checkbox" && filter_check.checked === true){
+            arr.push("filter="+document.getElementById('filter_check').value)
+        }
+
 
         str = arr.join('&');
-        console.log(str);
         window.location.replace('{{$search_url}}?'+str)
         return false;
     }

@@ -52,6 +52,13 @@ class VideoPageController extends Controller
             $arr = array_map('intval', explode(',', $request->input('language')));
             $video->whereIn('language_id', $arr);
         }
+
+        if($request->has('filter')){
+            $video->with(['VideoFavourite']);
+            $video->whereHas('VideoFavourite', function($q) {
+                $q->where('user_id', Auth::user()->id);
+            });
+        }
         
         $videos = $video->where('status', 1)->paginate(6)->withQueryString();
         
