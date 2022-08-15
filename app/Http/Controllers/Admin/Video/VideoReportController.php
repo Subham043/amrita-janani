@@ -23,24 +23,30 @@ class VideoReportController extends Controller
     }
 
     public function viewreport(Request $request) {
-        if ($request->has('search')) {
+        if ($request->has('search') || $request->has('filter')) {
             $search = $request->input('search');
-            $data = VideoReport::with(['VideoModel','User'])
-            ->whereHas('VideoModel', function($q) {
+            $data = VideoReport::with(['VideoModel','User']);
+            $data->whereHas('VideoModel', function($q) {
                 $q->whereNull('deleted_at');
             })
             ->whereHas('User', function($q) {
                 $q->whereNull('deleted_at');
-            })
-            ->orWhereHas('VideoModel', function($q)  use ($search){
-                $q->where('title', 'like', '%' . $search . '%')
-                ->orWhere('uuid', 'like', '%' . $search . '%');
-            })
-            ->orWhereHas('User', function($q)  use ($search){
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
-            })
-            ->orderBy('id', 'DESC')
+            });
+            if ($request->has('filter') && $request->input('filter')!='all') {
+                $filter = $request->input('filter');
+                $data->where('status',$filter);
+            }
+            if ($request->has('search')) {
+                $data->whereHas('VideoModel', function($q)  use ($search){
+                    $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('uuid', 'like', '%' . $search . '%');
+                });
+                $data->orWhereHas('User', function($q)  use ($search){
+                    $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+                });
+            }
+            $data = $data->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
             $data = VideoReport::with(['VideoModel','User'])

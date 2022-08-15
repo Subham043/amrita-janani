@@ -23,24 +23,31 @@ class AudioReportController extends Controller
     }
 
     public function viewreport(Request $request) {
-        if ($request->has('search')) {
-            $search = $request->input('search');
-            $data = AudioReport::with(['AudioModel','User'])
-            ->whereHas('AudioModel', function($q) {
+        if ($request->has('search') || $request->has('filter')) {
+            $data = AudioReport::with(['AudioModel','User']);
+            $data->whereHas('AudioModel', function($q) {
                 $q->whereNull('deleted_at');
             })
             ->whereHas('User', function($q) {
                 $q->whereNull('deleted_at');
-            })
-            ->orWhereHas('AudioModel', function($q)  use ($search){
-                $q->where('title', 'like', '%' . $search . '%')
-                ->orWhere('uuid', 'like', '%' . $search . '%');
-            })
-            ->orWhereHas('User', function($q)  use ($search){
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
-            })
-            ->orderBy('id', 'DESC')
+            });
+            if ($request->has('filter') && $request->input('filter')!='all') {
+                $filter = $request->input('filter');
+                $data->where('status',$filter);
+            }
+            if ($request->has('search')) {
+                $search = $request->input('search');
+                $data->whereHas('AudioModel', function($q)  use ($search){
+                    $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('uuid', 'like', '%' . $search . '%');
+                });
+                $data->orWhereHas('User', function($q)  use ($search){
+                    $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+                });
+            }
+            
+            $data = $data->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
             $data = AudioReport::with(['AudioModel','User'])
