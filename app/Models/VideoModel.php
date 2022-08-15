@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Uuid;
 use Carbon\Carbon;
+use Auth;
+use App\Models\VideoAccess;
+use App\Models\VideoFavourite;
 
 class VideoModel extends Model
 {
@@ -51,5 +54,51 @@ class VideoModel extends Model
         $dt = Carbon::parse($this->created_at);
         return $dt->diffForHumans();
 
+    }
+
+    public function contentVisible(){
+        try {
+            $videoAccess = VideoAccess::where('video_id', $this->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $videoAccess = null;
+        }
+
+        if($this->restricted==0 || Auth::user()->userType!=2){
+            return true;
+        }else{
+            if(empty($videoAccess) || $videoAccess->status==0){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+
+    public function markedFavorite(){
+        try {
+            $videoFav = VideoFavourite::where('video_id', $this->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $videoFav = null;
+        }
+        if(!empty($videoFav)){
+            if($videoFav->status == 1){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+    }
+
+    public function getTagsArray() {
+        if($this->tags){
+            $arr = explode(",",$this->tags);
+            return $arr;
+        }
+        return array();
     }
 }

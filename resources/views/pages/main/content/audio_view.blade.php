@@ -24,7 +24,7 @@
 
 
 <div class="main-content-wrapper">
-    @if($audio->restricted==0 || Auth::user()->userType!=2)
+    @if($audio->contentVisible())
     <div class="container">
         <div class="main-audio-container">
         <img src="{{asset('main/images/audio-book.png')}}" alt="">
@@ -34,18 +34,7 @@
         </div>
     </div>
     @else
-    @if(empty($audioAccess) || $audioAccess->status==0)
-        @include('pages.main.content.common.denied_img', ['text'=>'audio'])
-    @else
-    <div class="container">
-        <div class="main-audio-container">
-            <img src="{{asset('main/images/audio-book.png')}}" alt="">
-            <audio id="player" controls>
-                <source src="{{asset('storage/upload/audios/'.$audio->audio)}}" type="audio/{{$audio->file_format()}}" />
-            </audio>
-        </div>
-    </div>
-    @endif
+    @include('pages.main.content.common.denied_img', ['text'=>'audio'])
     @endif
     <hr/>
     <div class="container">
@@ -62,12 +51,8 @@
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12 action-button-wrapper">
                 <a href="{{route('content_audio_makeFavourite',$audio->uuid)}}" class="action-btn make-favourite-button">
-                    @if($audioFav)
-                    @if($audioFav->status == 1)
+                    @if($audio->markedFavorite())
                     <i class="fas fa-heart-broken"></i> Unmark Favourite
-                    @else
-                    <i class="far fa-heart"></i> Mark Favourite
-                    @endif
                     @else
                     <i class="far fa-heart"></i> Make Favourite
                     @endif
@@ -78,13 +63,17 @@
     </div>
     <hr/>
     <div class="container info-container">
-    <p>ID : <b>{{$audio->uuid}}</b></p>
-    <p>Format : <b>{{$audio->file_format()}}</b></p>
-    <p>Duration : <b>{{$audio->duration}}</b></p>
     <p>Language : <b>{{$audio->LanguageModel->name}}</b></p>
-    <p>Visibility : <b>{{$audio->restricted==0 ? 'Public' : 'Private'}}</b></p>
-    <p>Uploaded By : <b>{{$audio->User->name}}</b></p>
-    <p>Uploaded At : <b>{{$audio->time_elapsed()}}</b></p>
+    <p>Duration : <b>{{$audio->duration}}</b></p>
+    @if($audio->deity)<p>Deity : <b>{{$audio->deity}}</b></p>@endif
+    <p>Uploaded : <b>{{$audio->time_elapsed()}}</b></p>
+    @if(count($audio->getTagsArray())>0)
+    <p>Tags : 
+    @foreach($audio->getTagsArray() as $tag)
+    <span class="hashtags">#{{$tag}}</span>
+    @endforeach
+    </p>
+    @endif
     </div>
     @if($audio->description_unformatted)
     <hr/>
@@ -121,7 +110,7 @@
 
 @include('pages.main.content.common.reload_captcha_js')
 
-@if(($audio->restricted==0 || Auth::user()->userType!=2) || (!empty($audioAccess) && $audioAccess->status==1))
+@if($audio->contentVisible())
 <script>
 const controls = [
     'play-large', // The large play button in the center

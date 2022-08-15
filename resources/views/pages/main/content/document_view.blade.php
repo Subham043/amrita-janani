@@ -90,7 +90,7 @@
 
 
 <div class="main-content-wrapper">
-    @if($document->restricted==0 || Auth::user()->userType!=2)
+    @if($document->contentVisible())
     <div class="main-image-container" id="image-container"
         style="background-image:url({{asset('storage/upload/documents/'.$document->image)}})">
 
@@ -121,36 +121,7 @@
 
     </div>
     @else
-    @if(empty($documentAccess) || $documentAccess->status==0)
-        @include('pages.main.content.common.denied_img', ['text'=>'document'])
-    @else
-    <div class="main-image-container" id="image-container" >
-        <div id="my_pdf_viewer" oncontextmenu="return false">
-            <div id="pdf_controllers">
-
-                <div id="navigation_controls">
-                    <button id="go_previous" title="previous page"><i class="fas fa-angle-double-left"></i></button>
-                    <label>
-                        <input id="current_page" value="1" type="text" />
-                        /<span id="totalPageCount">0</span>
-                    </label>
-                    <button id="go_next" title="next page"><i class="fas fa-angle-double-right"></i></button>
-                </div>
-
-                <div id="zoom_controls">
-                    <button id="zoom_in" title="zoom in"><i class="fas fa-search-plus"></i></button>
-                    <button id="zoom_out" title="zoom out"><i class="fas fa-search-minus"></i></button>
-                </div>
-            </div>
-
-            <div id="canvas_container">
-                <canvas id="pdf_renderer"></canvas>
-            </div>
-
-
-        </div>
-    </div>
-    @endif
+    @include('pages.main.content.common.denied_img', ['text'=>'document'])
     @endif
     <hr />
     <div class="container">
@@ -169,12 +140,8 @@
             <div class="col-lg-5 col-md-6 col-sm-12 action-button-wrapper">
                 <a href="{{route('content_document_makeFavourite',$document->uuid)}}"
                     class="action-btn make-favourite-button">
-                    @if($documentFav)
-                    @if($documentFav->status == 1)
+                    @if($document->markedFavorite())
                     <i class="fas fa-heart-broken"></i> Unmark Favourite
-                    @else
-                    <i class="far fa-heart"></i> Mark Favourite
-                    @endif
                     @else
                     <i class="far fa-heart"></i> Make Favourite
                     @endif
@@ -186,13 +153,17 @@
     </div>
     <hr />
     <div class="container info-container">
-        <p>ID : <b>{{$document->uuid}}</b></p>
-        <p>Format : <b>{{$document->file_format()}}</b></p>
+        @if($document->deity)<p>Deity : <b>{{$document->deity}}</b></p>@endif
         <p>Language : <b>{{$document->LanguageModel->name}}</b></p>
         <p>Number of Pages : <b>{{$document->page_number}}</b></p>
-        <p>Visibility : <b>{{$document->restricted==0 ? 'Public' : 'Private'}}</b></p>
-        <p>Uploaded By : <b>{{$document->User->name}}</b></p>
-        <p>Uploaded At : <b>{{$document->time_elapsed()}}</b></p>
+        <p>Uploaded : <b>{{$document->time_elapsed()}}</b></p>
+        @if(count($document->getTagsArray())>0)
+        <p>Tags : 
+        @foreach($document->getTagsArray() as $tag)
+        <span class="hashtags">#{{$tag}}</span>
+        @endforeach
+        </p>
+        @endif
     </div>
     @if($document->description_unformatted)
     <hr />
@@ -231,7 +202,7 @@ $(function() {
 
 @include('pages.main.content.common.reload_captcha_js')
 
-@if(($document->restricted==0 || Auth::user()->userType!=2) || (!empty($documentAccess) && $documentAccess->status==1))
+@if($document->contentVisible())
 <script>
 
     

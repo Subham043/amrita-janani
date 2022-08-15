@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Uuid;
 use File;
 use Carbon\Carbon;
+use Auth;
+use App\Models\DocumentAccess;
+use App\Models\DocumentFavourite;
 
 class DocumentModel extends Model
 {
@@ -56,6 +59,52 @@ class DocumentModel extends Model
         $dt = Carbon::parse($this->created_at);
         return $dt->diffForHumans();
 
+    }
+
+    public function contentVisible(){
+        try {
+            $documenetAccess = DocumentAccess::where('documenet_id', $this->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $documenetAccess = null;
+        }
+
+        if($this->restricted==0 || Auth::user()->userType!=2){
+            return true;
+        }else{
+            if(empty($documenetAccess) || $documenetAccess->status==0){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+
+    public function markedFavorite(){
+        try {
+            $documentFav = DocumentFavourite::where('document_id', $this->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $documentFav = null;
+        }
+        if(!empty($documentFav)){
+            if($documentFav->status == 1){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+    }
+
+    public function getTagsArray() {
+        if($this->tags){
+            $arr = explode(",",$this->tags);
+            return $arr;
+        }
+        return array();
     }
 
 }

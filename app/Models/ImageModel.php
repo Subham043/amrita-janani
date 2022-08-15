@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Uuid;
 use File;
+use Auth;
+use App\Models\ImageAccess;
+use App\Models\ImageFavourite;
 
 class ImageModel extends Model
 {
@@ -56,6 +59,52 @@ class ImageModel extends Model
         $dt = Carbon::parse($this->created_at);
         return $dt->diffForHumans();
 
+    }
+
+    public function contentVisible(){
+        try {
+            $imageAccess = ImageAccess::where('image_id', $this->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $imageAccess = null;
+        }
+
+        if($this->restricted==0 || Auth::user()->userType!=2){
+            return true;
+        }else{
+            if(empty($imageAccess) || $imageAccess->status==0){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+
+    public function markedFavorite(){
+        try {
+            $imageFav = ImageFavourite::where('image_id', $this->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $imageFav = null;
+        }
+        if(!empty($imageFav)){
+            if($imageFav->status == 1){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+    }
+
+    public function getTagsArray() {
+        if($this->tags){
+            $arr = explode(",",$this->tags);
+            return $arr;
+        }
+        return array();
     }
 
 }

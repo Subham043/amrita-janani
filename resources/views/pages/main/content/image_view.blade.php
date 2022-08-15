@@ -15,22 +15,14 @@
 
 
 <div class="main-content-wrapper">
-    @if($image->restricted==0 || Auth::user()->userType!=2)
+    @if($image->contentVisible())
     <div class="main-image-container" id="image-container" style="background-image:url({{asset('storage/upload/images/'.$image->image)}})">
         <div class="blur-bg">
             <img src="{{asset('storage/upload/images/'.$image->image)}}" />
         </div>
     </div>
     @else
-    @if(empty($imageAccess) || $imageAccess->status==0)
-        @include('pages.main.content.common.denied_img', ['text'=>'image'])
-    @else
-    <div class="main-image-container" id="image-container" style="background-image:url({{asset('storage/upload/images/'.$image->image)}})">
-        <div class="blur-bg">
-            <img src="{{asset('storage/upload/images/'.$image->image)}}" />
-        </div>
-    </div>
-    @endif
+    @include('pages.main.content.common.denied_img', ['text'=>'image'])
     @endif
     <hr/>
     <div class="container">
@@ -47,12 +39,8 @@
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12 action-button-wrapper">
                 <a href="{{route('content_image_makeFavourite',$image->uuid)}}" class="action-btn make-favourite-button">
-                    @if($imageFav)
-                    @if($imageFav->status == 1)
+                    @if($image->markedFavorite())
                     <i class="fas fa-heart-broken"></i> Unmark Favourite
-                    @else
-                    <i class="far fa-heart"></i> Mark Favourite
-                    @endif
                     @else
                     <i class="far fa-heart"></i> Make Favourite
                     @endif
@@ -63,12 +51,15 @@
     </div>
     <hr/>
     <div class="container info-container">
-    <p>ID : <b>{{$image->uuid}}</b></p>
-    <p>Format : <b>{{$image->file_format()}}</b></p>
-    <p>Language : <b>{{$image->LanguageModel->name}}</b></p>
-    <p>Visibility : <b>{{$image->restricted==0 ? 'Public' : 'Private'}}</b></p>
-    <p>Uploaded By : <b>{{$image->User->name}}</b></p>
-    <p>Uploaded At : <b>{{$image->time_elapsed()}}</b></p>
+    @if($image->deity)<p>Deity : <b>{{$image->deity}}</b></p>@endif
+    <p>Uploaded : <b>{{$image->time_elapsed()}}</b></p>
+    @if(count($image->getTagsArray())>0)
+    <p>Tags : 
+    @foreach($image->getTagsArray() as $tag)
+    <span class="hashtags">#{{$tag}}</span>
+    @endforeach
+    </p>
+    @endif
     </div>
     @if($image->description_unformatted)
     <hr/>

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Uuid;
 use Carbon\Carbon;
 use File;
+use Auth;
+use App\Models\AudioAccess;
+use App\Models\AudioFavourite;
 
 class AudioModel extends Model
 {
@@ -56,6 +59,52 @@ class AudioModel extends Model
         $dt = Carbon::parse($this->created_at);
         return $dt->diffForHumans();
 
+    }
+
+    public function contentVisible(){
+        try {
+            $audioAccess = AudioAccess::where('audio_id', $this->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $audioAccess = null;
+        }
+
+        if($this->restricted==0 || Auth::user()->userType!=2){
+            return true;
+        }else{
+            if(empty($audioAccess) || $audioAccess->status==0){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+
+    public function markedFavorite(){
+        try {
+            $audioFav = AudioFavourite::where('audio_id', $this->id)->where('user_id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $audioFav = null;
+        }
+        if(!empty($audioFav)){
+            if($audioFav->status == 1){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+    }
+
+    public function getTagsArray() {
+        if($this->tags){
+            $arr = explode(",",$this->tags);
+            return $arr;
+        }
+        return array();
     }
 
 }

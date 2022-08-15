@@ -16,7 +16,7 @@
 
 
 <div class="main-content-wrapper">
-    @if($video->restricted==0 || Auth::user()->userType!=2)
+    @if($video->contentVisible())
     <div class="main-image-container" >
         <div class="plyr__video-embed" id="player">
             <iframe
@@ -32,24 +32,7 @@
         </div>
     </div>
     @else
-    @if(empty($videoAccess) || $videoAccess->status==0)
-        @include('pages.main.content.common.denied_img', ['text'=>'video'])
-    @else
-    <div class="main-image-container" >
-        <div class="plyr__video-embed" id="player">
-            <iframe
-                @if(strpos($video->video,'vimeo') !== false)
-                src="{{$video->video}}?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media"
-                @else
-                src="{{$video->video}}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
-                @endif
-                allowfullscreen
-                allowtransparency
-                allow="autoplay"
-            ></iframe>
-        </div>
-    </div>
-    @endif
+    @include('pages.main.content.common.denied_img', ['text'=>'video'])
     @endif
     <hr/>
     <div class="container">
@@ -66,12 +49,8 @@
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12 action-button-wrapper">
                 <a href="{{route('content_video_makeFavourite',$video->uuid)}}" class="action-btn make-favourite-button">
-                    @if($videoFav)
-                    @if($videoFav->status == 1)
+                    @if($video->markedFavorite())
                     <i class="fas fa-heart-broken"></i> Unmark Favourite
-                    @else
-                    <i class="far fa-heart"></i> Mark Favourite
-                    @endif
                     @else
                     <i class="far fa-heart"></i> Make Favourite
                     @endif
@@ -82,11 +61,16 @@
     </div>
     <hr/>
     <div class="container info-container">
-    <p>ID : <b>{{$video->uuid}}</b></p>
+    @if($video->deity)<p>Deity : <b>{{$video->deity}}</b></p>@endif
     <p>Language : <b>{{$video->LanguageModel->name}}</b></p>
-    <p>Visibility : <b>{{$video->restricted==0 ? 'Public' : 'Private'}}</b></p>
-    <p>Uploaded By : <b>{{$video->User->name}}</b></p>
-    <p>Uploaded At : <b>{{$video->time_elapsed()}}</b></p>
+    <p>Uploaded : <b>{{$video->time_elapsed()}}</b></p>
+    @if(count($video->getTagsArray())>0)
+    <p>Tags : 
+    @foreach($video->getTagsArray() as $tag)
+    <span class="hashtags">#{{$tag}}</span>
+    @endforeach
+    </p>
+    @endif
     </div>
     @if($video->description_unformatted)
     <hr/>
@@ -122,7 +106,7 @@
 @include('pages.main.content.common.reload_captcha_js')
 
 
-@if(($video->restricted==0 || Auth::user()->userType!=2) || (!empty($videoAccess) && $videoAccess->status==1))
+@if($video->contentVisible())
 <script>
 const controls = [
     'play-large', // The large play button in the center
