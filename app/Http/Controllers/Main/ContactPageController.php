@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Enquiry;
+use App\Jobs\SendUserThankYouEmailJob;
+use App\Jobs\SendAdminEnquiryEmailJob;
 
 class ContactPageController extends Controller
 {
@@ -51,6 +53,15 @@ class ContactPageController extends Controller
         $enquiry->message = $req->message;
         $result = $enquiry->save();
         if($result){
+            $details['name'] = $enquiry->name;
+            $details['email'] = $enquiry->email;
+            $details['phone'] = $enquiry->phone;
+            $details['subject'] = $enquiry->subject;
+            $details['message'] = $enquiry->message;
+
+            dispatch(new SendUserThankYouEmailJob($details));
+            dispatch(new SendAdminEnquiryEmailJob($details));
+
             return response()->json(["message" => "Data Stored successfully."], 201);
         }else{
             return response()->json(["error"=>"something went wrong. Please try again"], 400);

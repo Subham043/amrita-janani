@@ -12,6 +12,8 @@ use App\Models\AudioAccess;
 use App\Models\AudioReport;
 use App\Models\LanguageModel;
 use App\Models\SearchHistory;
+use App\Jobs\SendAdminAccessRequestEmailJob;
+use App\Jobs\SendAdminReportEmailJob;
 
 class AudioPageController extends Controller
 {
@@ -152,6 +154,7 @@ class AudioPageController extends Controller
             $audioFav->status=0;
             $audioFav->message=$req->message;
             $audioFav->save();
+
             
         }else{
             $audioFav = new AudioAccess;
@@ -160,6 +163,14 @@ class AudioPageController extends Controller
             $audioFav->status = 0;
             $audioFav->message=$req->message;
             $audioFav->save();
+            
+            $details['name'] = Auth::user()->name;
+            $details['email'] = Auth::user()->email;
+            $details['filename'] = $audio->title;
+            $details['fileid'] = $audio->uuid;
+            $details['filetype'] = 'audio';
+            $details['message'] = $audioFav->message;
+            dispatch(new SendAdminAccessRequestEmailJob($details));
         }
 
         return response()->json(["message" => "Access requested successfully."], 201);
@@ -199,6 +210,14 @@ class AudioPageController extends Controller
             $audioFav->status = 0;
             $audioFav->message=$req->message;
             $audioFav->save();
+
+            $details['name'] = Auth::user()->name;
+            $details['email'] = Auth::user()->email;
+            $details['filename'] = $audio->title;
+            $details['fileid'] = $audio->uuid;
+            $details['filetype'] = 'audio';
+            $details['message'] = $audioFav->message;
+            dispatch(new SendAdminReportEmailJob($details));
         }
 
         return response()->json(["message" => "Reported successfully."], 201);

@@ -12,6 +12,8 @@ use App\Models\DocumentAccess;
 use App\Models\DocumentReport;
 use App\Models\LanguageModel;
 use App\Models\SearchHistory;
+use App\Jobs\SendAdminAccessRequestEmailJob;
+use App\Jobs\SendAdminReportEmailJob;
 
 class DocumentPageController extends Controller
 {
@@ -159,6 +161,14 @@ class DocumentPageController extends Controller
             $documentFav->status = 0;
             $documentFav->message=$req->message;
             $documentFav->save();
+
+            $details['name'] = Auth::user()->name;
+            $details['email'] = Auth::user()->email;
+            $details['filename'] = $document->title;
+            $details['fileid'] = $document->uuid;
+            $details['filetype'] = 'document';
+            $details['message'] = $documentFav->message;
+            dispatch(new SendAdminAccessRequestEmailJob($details));
         }
 
         return response()->json(["message" => "Access requested successfully."], 201);
@@ -198,6 +208,14 @@ class DocumentPageController extends Controller
             $documentFav->status = 0;
             $documentFav->message=$req->message;
             $documentFav->save();
+
+            $details['name'] = Auth::user()->name;
+            $details['email'] = Auth::user()->email;
+            $details['filename'] = $document->title;
+            $details['fileid'] = $document->uuid;
+            $details['filetype'] = 'document';
+            $details['message'] = $documentFav->message;
+            dispatch(new SendAdminReportEmailJob($details));
         }
 
         return response()->json(["message" => "Reported successfully."], 201);

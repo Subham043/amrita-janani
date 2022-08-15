@@ -12,6 +12,8 @@ use App\Models\VideoAccess;
 use App\Models\VideoReport;
 use App\Models\LanguageModel;
 use App\Models\SearchHistory;
+use App\Jobs\SendAdminAccessRequestEmailJob;
+use App\Jobs\SendAdminReportEmailJob;
 
 class VideoPageController extends Controller
 {
@@ -160,6 +162,14 @@ class VideoPageController extends Controller
             $videoFav->status = 0;
             $videoFav->message=$req->message;
             $videoFav->save();
+
+            $details['name'] = Auth::user()->name;
+            $details['email'] = Auth::user()->email;
+            $details['filename'] = $video->title;
+            $details['fileid'] = $video->uuid;
+            $details['filetype'] = 'video';
+            $details['message'] = $videoFav->message;
+            dispatch(new SendAdminAccessRequestEmailJob($details));
         }
 
         return response()->json(["message" => "Access requested successfully."], 201);
@@ -199,6 +209,14 @@ class VideoPageController extends Controller
             $videoFav->status = 0;
             $videoFav->message=$req->message;
             $videoFav->save();
+
+            $details['name'] = Auth::user()->name;
+            $details['email'] = Auth::user()->email;
+            $details['filename'] = $video->title;
+            $details['fileid'] = $video->uuid;
+            $details['filetype'] = 'video';
+            $details['message'] = $videoFav->message;
+            dispatch(new SendAdminReportEmailJob($details));
         }
 
         return response()->json(["message" => "Reported successfully."], 201);
