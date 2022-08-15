@@ -34,7 +34,7 @@
                                     <ul class="submenu">
                                         <li><a href="{{route('userprofile')}}"><span>User Profile</span></a></li>
                                         <li><a href="{{route('display_profile_password')}}"><span>Change Password</span></a></li>
-                                        <li><a href="gallery.html"><span>Search History</span></a></li>
+                                        <li><a href="{{route('search_history')}}"><span>Search History</span></a></li>
                                     </ul>
                                 </li>
                                 @endif

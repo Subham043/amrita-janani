@@ -135,4 +135,7 @@ validationModal
 
 </script>
 
+@include('pages.main.content.common.search_js', ['search_url'=>route('content_search_query')])
+@include('pages.main.content.common.dashboard_search_handler', ['search_url'=>route('content_dashboard')])
+
 @stop

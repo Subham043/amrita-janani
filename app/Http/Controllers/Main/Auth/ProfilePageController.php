@@ -11,6 +11,7 @@ use URL;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\SearchHistory;
 
 class ProfilePageController extends Controller
 {
@@ -79,6 +80,11 @@ class ProfilePageController extends Controller
         }else{
             return response()->json(["error"=>"something went wrong. Please try again"], 400);
         }
+    }
+
+    public function search_history(){
+        $search_history = SearchHistory::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->paginate(6)->withQueryString();
+        return view('pages.main.search_history')->with('breadcrumb','User Search History')->with('search_history', $search_history);
     }
 
 }

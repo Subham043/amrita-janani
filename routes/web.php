@@ -90,6 +90,7 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::post('/update-user-profile', [ProfilePageController::class, 'update', 'as' => 'profile.update'])->name('update_userprofile');
     Route::get('/user-password', [ProfilePageController::class, 'profile_password', 'as' => 'profile.profile_password'])->name('display_profile_password');
     Route::post('/update-user-password', [ProfilePageController::class, 'change_profile_password', 'as' => 'profile.change_profile_password'])->name('change_profile_password');
+    Route::get('/search-history', [ProfilePageController::class, 'search_history', 'as' => 'profile.search_history'])->name('search_history');
 });
 Route::prefix('/content')->middleware(['auth'])->group(function () {
     Route::get('/', [DashboardPageController::class, 'index', 'as' => 'content.dashboard'])->name('content_dashboard');
