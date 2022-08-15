@@ -93,7 +93,7 @@
                                                 <div class="d-flex gap-2" style="align-items:center">
                                                     <div class="edit">
                                                         <form action="{{route('audio_toggle_report', $item->id)}}" method="get">
-                                                            <select class="form-control" name="status" onchange="this.form.submit()">
+                                                            <select class="form-control" name="status" onchange="this.form.submit()" style="min-width: 100px;">
                                                                 <option value="0" {{ $item->status==0 ? 'selected':''}}>Pending</option>
                                                                 <option value="1" {{ $item->status==1 ? 'selected':''}}>In progress</option>
                                                                 <option value="2" {{ $item->status==2 ? 'selected':''}}>Completed</option>

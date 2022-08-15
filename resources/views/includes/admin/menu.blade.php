@@ -97,7 +97,7 @@
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'access-request/image') !== false || strpos(url()->current(),'access-request/audio') !== false || strpos(url()->current(),'access-request/video') !== false || strpos(url()->current(),'access-request/document') !== false ? 'active' : ''}}" href="#sidebarDashboards8" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{strpos(url()->current(),'access-request/image') !== false || strpos(url()->current(),'access-request/audio') !== false || strpos(url()->current(),'access-request/video') !== false || strpos(url()->current(),'access-request/document') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards8">
-                                    <i class="ri-image-fill"></i> <span data-key="t-dashboards">Access Request</span>
+                                    <i class="ri-wheelchair-line"></i> <span data-key="t-dashboards">Access Request</span>
                                 </a>
                                 <div class="collapse menu-dropdown {{strpos(url()->current(),'access-request/image') !== false || strpos(url()->current(),'access-request/audio') !== false || strpos(url()->current(),'access-request/video') !== false || strpos(url()->current(),'access-request/document') !== false ? 'show' : ''}}" id="sidebarDashboards8">
                                     <ul class="nav nav-sm flex-column">
@@ -119,7 +119,7 @@
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'report/image') !== false || strpos(url()->current(),'report/audio') !== false || strpos(url()->current(),'report/video') !== false || strpos(url()->current(),'report/document') !== false ? 'active' : ''}}" href="#sidebarDashboards9" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{strpos(url()->current(),'report/image') !== false || strpos(url()->current(),'report/audio') !== false || strpos(url()->current(),'report/video') !== false || strpos(url()->current(),'report/document') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards9">
-                                    <i class="ri-image-fill"></i> <span data-key="t-dashboards">Reports</span>
+                                    <i class="ri-file-chart-line"></i> <span data-key="t-dashboards">Content Reports</span>
                                 </a>
                                 <div class="collapse menu-dropdown {{strpos(url()->current(),'report/image') !== false || strpos(url()->current(),'report/audio') !== false || strpos(url()->current(),'report/video') !== false || strpos(url()->current(),'report/document') !== false ? 'show' : ''}}" id="sidebarDashboards9">
                                     <ul class="nav nav-sm flex-column">
