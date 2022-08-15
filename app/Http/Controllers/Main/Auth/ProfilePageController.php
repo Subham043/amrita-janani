@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Profile;
+namespace App\Http\Controllers\Main\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class ProfileController extends Controller
+class ProfilePageController extends Controller
 {
     public function __construct()
     {
@@ -23,7 +23,7 @@ class ProfileController extends Controller
     }
 
     public function index(){
-        return view('pages.admin.profile.index');
+        return view('pages.main.auth.user_profile')->with('breadcrumb','User Profile');
     }
 
     public function update(Request $req){
@@ -42,13 +42,17 @@ class ProfileController extends Controller
         $user->name = $req->name;
         $result = $user->save();
         if($result){
-            return response()->json(["url"=>empty($req->refreshUrl)?route('profile'):$req->refreshUrl, "message" => "Profile Updated successfully."], 201);
+            return response()->json(["message" => "Profile Updated successfully."], 201);
         }else{
             return response()->json(["error"=>"something went wrong. Please try again"], 400);
         }
     }
 
-    public function profile_password(Request $req){
+    public function profile_password(){
+        return view('pages.main.auth.change_password')->with('breadcrumb','Change Password');
+    }
+
+    public function change_profile_password(Request $req){
         $rules = array(
             'opassword' => 'required',
             'password' => 'required',
@@ -71,7 +75,7 @@ class ProfileController extends Controller
         $user->password = Hash::make($req->password);
         $result = $user->save();
         if($result){
-            return response()->json(["url"=>empty($req->refreshUrl)?route('profile'):$req->refreshUrl, "message" => "Password Updated successfully."], 201);
+            return response()->json(["message" => "Password Updated successfully."], 201);
         }else{
             return response()->json(["error"=>"something went wrong. Please try again"], 400);
         }

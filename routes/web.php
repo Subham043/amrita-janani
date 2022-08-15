@@ -11,6 +11,7 @@ use App\Http\Controllers\Main\Auth\LogoutPageController;
 use App\Http\Controllers\Main\Auth\RegisterPageController;
 use App\Http\Controllers\Main\Auth\ForgotPasswordPageController;
 use App\Http\Controllers\Main\Auth\ResetPasswordPageController;
+use App\Http\Controllers\Main\Auth\ProfilePageController;
 use App\Http\Controllers\Main\Auth\VerifyRegisteredUserPageController;
 use App\Http\Controllers\Main\Content\DashboardPageController;
 use App\Http\Controllers\Main\Content\ImagePageController;
@@ -83,7 +84,13 @@ Route::middleware(['guest'])->group(function () {
 });
 
 
-Route::get('/sign-out', [LogoutPageController::class, 'logout', 'as' => 'logout.index'])->middleware(['auth'])->name('signout');
+Route::prefix('/')->middleware(['auth'])->group(function () {
+    Route::get('/sign-out', [LogoutPageController::class, 'logout', 'as' => 'logout.index'])->name('signout');
+    Route::get('/user-profile', [ProfilePageController::class, 'index', 'as' => 'profile.index'])->name('userprofile');
+    Route::post('/update-user-profile', [ProfilePageController::class, 'update', 'as' => 'profile.update'])->name('update_userprofile');
+    Route::get('/user-password', [ProfilePageController::class, 'profile_password', 'as' => 'profile.profile_password'])->name('display_profile_password');
+    Route::post('/update-user-password', [ProfilePageController::class, 'change_profile_password', 'as' => 'profile.change_profile_password'])->name('change_profile_password');
+});
 Route::prefix('/content')->middleware(['auth'])->group(function () {
     Route::get('/', [DashboardPageController::class, 'index', 'as' => 'content.dashboard'])->name('content_dashboard');
     Route::post('/search-query', [DashboardPageController::class, 'search_query', 'as' => 'content.search_query'])->name('content_search_query');

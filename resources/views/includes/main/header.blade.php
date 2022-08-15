@@ -28,6 +28,16 @@
                                 <li class="has-children">
                                     <a href="{{route('contact')}}"><span>Contact</span></a>
                                 </li>
+                                @if(Auth::check())
+                                <li class="has-children has-children--multilevel-submenu">
+                                    <a href="#"><span>Account</span></a>
+                                    <ul class="submenu">
+                                        <li><a href="{{route('userprofile')}}"><span>User Profile</span></a></li>
+                                        <li><a href="{{route('display_profile_password')}}"><span>Change Password</span></a></li>
+                                        <li><a href="gallery.html"><span>Search History</span></a></li>
+                                    </ul>
+                                </li>
+                                @endif
 
                             </ul>
                         </nav>
@@ -35,7 +45,11 @@
                     </div>
 
                     <div class="header-btn text-right d-none d-sm-block ml-lg-4">
+                        @if(Auth::check())
+                        <a class="btn-circle btn-default btn" href="{{route('signout')}}">Logout</a>
+                        @else
                         <a class="btn-circle btn-default btn" href="{{route('signin')}}">Login</a>
+                        @endif
                     </div>
 
                     <!-- mobile menu -->

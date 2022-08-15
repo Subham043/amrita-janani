@@ -2296,8 +2296,8 @@ input[type="checkbox"] {
           transition-duration: 0.4s;
   visibility: hidden;
   opacity: 0;
-  min-width: 240px;
-  padding: 20px 0;
+  min-width: 155px;
+  padding: 10px 0;
   z-index: 9;
 }
 
@@ -2307,7 +2307,7 @@ input[type="checkbox"] {
 
 .submenu > li > a {
   display: block;
-  padding: 5px 30px;
+  padding: 5px 10px;
   color: #ababab;
   font-weight: 400;
   -webkit-transition: 0s;
