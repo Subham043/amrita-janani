@@ -17,7 +17,7 @@
 
 <div class="main-content-wrapper">
     @if($video->contentVisible())
-    <div class="main-image-container" >
+    <div class="main-video-container" >
         <div class="plyr__video-embed" id="player">
             <iframe
                 @if(strpos($video->video,'vimeo') !== false)

@@ -106,7 +106,7 @@ class AudioPageController extends Controller
                 $audio->favourites = $audio->favourites -1;
 
                 $audio->save();
-                return redirect()->intended(route('content_audio_view', $uuid))->with('success_status', 'Made unfavourite successfully.');
+                return redirect()->intended(route('content_audio_view', $uuid))->with('success_status', 'Marked unfavourite successfully.');
             }else{
                 $audioFav->status=1;
                 $audio->favourites = $audio->favourites +1;

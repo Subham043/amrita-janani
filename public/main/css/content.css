@@ -305,6 +305,27 @@ hr {
     position: relative;
 }
 
+.main-content-wrapper .major-image-wrapper{
+    min-height: 60vh;
+}
+
+.main-content-wrapper .main-video-container{
+    /* Add the blur effect */
+    /* filter: blur(8px);
+    -webkit-filter: blur(8px); */
+    /* Full height */
+    min-height: 55vh;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.plyr__video-wrapper {
+    height: 55vh;
+}
+
 .main-content-wrapper .main-audio-container{
     padding:10px 0px;
     background: white;
@@ -350,6 +371,11 @@ hr {
     object-fit:contain;
     height:400px;
     box-shadow: 0px 5px 11px 4px #222;
+}
+
+.main-content-wrapper .major-image-wrapper img{
+
+    height:50vh;
 }
 
 .main-content-wrapper hr{

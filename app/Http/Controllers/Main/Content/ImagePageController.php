@@ -106,7 +106,7 @@ class ImagePageController extends Controller
                 $image->favourites = $image->favourites -1;
 
                 $image->save();
-                return redirect()->intended(route('content_image_view', $uuid))->with('success_status', 'Made unfavourite successfully.');
+                return redirect()->intended(route('content_image_view', $uuid))->with('success_status', 'Marked unfavourite successfully.');
             }else{
                 $imageFav->status=1;
                 $image->favourites = $image->favourites +1;

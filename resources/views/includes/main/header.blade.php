@@ -29,6 +29,11 @@
                                     <a href="{{route('contact')}}"><span>Contact</span></a>
                                 </li>
                                 @if(Auth::check())
+                                @if(strpos(url()->current(),'content') === false)
+                                <li class="has-children">
+                                    <a href="{{route('content_dashboard')}}"><span>Content</span></a>
+                                </li>
+                                @endif
                                 <li class="has-children has-children--multilevel-submenu">
                                     <a href="#"><span>Account</span></a>
                                     <ul class="submenu">

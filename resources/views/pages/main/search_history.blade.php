@@ -4,12 +4,9 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
     integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ asset('main/css/content.css') }}">
-<link rel="stylesheet" href="{{ asset('main/css/plugins/autocomplete.css')}}" type="text/css" />
 @stop
 
 @section('content')
-
-@include('includes.main.sub_menu')
 
 @include('includes.main.breadcrumb')
 
@@ -60,14 +57,5 @@
         </div>
     </div>
 </div>
-
-@stop
-
-@section('javascript')
-<script src="{{ asset('main/js/plugins/axios.min.js') }}"></script>
-@include('pages.main.content.common.search_js', ['search_url'=>route('content_search_query')])
-@include('pages.main.content.common.dashboard_search_handler', ['search_url'=>route('content_dashboard')])
-
-
 
 @stop

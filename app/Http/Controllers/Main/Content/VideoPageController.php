@@ -106,7 +106,7 @@ class VideoPageController extends Controller
                 $video->favourites = $video->favourites -1;
 
                 $video->save();
-                return redirect()->intended(route('content_video_view', $uuid))->with('success_status', 'Made unfavourite successfully.');
+                return redirect()->intended(route('content_video_view', $uuid))->with('success_status', 'Marked unfavourite successfully.');
             }else{
                 $videoFav->status=1;
                 $video->favourites = $video->favourites +1;

@@ -105,7 +105,7 @@ class DocumentPageController extends Controller
                 $document->favourites = $document->favourites -1;
 
                 $document->save();
-                return redirect()->intended(route('content_document_view', $uuid))->with('success_status', 'Made unfavourite successfully.');
+                return redirect()->intended(route('content_document_view', $uuid))->with('success_status', 'Marked unfavourite successfully.');
             }else{
                 $documentFav->status=1;
                 $document->favourites = $document->favourites +1;

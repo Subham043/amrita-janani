@@ -24,15 +24,6 @@
             <div class="mobile-menu-overlay__body">
                 <nav class="offcanvas-navigation">
                     <ul>
-                        <!-- <li class="has-children">
-                            <a href="index.html">Home</a>
-                            <ul class="sub-menu">
-                                <li><a href="index.html"><span>Home 1</span></a></li>
-                                <li><a href="index-2.html"><span>Home 2</span></a></li>
-                                <li><a href="index-3.html"><span>Home 3</span></a></li>
-                                <li><a href="index-4.html"><span>Home 4</span></a></li>
-                            </ul>
-                        </li> -->
                         <li class="has-children">
                             <a href="{{route('index')}}">Home</a>
                         </li>
@@ -45,8 +36,32 @@
                         <li class="has-children">
                             <a href="{{route('contact')}}">Contact</a>
                         </li>
+                        @if(Auth::check())
                         <li class="has-children">
+                            <a href="#">Content</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{route('content_dashboard')}}"><span>Dashboard</span></a></li>
+                                <li><a href="{{route('content_image')}}"><span>Images</span></a></li>
+                                <li><a href="{{route('content_video')}}"><span>Videos</span></a></li>
+                                <li><a href="{{route('content_audio')}}"><span>Audios</span></a></li>
+                                <li><a href="{{route('content_document')}}"><span>Documents</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="has-children">
+                            <a href="#">Account</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{route('userprofile')}}"><span>User Profile</span></a></li>
+                                <li><a href="{{route('display_profile_password')}}"><span>Change Password</span></a></li>
+                                <li><a href="{{route('search_history')}}"><span>Search History</span></a></li>
+                            </ul>
+                        </li>
+                        @endif
+                        <li class="has-children">
+                            @if(Auth::check())
+                            <a href="{{route('signout')}}">Logout</a>
+                            @else
                             <a href="{{route('signin')}}">Login</a>
+                            @endif
                         </li>
                     </ul>
                 </nav>
