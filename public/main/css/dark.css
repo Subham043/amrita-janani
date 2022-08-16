@@ -1,4 +1,4 @@
-body, .church-about-area, .hindu-video-area, .causes-details-area, .contact-page-wrapper, .content-holder, .content-holder .content-container .media-container .img-holder, .main-content-wrapper, .main-content-wrapper .main-audio-container, .plyr--audio .plyr__controls, .denied-container, .main-denied-container {
+body, .church-about-area, .hindu-video-area, .causes-details-area, .contact-page-wrapper, .content-holder, .content-holder .content-container .media-container .img-holder, .main-content-wrapper, .main-content-wrapper .main-audio-container, .plyr--audio .plyr__controls, .denied-container, .main-denied-container, .main-content-wrapper .main-image-container .blur-bg {
     background-color: #383838;
 }
 
