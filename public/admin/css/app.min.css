@@ -632,6 +632,8 @@
     padding: 0 0 calc(70px + 25px) 0;
     -webkit-transition: all 0.1s ease-out;
     transition: all 0.1s ease-out;
+    overflow: hidden;
+    overflow-y: auto;
 }
 .navbar-menu .navbar-nav .nav-link {
     display: -webkit-box;

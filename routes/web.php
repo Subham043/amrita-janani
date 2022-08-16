@@ -145,6 +145,7 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
     Route::prefix('/enquiry')->group(function () {
         Route::get('/', [EnquiryController::class, 'view', 'as' => 'admin.enquiry.view'])->name('enquiry_view');
         Route::get('/view/{id}', [EnquiryController::class, 'display', 'as' => 'admin.enquiry.display'])->name('enquiry_display');
+        Route::post('/reply/{id}', [EnquiryController::class, 'reply', 'as' => 'admin.enquiry.reply'])->name('enquiry_reply');
         Route::get('/excel', [EnquiryController::class, 'excel', 'as' => 'admin.enquiry.excel'])->name('enquiry_excel');
         Route::get('/delete/{id}', [EnquiryController::class, 'delete', 'as' => 'admin.enquiry.delete'])->name('enquiry_delete');
     });

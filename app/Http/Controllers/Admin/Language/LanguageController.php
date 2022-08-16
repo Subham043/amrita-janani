@@ -92,7 +92,7 @@ class LanguageController extends Controller
 
     public function delete($id){
         $data = LanguageModel::findOrFail($id);
-        $data->delete();
+        $data->forceDelete();
         return redirect()->intended(route('language_view'))->with('success_status', 'Data Deleted successfully.');
     }
 

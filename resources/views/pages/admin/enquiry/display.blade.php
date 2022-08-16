@@ -4,8 +4,6 @@
 
 @section('content')
 
-<link rel="stylesheet" href="{{ asset('admin/css/image-previewer.css')}}" type="text/css" />
-
 <div class="page-content">
     <div class="container-fluid">
 
@@ -83,6 +81,52 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header align-items-center d-flex">
+                        <h4 class="card-title mb-0 flex-grow-1">Reply Via Mail</h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">
+                        <div class="live-preview">
+                            <form id="contactForm" method="post" action="{{route('subadmin_store')}}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row gy-4">
+                                <div class="col-xxl-12 col-md-12">
+                                    <div>
+                                        <label for="subject" class="form-label">Subject</label>
+                                        <input type="text" class="form-control" name="subject" id="subject" value="{{old('subject')}}">
+                                        @error('subject') 
+                                            <div class="invalid-message">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-xxl-12 col-md-12">
+                                    <div>
+                                        <label for="message" class="form-label">Message</label>
+                                        <textarea class="form-control" name="message" id="message"></textarea>
+                                        @error('message') 
+                                            <div class="invalid-message">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-xxl-12 col-md-12">
+                                    <button type="submit" id="SubmitBtn" class="btn btn-primary waves-effect waves-light">Reply</button>
+                                </div>
+                                
+                            </div>
+                            </form>
+                            <!--end row-->
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+
 
     </div> <!-- container-fluid -->
 </div><!-- End Page-content -->
@@ -92,7 +136,8 @@
 @stop          
 
 @section('javascript')
-<script src="{{ asset('admin/js/pages/img-previewer.min.js') }}"></script>
+<script src="{{ asset('main/js/plugins/just-validate.production.min.js') }}"></script>
+<script src="{{ asset('main/js/plugins/axios.min.js') }}"></script>
 <script>
     function deleteHandler(url){
         iziToast.question({
@@ -127,27 +172,90 @@
         });
     }
 </script>
-<script>
-    const myViewer = new ImgPreviewer('#image-container',{
-      // aspect ratio of image
-        fillRatio: 0.9,
-        // attribute that holds the image
-        dataUrlKey: 'src',
-        // additional styles
-        style: {
-            modalOpacity: 0.6,
-            headerOpacity: 0,
-            zIndex: 99
-        },
-        // zoom options
-        imageZoom: { 
-            min: 0.1,
-            max: 5,
-            step: 0.1
-        },
-        // detect whether the parent element of the image is hidden by the css style
-        bubblingLevel: 0,
-        
-    });
+<script type="text/javascript">
+
+const validationModal = new JustValidate('#contactForm', {
+    errorFieldCssClass: 'is-invalid',
+});
+
+validationModal
+.addField('#subject', [
+{
+    rule: 'required',
+    errorMessage: 'Subject is required',
+},
+{
+    rule: 'customRegexp',
+    value: /^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i,
+    errorMessage: 'Subject is invalid',
+},
+])
+.addField('#message', [
+{
+    rule: 'required',
+    errorMessage: 'Message is required',
+},
+{
+    rule: 'customRegexp',
+    value: /^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i,
+    errorMessage: 'Message is invalid',
+},
+])
+.onSuccess(async (event) => {
+    event.target.preventDefault;
+    const errorToast = (message) =>{
+        iziToast.error({
+            title: 'Error',
+            message: message,
+            position: 'bottomCenter',
+            timeout:7000
+        });
+    }
+    const successToast = (message) =>{
+        iziToast.success({
+            title: 'Success',
+            message: message,
+            position: 'bottomCenter',
+            timeout:6000
+        });
+    }
+    var submitBtn = document.getElementById('SubmitBtn')
+    submitBtn.innerHTML = `
+        <span class="d-flex align-items-center">
+            <span class="spinner-border flex-shrink-0" role="status">
+                <span class="visually-hidden"></span>
+            </span>
+            <span class="flex-grow-1 ms-2">
+                &nbsp; Replying...
+            </span>
+        </span>
+        `
+    submitBtn.disabled = true;
+    try {
+        var formData = new FormData();
+        formData.append('subject',document.getElementById('subject').value)
+        formData.append('message',document.getElementById('message').value)
+        const response = await axios.post('{{route('enquiry_reply', $country->id)}}', formData)
+        successToast(response.data.message)
+        event.target.reset()
+        await reload_captcha()
+    } catch (error) {
+        if(error?.response?.data?.form_error?.subject){
+            errorToast(error?.response?.data?.form_error?.subject[0])
+        }
+        if(error?.response?.data?.form_error?.message){
+            errorToast(error?.response?.data?.form_error?.message[0])
+        }
+        if(error?.response?.data?.error){
+            errorToast(error?.response?.data?.error)
+        }
+    } finally{
+        submitBtn.innerHTML =  `
+            Reply
+            `
+        submitBtn.disabled = false;
+    }
+})
+
 </script>
 @stop

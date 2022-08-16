@@ -126,7 +126,7 @@ class UserController extends Controller
 
     public function delete($id){
         $country = User::where('id', '!=' , Auth::user()->id)->findOrFail($id);
-        $country->delete();
+        $country->forceDelete();
         return redirect()->intended(route('subadmin_view'))->with('success_status', 'Data Deleted successfully.');
     }
 

@@ -107,6 +107,8 @@
                                     <div>
                                         <label for="video" class="form-label">Video</label>
                                         <input type="text" class="form-control" name="video" id="video" value="{{old('video')}}">
+                                        <div class="form-text"><code>youtube url format : </code>https://www.youtube.com/watch?v=3QPp_DlcZpM</div>
+                                        <div class="form-text"><code>vimeo url format : </code>https://player.vimeo.com/video/291685166</div>
                                         @error('video') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
