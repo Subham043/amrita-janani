@@ -12,7 +12,7 @@
             </div>
             <div class="col-lg-5 col-md-12 col-sm-12 search-col">
                 <div class="right-submenu-holder">
-                    <button><i class="fas fa-sun"></i></button>
+                    <button onclick="toggleDarkMode()"><i id="darkModeToggleBtn" class="fas fa-moon"></i></button>
                     <form  method="get" class="col-sm-auto" onsubmit="return callSearchHandler()">
                         <label for="search">
                             <span><i class="fas fa-search"></i></span>

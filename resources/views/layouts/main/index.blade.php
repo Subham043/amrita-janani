@@ -44,6 +44,7 @@
 
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{ asset('main/css/style.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('main/css/dark.css') }}"> -->
 
 </head>
 
@@ -129,6 +130,36 @@
     </script>
 
     @yield('javascript')
+
+    <script>
+         
+         function toggleDarkMode(){
+
+             try{
+                document.getElementById('dark_mode_css').remove()
+                document.getElementById('darkModeToggleBtn').className = "fas fa-moon"
+             }catch(error){
+                // Get HTML head element
+                var head = document.getElementsByTagName('HEAD')[0];
+                    
+                    // Create new link Element
+                    var link = document.createElement('link');
+
+                    // set the attributes for link element
+                    link.rel = 'stylesheet';
+                
+                    link.type = 'text/css';
+
+                    link.id = 'dark_mode_css';
+                
+                    link.href = "{{ asset('main/css/dark.css') }}";
+
+                    // Append link element to HTML head
+                    head.appendChild(link);
+                    document.getElementById('darkModeToggleBtn').className = "fas fa-sun"
+             }
+         }
+    </script>
 
 
 </body>
