@@ -101,4 +101,16 @@ class VideoModel extends Model
         }
         return array();
     }
+
+    public function getVideoId(){
+        if(strpos($this->video,'vimeo') !== false){
+            if(preg_match("/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/?(showcase\/)*([0-9))([a-z]*\/)*([0-9]{6,11})[?]?.*/", $this->video, $output_array)) {
+                return $output_array[6];
+            }
+        }else{
+            $video_id = explode("?v=", $this->video);
+            $video_id = $video_id[1];
+            return $video_id;
+        }
+    }
 }

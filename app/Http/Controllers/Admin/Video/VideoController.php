@@ -27,6 +27,7 @@ class VideoController extends Controller
     }
 
     public function create() {
+
         $tags = VideoModel::select('tags')->whereNotNull('tags')->get();
         $tags_exist = array();
         foreach ($tags as $tag) {

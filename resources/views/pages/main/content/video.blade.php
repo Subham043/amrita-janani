@@ -96,7 +96,11 @@
                         <div class="col-lg-4 col-sm-12">
                             <a class="media-href" title="{{$video->title}}" href="{{route('content_video_view', $video->uuid)}}">
                                 <div class="img-holder">
-                                    <img src="{{asset('main/images/video.png')}}" alt="">
+                                    @if(strpos($video->video,'vimeo') !== false)
+                                    <img src="https://vumbnail.com/{{$video->getVideoId()}}.jpg" alt="">
+                                    @else
+                                    <img src="https://i3.ytimg.com/vi/{{$video->getVideoId()}}/maxresdefault.jpg" alt="">
+                                    @endif
                                 </div>
                                 <div class="media-holder">
                                     <h5>{{$video->title}}</h5>
