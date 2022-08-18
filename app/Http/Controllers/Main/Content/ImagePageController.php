@@ -75,13 +75,6 @@ class ImagePageController extends Controller
         $image->save();
 
         try {
-            $imageFav = ImageFavourite::where('image_id', $image->id)->where('user_id', Auth::user()->id)->first();
-        } catch (\Throwable $th) {
-            //throw $th;
-            $imageFav = null;
-        }
-
-        try {
             $imageAccess = ImageAccess::where('image_id', $image->id)->where('user_id', Auth::user()->id)->first();
         } catch (\Throwable $th) {
             //throw $th;
@@ -90,7 +83,6 @@ class ImagePageController extends Controller
 
         return view('pages.main.content.image_view')->with('breadcrumb','Image - '.$image->title)
         ->with('imageAccess',$imageAccess)
-        ->with('imageFav',$imageFav)
         ->with('image',$image);
     }
 

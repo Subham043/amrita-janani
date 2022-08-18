@@ -75,13 +75,6 @@ class VideoPageController extends Controller
         $video->save();
 
         try {
-            $videoFav = VideoFavourite::where('video_id', $video->id)->where('user_id', Auth::user()->id)->first();
-        } catch (\Throwable $th) {
-            //throw $th;
-            $videoFav = null;
-        }
-
-        try {
             $videoAccess = VideoAccess::where('video_id', $video->id)->where('user_id', Auth::user()->id)->first();
         } catch (\Throwable $th) {
             //throw $th;
@@ -90,7 +83,6 @@ class VideoPageController extends Controller
 
         return view('pages.main.content.video_view')->with('breadcrumb','Video - '.$video->title)
         ->with('videoAccess',$videoAccess)
-        ->with('videoFav',$videoFav)
         ->with('video',$video);
     }
 

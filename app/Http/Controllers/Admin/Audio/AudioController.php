@@ -210,7 +210,7 @@ class AudioController extends Controller
     public function view(Request $request) {
         if ($request->has('search')) {
             $search = $request->input('search');
-            $data = AudioModel::where('title', 'like', '%' . $search . '%')
+            $data = AudioModel::with(['LanguageModel','User'])->where('title', 'like', '%' . $search . '%')
             ->orWhere('year', 'like', '%' . $search . '%')
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
@@ -219,7 +219,7 @@ class AudioController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
-            $data = AudioModel::orderBy('id', 'DESC')->paginate(10);
+            $data = AudioModel::with(['LanguageModel','User'])->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.audio.list')->with('country', $data)->with('languages', LanguageModel::all());
     }
@@ -227,7 +227,7 @@ class AudioController extends Controller
     public function viewTrash(Request $request) {
         if ($request->has('search')) {
             $search = $request->input('search');
-            $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->where('title', 'like', '%' . $search . '%')
+            $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->with(['LanguageModel','User'])->where('title', 'like', '%' . $search . '%')
             ->orWhere('year', 'like', '%' . $search . '%')
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
@@ -236,21 +236,19 @@ class AudioController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
-            $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->orderBy('id', 'DESC')->paginate(10);
+            $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->with(['LanguageModel','User'])->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.audio.list_trash')->with('country', $data)->with('languages', LanguageModel::all());
     }
 
     public function display($id) {
-        $data = AudioModel::findOrFail($id);
-        $url = "";
-        return view('pages.admin.audio.display')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
+        $data = AudioModel::with(['LanguageModel','User'])->findOrFail($id);
+        return view('pages.admin.audio.display')->with('country',$data)->with('languages', LanguageModel::all());
     }
     
     public function displayTrash($id) {
-        $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
-        $url = "";
-        return view('pages.admin.audio.display_trash')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
+        $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->with(['LanguageModel','User'])->findOrFail($id);
+        return view('pages.admin.audio.display_trash')->with('country',$data)->with('languages', LanguageModel::all());
     }
 
     public function excel(){

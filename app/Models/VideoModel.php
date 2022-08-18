@@ -29,9 +29,30 @@ class VideoModel extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function getAdminName(){
+        if(!empty($this->User) && $this->User->count()>0){
+            return $this->User->name;
+        }
+        return "";
+    }
+
     public function LanguageModel()
     {
         return $this->belongsTo('App\Models\LanguageModel', 'language_id');
+    }
+
+    public function getLanguageName(){
+        if(!empty($this->LanguageModel) && $this->LanguageModel->count()>0){
+            return $this->LanguageModel->name;
+        }
+        return "";
+    }
+
+    public function getLanguageId(){
+        if(!empty($this->LanguageModel) && $this->LanguageModel->count()>0){
+            return $this->LanguageModel->id;
+        }
+        return "";
     }
 
     public function VideoFavourite()

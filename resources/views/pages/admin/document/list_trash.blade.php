@@ -70,7 +70,7 @@
                                         @foreach ($country->items() as $item)
                                         <tr>
                                             <td class="customer_name">{{$item->title}}</td>
-                                            <td class="customer_name">{{$item->LanguageModel->name}}</td>
+                                            <td class="customer_name">{{$item->getLanguageName()}}</td>
                                             <td class="customer_name">{{$item->uuid}}</td>
                                             @if($item->status == 1)
                                             <td class="status"><span class="badge badge-soft-success text-uppercase">Active</span></td>

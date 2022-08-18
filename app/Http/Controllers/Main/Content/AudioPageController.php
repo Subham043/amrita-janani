@@ -75,13 +75,6 @@ class AudioPageController extends Controller
         $audio->save();
 
         try {
-            $audioFav = AudioFavourite::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->first();
-        } catch (\Throwable $th) {
-            //throw $th;
-            $audioFav = null;
-        }
-
-        try {
             $audioAccess = AudioAccess::where('audio_id', $audio->id)->where('user_id', Auth::user()->id)->first();
         } catch (\Throwable $th) {
             //throw $th;
@@ -90,7 +83,6 @@ class AudioPageController extends Controller
 
         return view('pages.main.content.audio_view')->with('breadcrumb','Audio - '.$audio->title)
         ->with('audioAccess',$audioAccess)
-        ->with('audioFav',$audioFav)
         ->with('audio',$audio);
     }
 

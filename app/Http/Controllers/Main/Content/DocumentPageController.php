@@ -74,13 +74,6 @@ class DocumentPageController extends Controller
         $document->save();
 
         try {
-            $documentFav = DocumentFavourite::where('document_id', $document->id)->where('user_id', Auth::user()->id)->first();
-        } catch (\Throwable $th) {
-            //throw $th;
-            $documentFav = null;
-        }
-
-        try {
             $documentAccess = DocumentAccess::where('document_id', $document->id)->where('user_id', Auth::user()->id)->first();
         } catch (\Throwable $th) {
             //throw $th;
@@ -89,7 +82,6 @@ class DocumentPageController extends Controller
 
         return view('pages.main.content.document_view')->with('breadcrumb','Document - '.$document->title)
         ->with('documentAccess',$documentAccess)
-        ->with('documentFav',$documentFav)
         ->with('document',$document);
     }
 
