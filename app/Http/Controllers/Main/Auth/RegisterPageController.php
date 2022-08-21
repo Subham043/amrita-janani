@@ -24,7 +24,7 @@ class RegisterPageController extends Controller
         $validator = $req->validate([
             'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email','unique:users'],
-            'phone' => ['required','regex:/^[0-9]*$/','unique:users'],
+            'phone' => ['nullable','regex:/^[0-9]*$/','unique:users'],
             'password' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'cpassword' => ['required_with:password|same:password'],
         ],

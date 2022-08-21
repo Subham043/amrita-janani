@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\HomePageController;
+use App\Http\Controllers\Main\DarkModePageController;
+use App\Http\Controllers\Main\PrivacyPolicyPageController;
 use App\Http\Controllers\Main\CaptchaController;
 use App\Http\Controllers\Main\AboutPageController;
 use App\Http\Controllers\Main\ContactPageController;
@@ -58,6 +60,7 @@ Route::get('/about', [AboutPageController::class, 'index', 'as' => 'about.index'
 Route::get('/contact', [ContactPageController::class, 'index', 'as' => 'contact.index'])->name('contact');
 Route::post('/contact', [ContactPageController::class, 'contact_ajax', 'as' => 'contact.contact_ajax'])->name('contact_ajax');
 Route::get('/faq', [FAQPageController::class, 'index', 'as' => 'faq.index'])->name('faq');
+Route::get('/privacy-policy', [PrivacyPolicyPageController::class, 'index', 'as' => 'privacy_policy.index'])->name('privacy_policy');
 Route::get('/captcha-reload', [CaptchaController::class, 'reloadCaptcha', 'as' => 'captcha.reload'])->name('captcha_ajax');
 
 Route::middleware(['guest'])->group(function () {
@@ -86,6 +89,7 @@ Route::middleware(['guest'])->group(function () {
 
 Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::get('/sign-out', [LogoutPageController::class, 'logout', 'as' => 'logout.index'])->name('signout');
+    Route::get('/dark-mode', [DarkModePageController::class, 'index', 'as' => 'darkmode.index'])->name('darkmode');
     Route::get('/user-profile', [ProfilePageController::class, 'index', 'as' => 'profile.index'])->name('userprofile');
     Route::post('/update-user-profile', [ProfilePageController::class, 'update', 'as' => 'profile.update'])->name('update_userprofile');
     Route::get('/user-password', [ProfilePageController::class, 'profile_password', 'as' => 'profile.profile_password'])->name('display_profile_password');

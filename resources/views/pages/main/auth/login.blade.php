@@ -26,31 +26,31 @@
 @section('content')
 
 <div class="form-items">
-    <h3>Get more things done with Loggin Amrita Janani.</h3>
-    <p>Access to the most powerfull tool in amrita janani.</p>
+    <h3>Get access to AmritaJanani by logging in</h3>
+    <!-- <p>Access to the most powerfull tool in amrita janani.</p> -->
     <div class="page-links">
         <a href="{{route('signin')}}" class="active">Login</a><a href="{{route('signup')}}">Register</a>
     </div>
     <form action="{{route('signin_authenticate')}}" method="post" id="loginForm">
         @csrf
         <div class="mb-2">
-            <input class="form-control" type="email" name="email" id="email" placeholder="E-mail Address"
+            <input class="form-control" type="email" name="email" id="email" placeholder="E-mail Address*"
                 value="{{old('email')}}" required>
             @error('email')
             <div class="invalid-message">{{ $message }}</div>
             @enderror
         </div>
         <div class="mb-2">
-            <input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+            <input class="form-control" type="password" name="password" id="password" placeholder="Password*" required>
             @error('password')
             <div class="invalid-message">{{ $message }}</div>
             @enderror
         </div>
         
-        <input type="checkbox" id="chk1"><label for="chk1">Remmeber me</label>
+        <input type="checkbox" id="chk1"><label for="chk1">Remember me</label>
         <div class="form-button">
             <button id="submitBtn" type="submit" class="ibtn">Login</button> <a
-                href="{{route('forgot_password')}}">Forget password?</a>
+                href="{{route('forgot_password')}}">Forgot password?</a>
         </div>
     </form>
     <!-- <div class="other-links">

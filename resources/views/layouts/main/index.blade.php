@@ -44,7 +44,10 @@
 
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{ asset('main/css/style.css') }}">
-    <!-- <link rel="stylesheet" href="{{ asset('main/css/dark.css') }}"> -->
+    
+    @if(Auth::check() && Auth::user()->darkMode==1)
+    <link rel="stylesheet" href="{{ asset('main/css/dark.css') }}">
+    @endif
 
 </head>
 

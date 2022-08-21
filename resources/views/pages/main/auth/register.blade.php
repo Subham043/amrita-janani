@@ -22,21 +22,21 @@
 @section('content')
 
 <div class="form-items">
-    <h3>Get more things done with Registering Amrita Janani.</h3>
-    <p>Access to the most powerfull tool in amrita janani.</p>
+    <h3>Register to get access to AmritaJanani</h3>
+    <!-- <p>Access to the most powerfull tool in amrita janani.</p> -->
     <div class="page-links">
         <a href="{{route('signin')}}">Login</a><a href="{{route('index')}}" class="active">Register</a>
     </div>
     <form action="{{route('signup_store')}}" method="post" id="loginForm">
         @csrf
         <div class="mb-2">
-            <input class="form-control" type="text" name="name" id="name" placeholder="Name" value="{{old('name')}}" required>
+            <input class="form-control" type="text" name="name" id="name" placeholder="Name*" value="{{old('name')}}" required>
             @error('name') 
                 <div class="invalid-message">{{ $message }}</div>
             @enderror
         </div>
         <div class="mb-2">
-        <input class="form-control" type="email" name="email" id="email" placeholder="E-mail Address" value="{{old('email')}}" required>
+        <input class="form-control" type="email" name="email" id="email" placeholder="E-mail Address*" value="{{old('email')}}" required>
         @error('email') 
             <div class="invalid-message">{{ $message }}</div>
         @enderror
@@ -48,19 +48,19 @@
         @enderror
         </div>
         <div class="mb-2">
-        <input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+        <input class="form-control" type="password" name="password" id="password" placeholder="Password*" required>
         @error('password') 
             <div class="invalid-message">{{ $message }}</div>
         @enderror
         </div>
         <div class="mb-2">
-        <input class="form-control" type="password" name="cpassword" id="cpassword" placeholder="Confirm Password" required>
+        <input class="form-control" type="password" name="cpassword" id="cpassword" placeholder="Confirm Password*" required>
         @error('cpassword') 
             <div class="invalid-message">{{ $message }}</div>
         @enderror
         </div>
         <div class="mb-2">
-        <input type="checkbox" id="chk1"><label for="chk1">Accept Terms & Condtions</label>
+        <input type="checkbox" id="chk1"><label for="chk1">Accept <a href="{{route('privacy_policy')}}" style="color:white;font-weight:bold;text-decoration:underline;" target="_blank">Terms & Condtions</a></label>
         </div>
         <div class="form-button">
             <button id="btnsubmit" type="submit" class="ibtn">Register</button> <a href="{{route('signin')}}">Already a registered user?</a>
@@ -110,10 +110,6 @@ validation
   ])
   .addField('#phone', [
     {
-      rule: 'required',
-      errorMessage: 'Phone is required',
-    },
-    {
         rule: 'customRegexp',
         value: /^[0-9]*$/,
         errorMessage: 'Phone is invalid',
@@ -147,6 +143,12 @@ validation
         },
         errorMessage: 'Password and Confirm Password must be same',
     },
+  ])
+  .addField('#chk1', [
+    {
+      rule: 'required',
+      errorMessage: 'Please accept the terms & conditions',
+    }
   ])
   .onSuccess((event) => {
     event.target.submit();

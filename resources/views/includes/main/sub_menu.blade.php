@@ -12,7 +12,11 @@
             </div>
             <div class="col-lg-5 col-md-12 col-sm-12 search-col">
                 <div class="right-submenu-holder">
-                    <button onclick="toggleDarkMode()"><i id="darkModeToggleBtn" class="fas fa-moon"></i></button>
+                    @if(Auth::check() && Auth::user()->darkMode==1)
+                    <a href="{{route('darkmode')}}"><i id="darkModeToggleBtn" class="fas fa-sun"></i></a>
+                    @else
+                    <a href="{{route('darkmode')}}"><i id="darkModeToggleBtn" class="fas fa-moon"></i></a>
+                    @endif
                     <form  method="get" class="col-sm-auto" onsubmit="return callSearchHandler()">
                         <label for="search">
                             <span><i class="fas fa-search"></i></span>

@@ -2129,6 +2129,49 @@ input[type="checkbox"] {
   background: #96171c;
 }
 
+.submenu-wrapper.is-sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  -webkit-animation: .95s ease-in-out 0s normal none 1 running fadeInDown;
+          animation: .95s ease-in-out 0s normal none 1 running fadeInDown;
+  z-index: 999;
+  -webkit-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -o-transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.header-sticky.is-sticky .header__logo {
+  padding: 5px 0;
+}
+.header-sticky.is-sticky .header__logo .logo img{
+  object-fit: contain;
+  height:35px;
+}
+
+.header-sticky.is-sticky .navigation-menu > ul > li > a{
+  padding: 20px 2px;
+}
+
+.header-sticky.is-sticky .header-btn .btn-default{
+  padding: 2px 20px;
+}
+
+.submenu-wrapper.is-sticky .submenu_holder li a.active{
+  padding: 5px 10px;
+}
+
+.submenu-wrapper.is-sticky .submenu_holder{
+  padding: 13px 0;
+}
+
+.submenu-wrapper.is-sticky .right-submenu-holder{
+  padding: 10px 0;
+}
+
 .header-right {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;

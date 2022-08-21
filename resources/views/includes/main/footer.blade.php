@@ -71,7 +71,7 @@
                     <div class="col-lg-12">
                         <div class="copy-right-box">
                             <p class="text-white">Copyright &copy; 2022 Amrita Janani and Devipuram All Right Reserved.</p>
-                            <p class=" text-white"><a href="#">Privacy policy</a></p>
+                            <p class=" text-white"><a href="{{route('privacy_policy')}}">Privacy policy</a></p>
                         </div>
                     </div>
                 </div>

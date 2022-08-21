@@ -11,6 +11,7 @@
     var windows = $(window);
 	var screenSize = windows.width();
 	var sticky = $('.header-sticky');
+	var stickySub = $('.submenu-wrapper');
 	var $html = $('html');
     var $body = $('body');
 
@@ -25,8 +26,11 @@
         if (screenSize >= 320) {
             if (scroll < headerHeight) {
                 sticky.removeClass('is-sticky');
+                stickySub.removeClass('is-sticky');sticky
             } else {
                 sticky.addClass('is-sticky');
+                stickySub.addClass('is-sticky');
+                stickySub.css('top', $('.header-sticky').height())
             }
         }
     

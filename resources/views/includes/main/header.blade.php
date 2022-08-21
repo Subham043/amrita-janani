@@ -17,7 +17,11 @@
                         <nav class="navigation-menu">
                             <ul>
                                 <li class="has-children active">
+                                    @if(Auth::check())
+                                    <a href="{{route('content_dashboard')}}"><span>Content</span></a>
+                                    @else
                                     <a href="{{route('index')}}"><span>Home</span></a>
+                                    @endif
                                 </li>
                                 <li class="has-children">
                                     <a href="{{route('about')}}"><span>About</span></a>
@@ -29,11 +33,6 @@
                                     <a href="{{route('contact')}}"><span>Contact</span></a>
                                 </li>
                                 @if(Auth::check())
-                                @if(strpos(url()->current(),'content') === false)
-                                <li class="has-children">
-                                    <a href="{{route('content_dashboard')}}"><span>Content</span></a>
-                                </li>
-                                @endif
                                 <li class="has-children has-children--multilevel-submenu">
                                     <a href="#"><span>Account</span></a>
                                     <ul class="submenu">

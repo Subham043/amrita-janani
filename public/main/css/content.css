@@ -34,7 +34,7 @@ body {
     font-weight: bold;
 }
 
-.right-submenu-holder button {
+.right-submenu-holder a {
     margin: 0;
     padding: 0;
     background: transparent;
