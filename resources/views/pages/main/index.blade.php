@@ -58,7 +58,7 @@
                     <div class="section-title-wrap" style="display:inline">
                         <h3 class="section-title--two  left-style mb-30">What is Amrita Janani?</h3>
                         <p>Amrita Janani is an online digital knowledge repository containing the teachings of Guruji Sri Amritananda Natha Saraswati of Devipuram, Vizag, India. The teachings are in the form of lectures, practice manuals, guided meditations, etc.</p>
-                        <a href="" class="submit-btn">Learn More</a>
+                        <a href="{{route('about')}}" class="submit-btn">Learn More</a>
                     </div>
                 </div>
 
