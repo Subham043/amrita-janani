@@ -41,6 +41,8 @@ use App\Http\Controllers\Admin\Video\VideoController;
 use App\Http\Controllers\Admin\Video\VideoAccessController;
 use App\Http\Controllers\Admin\Video\VideoReportController;
 use App\Http\Controllers\Admin\Language\LanguageController;
+use App\Http\Controllers\Admin\FAQ\FAQController;
+use App\Http\Controllers\Admin\Page\PageController;
 
 
 /*
@@ -281,6 +283,22 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
         });
     });
     
+    Route::prefix('/page')->group(function () {
+        Route::get('/home', [PageController::class, 'home_page', 'as' => 'admin.page.home_page'])->name('home_page');
+        Route::get('/about', [PageController::class, 'about_page', 'as' => 'admin.page.about_page'])->name('about_page');
+        Route::post('/store-page', [PageController::class, 'storePage', 'as' => 'admin.page.storePage'])->name('storePage');
+        Route::post('/update-page/{id}', [PageController::class, 'updatePage', 'as' => 'admin.page.updatePage'])->name('updatePage');
+        Route::post('/store-page-content', [PageController::class, 'storePageContent', 'as' => 'admin.page.storePageContent'])->name('storePageContent');
+        Route::post('/update-page-content', [PageController::class, 'updatePageContent', 'as' => 'admin.page.updatePageContent'])->name('updatePageContent');
+        Route::get('/delete-page-content/{id}', [PageController::class, 'deletePageContent', 'as' => 'admin.page.deletePageContent'])->name('deletePageContent');
+        Route::prefix('/dynamic')->group(function () {
+            Route::get('/', [PageController::class, 'dynamic_page_list', 'as' => 'admin.page.dynamic_page_list'])->name('dynamic_page_list');
+            Route::get('/edit/{id}', [PageController::class, 'edit_dynamic_page', 'as' => 'admin.page.edit_dynamic_page'])->name('edit_dynamic_page');
+            Route::get('/delete/{id}', [PageController::class, 'deletePage', 'as' => 'admin.page.deletePage'])->name('deletePage');
+        });
+
+    });
+    
     Route::prefix('/video')->group(function () {
         Route::get('/', [VideoController::class, 'view', 'as' => 'admin.video.view'])->name('video_view');
         Route::get('/view/{id}', [VideoController::class, 'display', 'as' => 'admin.video.display'])->name('video_display');
@@ -310,6 +328,13 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/edit/{id}', [LanguageController::class, 'edit', 'as' => 'admin.language.edit'])->name('language_edit');
         Route::post('/edit/{id}', [LanguageController::class, 'update', 'as' => 'admin.language.update'])->name('language_update');
         Route::get('/delete/{id}', [LanguageController::class, 'delete', 'as' => 'admin.language.delete'])->name('language_delete');
+    });
+    
+    Route::prefix('/faq')->group(function () {
+        Route::get('/', [FAQController::class, 'view', 'as' => 'admin.faq.view'])->name('faq_view');
+        Route::post('/create', [FAQController::class, 'store', 'as' => 'admin.faq.store'])->name('faq_store');
+        Route::post('/edit', [FAQController::class, 'update', 'as' => 'admin.faq.update'])->name('faq_update');
+        Route::get('/delete/{id}', [FAQController::class, 'delete', 'as' => 'admin.faq.delete'])->name('faq_delete');
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
