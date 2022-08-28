@@ -36,6 +36,21 @@ class PageController extends Controller
         $page_content_detail = PageContentModel::where('page_id',$id)->get();
         return view('pages.admin.page_content.edit')->with('page_detail', $page_detail)->with('page_content_detail', $page_content_detail)->with('page_name', $page_detail->page_name);
     }
+
+    public function getPageContent(Request $req){
+        $rules = array(
+            'id' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+        );
+        $messages = array(
+            'id.required' => 'Please enter the id !',
+        );
+
+        $validator = Validator::make($req->all(), $rules, $messages);
+        if($validator->fails()){
+            return response()->json(["form_error"=>$validator->errors()], 400);
+        }
+        return response()->json(['data'=>PageContentModel::findOrFail($req->id)], 200);
+    }
     
     public function dynamic_page_list(Request $request){
         if ($request->has('search') && !empty($request->input('search'))) {

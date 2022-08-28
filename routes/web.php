@@ -291,6 +291,7 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
         Route::post('/store-page-content', [PageController::class, 'storePageContent', 'as' => 'admin.page.storePageContent'])->name('storePageContent');
         Route::post('/update-page-content', [PageController::class, 'updatePageContent', 'as' => 'admin.page.updatePageContent'])->name('updatePageContent');
         Route::get('/delete-page-content/{id}', [PageController::class, 'deletePageContent', 'as' => 'admin.page.deletePageContent'])->name('deletePageContent');
+        Route::post('/get-page-content', [PageController::class, 'getPageContent', 'as' => 'admin.page.getPageContent'])->name('getPageContent');
         Route::prefix('/dynamic')->group(function () {
             Route::get('/', [PageController::class, 'dynamic_page_list', 'as' => 'admin.page.dynamic_page_list'])->name('dynamic_page_list');
             Route::get('/edit/{id}', [PageController::class, 'edit_dynamic_page', 'as' => 'admin.page.edit_dynamic_page'])->name('edit_dynamic_page');

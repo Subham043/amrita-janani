@@ -1,9 +1,17 @@
 <script>
-    function editHandler(id, heading, description, image_position){
-        document.getElementById('heading_update').value = heading;
-        document.getElementById('image_position_update').value = image_position;
-        quillDescriptionUpdate.root.innerHTML = description;
-        document.getElementById('item_id').value = id;
+    async function editHandlers(id){
+        try {
+            var formData = new FormData();
+            formData.append('id',id)
+            const response = await axios.post('{{route('getPageContent')}}', formData)
+            console.log(response);
+            document.getElementById('heading_update').value = response.data.data.heading;
+            document.getElementById('image_position_update').value = response.data.data.image_position;
+            quillDescriptionUpdate.root.innerHTML = response.data.data.description;
+            document.getElementById('item_id').value = response.data.data.id;
+        } catch (error) {
+            console.log(error);
+        }
     }
 </script>
 
