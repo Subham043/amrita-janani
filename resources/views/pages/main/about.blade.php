@@ -32,32 +32,35 @@
 @include('includes.main.breadcrumb')
 
 <!-- ======== Church About Area Start ========== -->
-<div class="church-about-area section-space--pt_120">
+<div class="church-about-area section-space--ptb_120">
     <div class="container">
         <div class="row ">
-            <div class="col-lg-12">
+            @if($about->PageContentModel->count()>0)
+            @foreach ($about->PageContentModel as $item)    
+            <div class="col-lg-12 mb-5">
                 <div class="about-tai-content">
                     <div class="section-title-wrap">
-                        <h3 class="section-title--two  left-style mb-30">DIGITAL REPOSITORY</h3>
+                        <h3 class="section-title--two  left-style mb-30">{{$item->heading}}</h3>
                     </div>
                     <div>
-                        <img src="{{ asset('main/images/hero/banner6.jpg')}}" class="img-fluid float-left" alt="About Images">
-                
+                        @if($item->image)
+                        <img src="{{asset('storage/upload/pages/'.$item->image)}}" class="{{$item->image_position==1?'img-fluid float-left':'img-fluid float-right'}}" alt="About Images">
+                        @endif
                         <div class="section-title-wrap" style="display:inline">
-                            <p>Amrita Janani is an online digital knowledge repository containing the teachings of Guruji Sri Amritananda Natha Saraswati. Guruji has always been a proponent of sharing his teachings to any and all willing learners. This portal is an effort towards the same. The teachings in the form of lectures, practice manuals, guided meditations, etc., are made available as documents, images, audio, and video files, which have been shared by Guruji's disciples and also taken from the database of Devipuram.</p>
-                            <p>The portal is currently a public beta version which will be updated frequently both in terms of contents and the platform.</p>
+                            {!!$item->description!!}
                         </div>
                     </div>
                 </div>
 
             </div>
-            
+            @endforeach
+            @endif
         </div>
     </div>
 </div>
 <!-- ======== Church About Area End ========== -->
 
-<!-- ======== Church About Area Start ========== -->
+{{-- <!-- ======== Church About Area Start ========== -->
 <div class="church-about-area   section-space--pt_60">
     <div class="container">
         <div class="row ">
@@ -113,6 +116,6 @@
         </div>
     </div>
 </div>
-<!-- ======== Church About Area End ========== -->
+<!-- ======== Church About Area End ========== --> --}}
 
 @stop

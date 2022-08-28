@@ -155,7 +155,7 @@ class PageController extends Controller
 
     public function storePageContent(Request $req) {
         $rules = array(
-            'heading' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'heading' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\?\'\r\n+=,]+$/i'],
             'description_unformatted' => ['required'],
             'page_id' => ['required'],
             'image' => ['nullable','mimes:jpg,jpeg,png,webp'],
@@ -198,7 +198,7 @@ class PageController extends Controller
     
     public function updatePageContent(Request $req) {
         $rules = array(
-            'heading' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'heading' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\?\'\r\n+=,]+$/i'],
             'description_unformatted' => ['required'],
             'id' => ['required'],
             'page_id' => ['required'],

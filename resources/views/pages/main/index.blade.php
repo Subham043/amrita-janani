@@ -14,6 +14,10 @@
 .float-left{ float: left; }
 .float-right{ float: right; }
 
+.section-space--pb_50{
+    padding-bottom: 50px;
+}
+
 @media only screen and (max-width: 767px) {
     .float-left{ float: none !important; }
     .float-right{ float: none !important; }
@@ -49,7 +53,7 @@
 <!-- ======== Hero Area End ========== -->
 
 <!-- ======== Church About Area Start ========== -->
-<div class="church-about-area  section-space--pt_120  section-space--pb_90">
+<div class="church-about-area  section-space--pt_120  section-space--pb_50">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -67,20 +71,29 @@
     </div>
 </div>
 
-<div class="church-about-area  section-space--pb_90">
+<div class="church-about-area">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            @if($home->PageContentModel->count()>0)
+            @foreach ($home->PageContentModel as $item)    
+            <div class="col-lg-12 mb-5">
                 <div class="about-tai-content">
-                    <div class="section-title-wrap" style="display:inline">
-                        <h3 class="section-title--two  left-style mb-30">How To Access Amrita Janani contents?</h3>
-                        <p>To acces the contents, create a new account by clicking the Login/Signup button and entering your details along with a unique password in the "Register" section.</p>
-                        <p>Click the Register button. An OTP will be sent to the registered email ID. Enter the OTP in the Verify Email page to activate the account.</p>
-                        <p>Access Amrita Janani contents by logging in with the registered email ID and password in the "Login" section.</p>
+                    <div class="section-title-wrap">
+                        <h3 class="section-title--two  left-style mb-30">{{$item->heading}}</h3>
+                    </div>
+                    <div>
+                        @if($item->image)
+                        <img src="{{asset('storage/upload/pages/'.$item->image)}}" class="{{$item->image_position==1?'img-fluid float-left':'img-fluid float-right'}}" alt="About Images">
+                        @endif
+                        <div class="section-title-wrap" style="display:inline">
+                            {!!$item->description!!}
+                        </div>
                     </div>
                 </div>
 
             </div>
+            @endforeach
+            @endif
         </div>
     </div>
 </div>
