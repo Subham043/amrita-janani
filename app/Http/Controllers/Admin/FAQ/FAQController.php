@@ -88,7 +88,7 @@ class FAQController extends Controller
 
     public function view() {
         $data = FAQModel::orderBy('id', 'DESC')->get();
-        return view('pages.admin.faq.list')->with('country', $data);
+        return view('pages.admin.faq.list')->with('faq', $data);
     }
 
 

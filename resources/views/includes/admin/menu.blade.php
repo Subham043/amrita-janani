@@ -138,6 +138,28 @@
                                     </ul>
                                 </div>
                             </li> <!-- end Dashboard Menu -->
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'page/home') !== false || strpos(url()->current(),'page/about') !== false || strpos(url()->current(),'page/dynamic') !== false || strpos(url()->current(),'faq') !== false ? 'active' : ''}}" href="#sidebarDashboards10" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{strpos(url()->current(),'page/home') !== false || strpos(url()->current(),'page/about') !== false || strpos(url()->current(),'page/dynamic') !== false || strpos(url()->current(),'faq') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards10">
+                                    <i class="ri-pages-line"></i> <span data-key="t-dashboards">Content Management</span>
+                                </a>
+                                <div class="collapse menu-dropdown {{strpos(url()->current(),'page/home') !== false || strpos(url()->current(),'page/about') !== false || strpos(url()->current(),'page/dynamic') !== false || strpos(url()->current(),'faq') !== false ? 'show' : ''}}" id="sidebarDashboards10">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{route('home_page')}}" class="nav-link {{strpos(url()->current(),'page/home') !== false ? 'active' : ''}}" data-key="t-analytics"> Home Page </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('about_page')}}" class="nav-link {{strpos(url()->current(),'page/about') !== false ? 'active' : ''}}" data-key="t-analytics"> About Page </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('dynamic_page_list')}}" class="nav-link {{strpos(url()->current(),'page/dynamic') !== false ? 'active' : ''}}" data-key="t-analytics"> Dynamic Web Pages </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('faq_view')}}" class="nav-link {{strpos(url()->current(),'faq') !== false ? 'active' : ''}}" data-key="t-analytics"> FAQ </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li> <!-- end Dashboard Menu -->
                         </ul>
                     </div>
                     <!-- Sidebar -->
