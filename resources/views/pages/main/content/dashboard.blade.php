@@ -13,54 +13,63 @@
 
 @include('includes.main.breadcrumb')
 
+@php
+$documents = $documents;
+$audios=$audios;
+$images = $images;
+$videos = $videos;    
+@endphp
+
 <div class="content-holder">
     <div class="container content-container">
+        @if(count($images) > 0)
         <div class="media-container">
             <h3 class="dashboard-header">
                 IMAGES
             </h3>
-            @if(count($images) > 0)
             <div class="row">
-                @foreach($images as $images)
+                @foreach($images as $image)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" title="{{$images->title}}" href="{{route('content_image_view', $images->uuid)}}">
+                    <a class="media-href" title="{{$image->title}}" href="{{route('content_image_view', $image->uuid)}}">
                         <div class="img-holder">
-                            <img src="{{asset('storage/upload/images/compressed-'.$images->image)}}" alt="">
+                            <img src="{{asset('storage/upload/images/compressed-'.$image->image)}}" alt="">
                         </div>
                         <div class="media-holder">
-                            <h5>{{$images->title}}</h5>
-                            <p>Format : <b>{{$images->file_format()}}</b></p>
-                            <p>Uploaded : <b>{{$images->time_elapsed()}}</b></p>
+                            <h5>{{$image->title}}</h5>
+                            <p class="desc">{{$image->description_unformatted}}</p>
+                            {{-- <p>Format : <b>{{$image->file_format()}}</b></p> --}}
+                            <p>Uploaded : <b>{{$image->time_elapsed()}}</b></p>
                         </div>
                     </a>
                 </div>
                 @endforeach
             </div>
             <a href="{{route('content_image')}}" class="view-more-href">View More Images</a>
-            @else
+            {{-- @else
             <p style="text-align:center">No images available.</p>
-            <a href="{{route('content_image')}}" class="view-more-href">View Other Images</a>
-            @endif
+            <a href="{{route('content_image')}}" class="view-more-href">View Other Images</a> --}}
         </div>
+        @endif
+        @if(count($videos) > 0)
         <div class="media-container">
             <h3 class="dashboard-header">
                 VIDEOS
             </h3>
-            @if(count($videos) > 0)
             <div class="row">
-                @foreach($videos as $videos)
+                @foreach($videos as $video)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" title="{{$videos->title}}" href="{{route('content_video_view', $videos->uuid)}}">
+                    <a class="media-href" title="{{$video->title}}" href="{{route('content_video_view', $video->uuid)}}">
                         <div class="img-holder">
-                            @if(strpos($videos->video,'vimeo') !== false)
-                            <img src="https://vumbnail.com/{{$videos->getVideoId()}}.jpg" alt="">
+                            @if(strpos($video->video,'vimeo') !== false)
+                            <img src="https://vumbnail.com/{{$video->getVideoId()}}.jpg" alt="">
                             @else
-                            <img src="https://i3.ytimg.com/vi/{{$videos->getVideoId()}}/maxresdefault.jpg" alt="">
+                            <img src="https://i3.ytimg.com/vi/{{$video->getVideoId()}}/maxresdefault.jpg" alt="">
                             @endif
                         </div>
                         <div class="media-holder">
-                            <h5>{{$videos->title}}</h5>
-                            <p>Uploaded : {{$videos->time_elapsed()}}</p>
+                            <h5>{{$video->title}}</h5>
+                            <p class="desc">{{$video->description_unformatted}}</p>
+                            <p>Uploaded : {{$video->time_elapsed()}}</p>
                         </div>
                     </a>
                 </div>
@@ -68,58 +77,60 @@
                 
             </div>
             <a href="{{route('content_video')}}" class="view-more-href">View More Videos</a>
-            @else
+            {{-- @else
             <p style="text-align:center">No videos available.</p>
-            <a href="{{route('content_video')}}" class="view-more-href">View Other Videos</a>
-            @endif
+            <a href="{{route('content_video')}}" class="view-more-href">View Other Videos</a> --}}
         </div>
+        @endif
+        @if(count($audios) > 0)
         <div class="media-container">
             <h3 class="dashboard-header">
-                AUDIOS
+                AUDIO
             </h3>
-            @if(count($audios) > 0)
             <div class="row">
-                @foreach($audios as $audios)
+                @foreach($audios as $audio)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" title="{{$audios->title}}" href="{{route('content_audio_view', $audios->uuid)}}">
+                    <a class="media-href" title="{{$audio->title}}" href="{{route('content_audio_view', $audio->uuid)}}">
                         <div class="img-holder">
                             <img src="{{asset('main/images/audio-book.png')}}" alt="">
                         </div>
                         <div class="media-holder">
-                            <h5>{{$audios->title}}</h5>
-                            <p>Format : <b>{{$audios->file_format()}}</b></p>
-                            <p>Duration : {{$audios->duration}}</p>
-                            <p>Uploaded : <b>{{$audios->time_elapsed()}}</b></p>
+                            <h5>{{$audio->title}}</h5>
+                            <p class="desc">{{$audio->description_unformatted}}</p>
+                            {{-- <p>Format : <b>{{$audio->file_format()}}</b></p> --}}
+                            <p>Duration : {{$audio->duration}}</p>
+                            <p>Uploaded : <b>{{$audio->time_elapsed()}}</b></p>
                         </div>
                     </a>
                 </div>
                 @endforeach
                 
             </div>
-            <a href="{{route('content_audio')}}" class="view-more-href">View More Audios</a>
-            @else
-            <p style="text-align:center">No audios available.</p>
-            <a href="{{route('content_audio')}}" class="view-more-href">View Other Audios</a>
-            @endif
+            <a href="{{route('content_audio')}}" class="view-more-href">View More Audio</a>
+            {{-- @else
+            <p style="text-align:center">No audio available.</p>
+            <a href="{{route('content_audio')}}" class="view-more-href">View Other Audio</a> --}}
             
         </div>
+        @endif
+        @if(count($documents) > 0)
         <div class="media-container">
             <h3 class="dashboard-header">
                 DOCUMENTS
             </h3>
-            @if(count($documents) > 0)
             <div class="row">
-                @foreach($documents as $documents)
+                @foreach($documents as $document)
                 <div class="col-lg-3 col-sm-12">
-                    <a class="media-href" title="{{$documents->title}}" href="{{route('content_document_view', $documents->uuid)}}">
+                    <a class="media-href" title="{{$document->title}}" href="{{route('content_document_view', $document->uuid)}}">
                         <div class="img-holder">
                             <img src="{{asset('main/images/pdf.png')}}" alt="">
                         </div>
                         <div class="media-holder">
-                            <h5>{{$documents->title}}</h5>
-                            <p>Format : <b>{{$documents->file_format()}}</b></p>
-                            <p>Number of Pages : {{$documents->page_number}}</p>
-                            <p>Uploaded : <b>{{$documents->time_elapsed()}}</b></p>
+                            <h5>{{$document->title}}</h5>
+                            <p class="desc">{{$document->description_unformatted}}</p>
+                            {{-- <p>Format : <b>{{$document->file_format()}}</b></p> --}}
+                            <p>Number of Pages : {{$document->page_number}}</p>
+                            <p>Uploaded : <b>{{$document->time_elapsed()}}</b></p>
                         </div>
                     </a>
                 </div>
@@ -127,11 +138,17 @@
                 
             </div>
             <a href="{{route('content_document')}}" class="view-more-href">View More Documents</a>
-            @else
+            {{-- @else
             <p style="text-align:center">No documents available.</p>
-            <a href="{{route('content_document')}}" class="view-more-href">View Other Documents</a>
-            @endif
+            <a href="{{route('content_document')}}" class="view-more-href">View Other Documents</a> --}}
         </div>
+        @endif
+        @if(!(count($documents) > 0) && !(count($audios) > 0) && !(count($images) > 0) && !(count($videos) > 0))
+        <div class="media-container">
+            <p class="no_data" style="text-align:center">No data available.</p>
+            {{-- <a href="{{route('content_document')}}" class="view-more-href">View Other Documents</a> --}}
+        </div>
+        @endif
     </div>
 </div>
 

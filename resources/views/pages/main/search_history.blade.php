@@ -8,6 +8,8 @@
 
 @section('content')
 
+@include('includes.main.sub_menu')
+
 @include('includes.main.breadcrumb')
 
 <div class="contact-page-wrapper">
@@ -58,4 +60,10 @@
     </div>
 </div>
 
+@stop
+
+@section('javascript')
+<script src="{{ asset('main/js/plugins/axios.min.js') }}"></script>
+@include('pages.main.content.common.search_js', ['search_url'=>route('content_search_query')])
+@include('pages.main.content.common.dashboard_search_handler', ['search_url'=>route('content_dashboard')])
 @stop

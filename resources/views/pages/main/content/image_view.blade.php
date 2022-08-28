@@ -34,21 +34,29 @@
             </div>
             <div class="col-sm-auto">
                 <div class="info-content">
-                    <p><span id="view_count">{{$image->views}} views</span> <span id="favourite_count">{{$image->favourites}} favourites</span></p>
+                    {{-- <p><span id="view_count">{{$image->views}} views</span> <span id="favourite_count">{{$image->favourites}} favourites</span></p> --}}
+                    <p><span id="view_count">{{$image->views}} views</span></p>
                 </div>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12 action-button-wrapper">
                 <a href="{{route('content_image_makeFavourite',$image->uuid)}}" class="action-btn make-favourite-button">
                     @if($image->markedFavorite())
-                    <i class="fas fa-heart-broken"></i> Unmark Favourite
+                    <i class="fas fa-heart-broken"></i> 
                     @else
-                    <i class="far fa-heart"></i> Make Favourite
+                    <i class="far fa-heart"></i> 
                     @endif
                 </a>
-                <button class="action-btn report-button" data-toggle="modal" data-target="#reportModal"><i class="far fa-flag"></i> Report</button>
+                <button class="action-btn report-button" data-toggle="modal" data-target="#reportModal"><i class="far fa-flag"></i> </button>
             </div>
         </div>
     </div>
+    @if($image->description_unformatted)
+    <hr/>
+    <div class="container info-container info-major-content">
+        <h6>Description</h6>
+        {!!$image->description!!}
+    </div>
+    @endif
     <hr/>
     <div class="container info-container">
     @if($image->deity)<p>Deity : <b>{{$image->deity}}</b></p>@endif
@@ -61,13 +69,7 @@
     </p>
     @endif
     </div>
-    @if($image->description_unformatted)
-    <hr/>
-    <div class="container info-container info-major-content">
-        <h6>Description</h6>
-        {!!$image->description!!}
-    </div>
-    @endif
+   
 
     @include('pages.main.content.common.request_access_modal')
     

@@ -8,6 +8,7 @@
 
 @section('content')
 
+@include('includes.main.sub_menu')
 
 @include('includes.main.breadcrumb')
 
@@ -21,24 +22,24 @@
                                 <h3 class="title mb-40">Change Profile Details</h3>
                                 <form id="contactForm">
                                     <div class="contact-form__one row">
-                                        <div class="contact-input col-lg-4">
+                                        <div class="contact-input col-lg-12">
                                             <label for="Name">Name</label>
                                             <div class="contact-inner">
                                                 <input name="name" id="name" type="text" value="{{Auth::user()->name}}" placeholder="Enter you name">
                                             </div>
                                         </div>
 
-                                        <div class="contact-input col-lg-4">
+                                        <div class="contact-input col-lg-12">
                                             <label for="Phone">Phone</label>
                                             <div class="contact-inner">
-                                                <input name="phone" id="phone" type="text" value="{{Auth::user()->phone}}" disabled readonly placeholder="Your Phone Number (Optional)">
+                                                <input name="phone" id="phone" type="text" value="{{Auth::user()->phone}}" placeholder="Your Phone Number (Optional)">
                                             </div>
                                         </div>
 
-                                        <div class="contact-input col-lg-4">
+                                        <div class="contact-input col-lg-12">
                                             <label for="Email">Email</label>
                                             <div class="contact-inner">
-                                                <input name="email" id="email" type="email" value="{{Auth::user()->email}}" disabled readonly placeholder="Your Email Address ">
+                                                <input name="email" id="email" type="email" value="{{Auth::user()->email}}" placeholder="Your Email Address ">
                                             </div>
                                         </div>
 
@@ -81,6 +82,27 @@ validationModal
     errorMessage: 'Name is invalid',
 },
 ])
+.addField('#email', [
+    {
+      rule: 'required',
+      errorMessage: 'Email is required',
+    },
+    {
+      rule: 'email',
+      errorMessage: 'Email is invalid!',
+    },
+  ])
+  .addField('#phone', [
+    {
+      rule: 'required',
+      errorMessage: 'Phone is required',
+    },
+    {
+        rule: 'customRegexp',
+        value: /^[0-9]*$/,
+        errorMessage: 'Phone is invalid',
+    },
+  ])
 .onSuccess(async (event) => {
     event.target.preventDefault;
     const errorToast = (message) =>{
@@ -114,6 +136,8 @@ validationModal
     try {
         var formData = new FormData();
         formData.append('name',document.getElementById('name').value)
+        formData.append('email',document.getElementById('email').value)
+        formData.append('phone',document.getElementById('phone').value)
         const response = await axios.post('{{route('update_userprofile')}}', formData)
         successToast(response.data.message)
     } catch (error) {
@@ -133,5 +157,6 @@ validationModal
 
 </script>
 
-
+@include('pages.main.content.common.search_js', ['search_url'=>route('content_search_query')])
+@include('pages.main.content.common.dashboard_search_handler', ['search_url'=>route('content_dashboard')])
 @stop

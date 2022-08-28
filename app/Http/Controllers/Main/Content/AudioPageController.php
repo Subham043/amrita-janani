@@ -64,7 +64,7 @@ class AudioPageController extends Controller
         
         $audios = $audio->where('status', 1)->paginate(6)->withQueryString();
         
-        return view('pages.main.content.audio')->with('breadcrumb','Audios')
+        return view('pages.main.content.audio')->with('breadcrumb','Audio')
         ->with('audios',$audios)
         ->with('languages',LanguageModel::all());
     }

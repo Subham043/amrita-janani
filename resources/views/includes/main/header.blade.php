@@ -18,7 +18,7 @@
                             <ul>
                                 <li class="has-children active">
                                     @if(Auth::check())
-                                    <a href="{{route('content_dashboard')}}"><span>Content</span></a>
+                                    <a href="{{route('content_dashboard')}}"><span>Home</span></a>
                                     @else
                                     <a href="{{route('index')}}"><span>Home</span></a>
                                     @endif
@@ -32,7 +32,7 @@
                                 <li class="has-children">
                                     <a href="{{route('contact')}}"><span>Contact</span></a>
                                 </li>
-                                @if(Auth::check())
+                                {{-- @if(Auth::check())
                                 <li class="has-children has-children--multilevel-submenu">
                                     <a href="#"><span>Account</span></a>
                                     <ul class="submenu">
@@ -41,12 +41,18 @@
                                         <li><a href="{{route('search_history')}}"><span>Search History</span></a></li>
                                     </ul>
                                 </li>
-                                @endif
+                                @endif --}}
 
                             </ul>
                         </nav>
 
                     </div>
+
+                    @if(Auth::check() && Auth::user()->darkMode==1)
+                    <a href="{{route('darkmode')}}"><i id="darkModeToggleBtn" class="fas fa-sun"></i></a>
+                    @else
+                    <a href="{{route('darkmode')}}"><i id="darkModeToggleBtn" class="fas fa-moon"></i></a>
+                    @endif
 
                     <div class="header-btn text-right d-none d-sm-block ml-lg-4">
                         @if(Auth::check())

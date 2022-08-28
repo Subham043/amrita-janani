@@ -17,7 +17,7 @@
     <div class="container content-container" style="padding-bottom:0">
         <div class="media-container">
             <h3>
-                AUDIOS
+                AUDIO
             </h3>
 
         </div>
@@ -30,7 +30,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row sort-row">
-                        <div class="col-lg-2 col-md-12 mb-3">
+                        <div class="col-lg-2 col-md-12 mb-3 sort-div">
+                            <i class="fas fa-sort-amount-down"></i>
                             <select name="sort" id="sort"  oninput="return callSearchHandler()">
                                 <option value="newest" @if(app('request')->has('sort') && app('request')->input('sort')=="newest") selected @endif>Sort by Newest</option>
                                 <option value="oldest" @if(app('request')->has('sort') && app('request')->input('sort')=='oldest') selected @endif>Sort by Oldest</option>
@@ -70,7 +71,7 @@
                                 <li>
                                     <label for="filter_check">
                                     <input type="checkbox" id="filter_check" name="filter" value="favourite" @if(app('request')->has('filter') && app('request')->input('filter')=="favourite") checked @endif>
-                                        My Favourite Audios
+                                        My Favourite Audio
                                     </label>
                                 </li>
                             </ul>
@@ -80,8 +81,8 @@
 
                     </div>
                     <div style="text-align: left">
-                        <button onclick="callSearchHandler()" class="filter_button"> Apply Filters</button>
-                        <a href="{{route('content_audio')}}" class="filter_button"> Clear Filters</a>
+                        <button onclick="callSearchHandler()" class="filter_button"> Apply </button>
+                        <a href="{{route('content_audio')}}" class="filter_button"> Clear </a>
                     </div>
 
                 </div>
@@ -100,7 +101,8 @@
                                 </div>
                                 <div class="media-holder">
                                     <h5>{{$audio->title}}</h5>
-                                    <p>Format : {{$audio->file_format()}}</p>
+                                    <p class="desc">{{$audio->description_unformatted}}</p>
+                                    {{-- <p>Format : {{$audio->file_format()}}</p> --}}
                                     <p>Duration : {{$audio->duration}}</p>
                                     <p>Uploaded : {{$audio->time_elapsed()}}</p>
                                 </div>
@@ -118,11 +120,11 @@
                 </div>
                 <div class="col-lg-3"></div>
                 <div class="col-lg-9 my-4 nav-flex-direction-end">
-                    @if($audios->previousPageUrl()==null)
+                    {{-- @if($audios->previousPageUrl()==null)
                     <p>Showing {{(($audios->perPage() * $audios->currentPage()) - $audios->perPage() + 1)}} to {{($audios->currentPage() * $audios->perPage())}} of {{$audios->total()}} entries</p>
                     @else
                     <p>Showing {{(($audios->perPage() * $audios->currentPage()) - $audios->perPage() + 1)}} to {{($audios->total())}} of {{$audios->total()}} entries</p>
-                    @endif
+                    @endif --}}
 
                     {{ $audios->links('pagination::bootstrap-4') }}
                     

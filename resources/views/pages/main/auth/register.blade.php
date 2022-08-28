@@ -22,11 +22,11 @@
 @section('content')
 
 <div class="form-items">
-    <h3>Register to get access to AmritaJanani</h3>
-    <!-- <p>Access to the most powerfull tool in amrita janani.</p> -->
-    <div class="page-links">
-        <a href="{{route('signin')}}">Login</a><a href="{{route('index')}}" class="active">Register</a>
-    </div>
+  <!-- <p>Access to the most powerfull tool in amrita janani.</p> -->
+  <div class="page-links">
+    <a href="{{route('signin')}}">Login</a><a href="{{route('index')}}" class="active">Register</a>
+  </div>
+  <h3>Register to get access to AmritaJanani</h3><br/>
     <form action="{{route('signup_store')}}" method="post" id="loginForm">
         @csrf
         <div class="mb-2">

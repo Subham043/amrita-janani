@@ -8,6 +8,8 @@
 
 @section('content')
 
+@include('includes.main.sub_menu')
+
 @include('includes.main.breadcrumb')
 
 <div class="contact-page-wrapper">
@@ -20,21 +22,21 @@
                                 <h3 class="title mb-40">Change Profile Password</h3>
                                 <form id="contactForm">
                                     <div class="contact-form__one row">
-                                        <div class="contact-input col-lg-4">
+                                        <div class="contact-input col-lg-12">
                                             <label for="opassword">Old Password</label>
                                             <div class="contact-inner">
                                                 <input name="opassword" id="opassword" type="password" placeholder="Enter current password">
                                             </div>
                                         </div>
 
-                                        <div class="contact-input col-lg-4">
+                                        <div class="contact-input col-lg-12">
                                             <label for="password">New Password</label>
                                             <div class="contact-inner">
                                                 <input name="password" id="password" type="password" placeholder="Enter new password">
                                             </div>
                                         </div>
 
-                                        <div class="contact-input col-lg-4">
+                                        <div class="contact-input col-lg-12">
                                             <label for="cpassword">Confirm Password</label>
                                             <div class="contact-inner">
                                                 <input name="cpassword" id="cpassword" type="password" placeholder="Confirm password">
@@ -160,4 +162,6 @@ validationModal
 
 </script>
 
+@include('pages.main.content.common.search_js', ['search_url'=>route('content_search_query')])
+@include('pages.main.content.common.dashboard_search_handler', ['search_url'=>route('content_dashboard')])
 @stop

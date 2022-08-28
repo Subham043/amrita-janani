@@ -30,7 +30,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row sort-row">
-                        <div class="col-lg-2 col-md-12 mb-3">
+                        <div class="col-lg-2 col-md-12 mb-3 sort-div">
+                            <i class="fas fa-sort-amount-down"></i>
                             <select name="sort" id="sort"  oninput="return callSearchHandler()">
                                 <option value="newest" @if(app('request')->has('sort') && app('request')->input('sort')=="newest") selected @endif>Sort by Newest</option>
                                 <option value="oldest" @if(app('request')->has('sort') && app('request')->input('sort')=='oldest') selected @endif>Sort by Oldest</option>
@@ -80,8 +81,8 @@
 
                     </div>
                     <div style="text-align: left">
-                        <button onclick="callSearchHandler()" class="filter_button"> Apply Filters</button>
-                        <a href="{{route('content_document')}}" class="filter_button"> Clear Filters</a>
+                        <button onclick="callSearchHandler()" class="filter_button"> Apply </button>
+                        <a href="{{route('content_document')}}" class="filter_button"> Clear </a>
                     </div>
 
                 </div>
@@ -100,7 +101,8 @@
                                 </div>
                                 <div class="media-holder">
                                     <h5>{{$document->title}}</h5>
-                                    <p>Format : {{$document->file_format()}}</p>
+                                    <p class="desc">{{$document->description_unformatted}}</p>
+                                    {{-- <p>Format : {{$document->file_format()}}</p> --}}
                                     <p>Number of Pages : {{$document->page_number}}</p>
                                     <p>Uploaded : {{$document->time_elapsed()}}</p>
                                 </div>
@@ -118,11 +120,11 @@
                 </div>
                 <div class="col-lg-3"></div>
                 <div class="col-lg-9 my-4 nav-flex-direction-end">
-                    @if($documents->previousPageUrl()==null)
+                    {{-- @if($documents->previousPageUrl()==null)
                     <p>Showing {{(($documents->perPage() * $documents->currentPage()) - $documents->perPage() + 1)}} to {{($documents->currentPage() * $documents->perPage())}} of {{$documents->total()}} entries</p>
                     @else
                     <p>Showing {{(($documents->perPage() * $documents->currentPage()) - $documents->perPage() + 1)}} to {{($documents->total())}} of {{$documents->total()}} entries</p>
-                    @endif
+                    @endif --}}
 
                     {{ $documents->links('pagination::bootstrap-4') }}
                     

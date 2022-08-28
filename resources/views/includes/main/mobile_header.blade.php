@@ -43,7 +43,7 @@
                                 <li><a href="{{route('content_dashboard')}}"><span>Dashboard</span></a></li>
                                 <li><a href="{{route('content_image')}}"><span>Images</span></a></li>
                                 <li><a href="{{route('content_video')}}"><span>Videos</span></a></li>
-                                <li><a href="{{route('content_audio')}}"><span>Audios</span></a></li>
+                                <li><a href="{{route('content_audio')}}"><span>Audio</span></a></li>
                                 <li><a href="{{route('content_document')}}"><span>Documents</span></a></li>
                             </ul>
                         </li>

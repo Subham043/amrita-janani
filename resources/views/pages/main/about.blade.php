@@ -8,6 +8,7 @@
     margin: 0 15px 15px 15px;
 }
 .about-tai-content p{
+    font-size: 17px;
     text-align: justify;
 }
 

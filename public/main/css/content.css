@@ -6,6 +6,14 @@ body {
     background-color: #3e1d1e;
 }
 
+.submenu-row{
+    align-items: center;
+}
+
+.sub-menu-col{
+    display: flex;
+}
+
 .submenu_holder {
     display: flex;
     justify-content: flex-start;
@@ -59,6 +67,7 @@ body {
     border-radius: 10px;
     border: 1px solid #fff;
     padding: 5px 10px;
+    margin-bottom: 0;
 }
 
 .right-submenu-holder label span {
@@ -76,6 +85,16 @@ body {
 .right-submenu-holder form{
     margin:0;
     padding: 0;
+    display: flex;
+}
+
+.right-submenu-holder form button{
+    padding: 5px 10px;
+    margin-left: 5px;
+    border-radius: 10px;
+    background: #ffcc00;
+    color: #000;
+    border: 2px solid #ddd;
 }
 
 .content-holder {
@@ -119,6 +138,12 @@ body {
 
 .content-holder .content-container .media-container .media-holder p{
     margin:0;
+}
+
+.content-holder .content-container .media-container .media-holder p.desc{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .content-holder .content-container .media-container .media-holder h5{
@@ -186,10 +211,14 @@ body {
     height: 45px;
     background: white;
     border-color: #ccc;
+    padding-left: 30px;
+    font-weight: bold;
 }
 
 .sort-row select:focus {
     background: white !important;
+    color: #000;
+    font-weight: bold;
 }
 
 .filter-holder .accordion {
@@ -257,6 +286,26 @@ hr {
     width: 100%;
 }
 
+.sort-div{
+    display: flex;
+    align-items: center;
+}
+
+.sort-div i{
+    font-size: 20px;
+    background: white;
+    height: 100%;
+}
+
+.fa-sort-amount-down:before{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-left: 5px;
+}
+
 
 @media only screen and (max-width: 991px) {
     .sub-menu-col{
@@ -269,7 +318,12 @@ hr {
     }
 
     .search-col form{
-        width: 96%;
+        width: 100%;
+    }
+
+    .right-submenu-holder label{
+        margin-left: 0;
+        flex:1;
     }
 }
 
@@ -339,7 +393,8 @@ hr {
     object-fit: contain;
     height:100px;
     text-align: center;
-    margin-right: 10px;
+    /* margin-right: 10px; */
+    width: 100%;
 }
 
 .main-content-wrapper .main-audio-container audio{
@@ -349,6 +404,7 @@ hr {
 .main-content-wrapper .main-audio-container .plyr--audio {
     display: block;
     flex: 1;
+    width: 100%;
 }
 
 .main-content-wrapper .main-image-container .blur-bg{
@@ -395,7 +451,7 @@ hr {
 
 .action-button-row .action-btn, .request-access-button{
     outline:none;
-    padding:5px;
+    padding:5px 10px;
     border-radius:5px;
     font-size: 0.8rem;
     font-weight: 600;
@@ -473,7 +529,7 @@ hr {
 }
 
 #view_count{
-    border-right:2px solid #ccc;
+    /* border-right:2px solid #ccc; */
     padding-right:5px;
 }
 

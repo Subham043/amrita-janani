@@ -30,7 +30,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row sort-row">
-                        <div class="col-lg-2 col-md-12 mb-3">
+                        <div class="col-lg-2 col-md-12 mb-3 sort-div">
+                            <i class="fas fa-sort-amount-down"></i>
                             <select name="sort" id="sort"  oninput="return callSearchHandler()">
                                 <option value="newest" @if(app('request')->has('sort') && app('request')->input('sort')=="newest") selected @endif>Sort by Newest</option>
                                 <option value="oldest" @if(app('request')->has('sort') && app('request')->input('sort')=='oldest') selected @endif>Sort by Oldest</option>
@@ -80,8 +81,8 @@
 
                     </div>
                     <div style="text-align: left">
-                        <button onclick="callSearchHandler()" class="filter_button"> Apply Filters</button>
-                        <a href="{{route('content_video')}}" class="filter_button"> Clear Filters</a>
+                        <button onclick="callSearchHandler()" class="filter_button"> Apply </button>
+                        <a href="{{route('content_video')}}" class="filter_button"> Clear </a>
                     </div>
 
                 </div>
@@ -104,6 +105,7 @@
                                 </div>
                                 <div class="media-holder">
                                     <h5>{{$video->title}}</h5>
+                                    <p class="desc">{{$video->description_unformatted}}</p>
                                     <p>Uploaded : {{$video->time_elapsed()}}</p>
                                 </div>
                             </a>
@@ -120,11 +122,11 @@
                 </div>
                 <div class="col-lg-3"></div>
                 <div class="col-lg-9 my-4 nav-flex-direction-end">
-                    @if($videos->previousPageUrl()==null)
+                    {{-- @if($videos->previousPageUrl()==null)
                     <p>Showing {{(($videos->perPage() * $videos->currentPage()) - $videos->perPage() + 1)}} to {{($videos->currentPage() * $videos->perPage())}} of {{$videos->total()}} entries</p>
                     @else
                     <p>Showing {{(($videos->perPage() * $videos->currentPage()) - $videos->perPage() + 1)}} to {{($videos->total())}} of {{$videos->total()}} entries</p>
-                    @endif
+                    @endif --}}
 
                     {{ $videos->links('pagination::bootstrap-4') }}
                     

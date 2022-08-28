@@ -133,24 +133,32 @@
             </div>
             <div class="col-sm-auto">
                 <div class="info-content">
-                    <p><span id="view_count">{{$document->views}} views</span> <span
-                            id="favourite_count">{{$document->favourites}} favourites</span></p>
+                    {{-- <p><span id="view_count">{{$document->views}} views</span> <span
+                            id="favourite_count">{{$document->favourites}} favourites</span></p> --}}
+                    <p><span id="view_count">{{$document->views}} views</span> </p>
                 </div>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12 action-button-wrapper">
                 <a href="{{route('content_document_makeFavourite',$document->uuid)}}"
                     class="action-btn make-favourite-button">
                     @if($document->markedFavorite())
-                    <i class="fas fa-heart-broken"></i> Unmark Favourite
+                    <i class="fas fa-heart-broken"></i> 
                     @else
-                    <i class="far fa-heart"></i> Make Favourite
+                    <i class="far fa-heart"></i>
                     @endif
                 </a>
                 <button class="action-btn report-button" data-toggle="modal" data-target="#reportModal"><i
-                        class="far fa-flag"></i> Report</button>
+                        class="far fa-flag"></i> </button>
             </div>
         </div>
     </div>
+    @if($document->description_unformatted)
+    <hr />
+    <div class="container info-container info-major-content">
+        <h6>Description</h6>
+        {!!$document->description!!}
+    </div>
+    @endif
     <hr />
     <div class="container info-container">
         @if($document->deity)<p>Deity : <b>{{$document->deity}}</b></p>@endif
@@ -165,13 +173,7 @@
         </p>
         @endif
     </div>
-    @if($document->description_unformatted)
-    <hr />
-    <div class="container info-container info-major-content">
-        <h6>Description</h6>
-        {!!$document->description!!}
-    </div>
-    @endif
+    
 
     @include('pages.main.content.common.request_access_modal')
 

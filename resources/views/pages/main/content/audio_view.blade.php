@@ -46,21 +46,29 @@
             </div>
             <div class="col-sm-auto">
                 <div class="info-content">
-                    <p><span id="view_count">{{$audio->views}} views</span> <span id="favourite_count">{{$audio->favourites}} favourites</span></p>
+                    {{-- <p><span id="view_count">{{$audio->views}} views</span> <span id="favourite_count">{{$audio->favourites}} favourites</span></p> --}}
+                    <p><span id="view_count">{{$audio->views}} views</span> </p>
                 </div>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12 action-button-wrapper">
                 <a href="{{route('content_audio_makeFavourite',$audio->uuid)}}" class="action-btn make-favourite-button">
                     @if($audio->markedFavorite())
-                    <i class="fas fa-heart-broken"></i> Unmark Favourite
+                    <i class="fas fa-heart-broken"></i>
                     @else
-                    <i class="far fa-heart"></i> Make Favourite
+                    <i class="far fa-heart"></i>
                     @endif
                 </a>
-                <button class="action-btn report-button" data-toggle="modal" data-target="#reportModal"><i class="far fa-flag"></i> Report</button>
+                <button class="action-btn report-button" data-toggle="modal" data-target="#reportModal"><i class="far fa-flag"></i> </button>
             </div>
         </div>
     </div>
+    @if($audio->description_unformatted)
+    <hr/>
+    <div class="container info-container info-major-content">
+        <h6>Description</h6>
+        {!!$audio->description!!}
+    </div>
+    @endif
     <hr/>
     <div class="container info-container">
     <p>Language : <b>{{$audio->LanguageModel->name}}</b></p>
@@ -75,13 +83,7 @@
     </p>
     @endif
     </div>
-    @if($audio->description_unformatted)
-    <hr/>
-    <div class="container info-container info-major-content">
-        <h6>Description</h6>
-        {!!$audio->description!!}
-    </div>
-    @endif
+    
 
     @include('pages.main.content.common.request_access_modal')
     

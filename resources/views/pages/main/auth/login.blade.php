@@ -26,11 +26,11 @@
 @section('content')
 
 <div class="form-items">
-    <h3>Get access to AmritaJanani by logging in</h3>
     <!-- <p>Access to the most powerfull tool in amrita janani.</p> -->
     <div class="page-links">
         <a href="{{route('signin')}}" class="active">Login</a><a href="{{route('signup')}}">Register</a>
     </div>
+    <h3>Get access to AmritaJanani by logging in</h3><br/>
     <form action="{{route('signin_authenticate')}}" method="post" id="loginForm">
         @csrf
         <div class="mb-2">

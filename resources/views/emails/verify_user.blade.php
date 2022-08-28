@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-<h4>Amrita Janani - Verification</h4>
 <p>Hello {{$name}}.</p>
-<p>In order to verify your email address, please enter the following otp. Your OTP is {{$otp}}</p>
+<p>Welcome to Amrita Janani!</p>
+<p>Please enter the following OTP in the Amrita Janani registration page to get access.</p>
+<p>Your OTP is <b>{{$otp}}</b></p>
 </body>
 </html>

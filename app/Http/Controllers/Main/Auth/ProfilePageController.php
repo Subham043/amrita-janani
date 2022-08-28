@@ -30,17 +30,31 @@ class ProfilePageController extends Controller
     public function update(Request $req){
         $rules = array(
             'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+            'email' => ['required','email'],
+            'phone' => ['required','regex:/^[0-9]*$/'],
         );
         $messages = array(
             'name.required' => 'Please enter the name !',
             'name.regex' => 'Please enter the valid name !',
+            'email.required' => 'Please enter the email !',
+            'email.email' => 'Please enter the valid email !',
+            'phone.required' => 'Please enter the phone !',
+            'phone.regex' => 'Please enter the valid phone !',
         );
+        if(Auth::user()->email!==$req->email){
+            $rules['email'] = ['required','email','unique:users'];
+        }
+        if(Auth::user()->phone!==$req->phone){
+            $rules['phone'] = ['required','regex:/^[0-9]*$/','unique:users'];
+        }
         $validator = Validator::make($req->all(), $rules, $messages);
         if($validator->fails()){
             return response()->json(["form_error"=>$validator->errors()], 400);
         }
         $user = User::findOrFail(Auth::user()->id);
         $user->name = $req->name;
+        $user->email = $req->email;
+        $user->phone = $req->phone;
         $result = $user->save();
         if($result){
             return response()->json(["message" => "Profile Updated successfully."], 201);
