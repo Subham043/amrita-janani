@@ -256,6 +256,8 @@ class VideoController extends Controller
             foreach ($data as $key => $value) {
                 $exceldata = new VideoModel;
                 $exceldata->title = $value['title'];
+                $exceldata->description = $value['description'];
+                $exceldata->description_unformatted = $value['description'];
                 $exceldata->year = $value['year'];
                 $exceldata->deity = $value['deity'];
                 $exceldata->tags = $value['tags'];

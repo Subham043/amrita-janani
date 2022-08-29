@@ -291,6 +291,8 @@ class AudioController extends Controller
                         $language = LanguageModel::where('name','like',$value['language'])->first();
                         $exceldata = new AudioModel;
                         $exceldata->title = $value['title'];
+                        $exceldata->description = $value['description'];
+                        $exceldata->description_unformatted = $value['description'];
                         $exceldata->year = $value['year'];
                         $exceldata->deity = $value['deity'];
                         $exceldata->tags = $value['tags'];
