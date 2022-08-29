@@ -273,7 +273,7 @@ hr {
 
 .nav-flex-direction-end{
     display:flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 

@@ -78,6 +78,16 @@ textarea.form-control {
     color: white;
 }
 
-.no_data{
+.no_data, .info-major-content{
     color: white;
+}
+
+.page-link {
+    background-color: #222;
+    border: 1px solid #222;
+}
+
+.page-item.disabled .page-link {
+    background-color: #222;
+    border-color: #222;
 }
