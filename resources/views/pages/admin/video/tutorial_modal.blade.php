@@ -8,7 +8,7 @@
             <div class="modal-body">
                 
                 <div class="live-preview">
-                    <p><code><b>Step 1:</b></code> First you need to upload an excel sheet. The excel sheet must contain atleast one row of data. Maximum 20 rows of data are allowed.<br><code>Note:</code>Download sample excel sheet. <a href="{{asset('storage/excel/video.xlsx')}}" download type="button" class="btn btn-ghost-info btn-sm waves-effect waves-light add-btn" id="create-btn"><i class="ri-download-line align-bottom me-1"></i> Download</a></p>
+                    <p><code><b>Step 1:</b></code> First you need to upload an excel sheet. The excel sheet must contain atleast one row of data. Maximum 30 rows of data are allowed.<br><code>Note:</code>Download sample excel sheet. <a href="{{asset('storage/excel/video.xlsx')}}" download type="button" class="btn btn-ghost-info btn-sm waves-effect waves-light add-btn" id="create-btn"><i class="ri-download-line align-bottom me-1"></i> Download</a></p>
                     <p><code><b>Step 2:</b></code> Third press the upload button.</p>
                 </div>
 
