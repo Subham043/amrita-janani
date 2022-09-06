@@ -144,21 +144,16 @@ const choices = new Choices('#userType', {
     silent: false,
     items: [],
     choices: [
-            // {
-            //     value: 'Select the user type',
-            //     label: 'Select the user type',
-            //     selected: {{empty(old('for')) ? 'true' : 'false'}},
-            //     disabled: true,
-            // },
+            {
+                value: 'Select the user type',
+                label: 'Select the user type',
+                selected: {{empty(old('for')) ? 'true' : 'false'}},
+                disabled: true,
+            },
         @foreach($common['user_type'] as $key => $val)
             {
                 value: '{{$key}}',
                 label: '{{$val}}',
-                @if($key==1)
-                selected: {{empty(old('for')) ? 'true' : 'false'}},
-                @else
-                selected: {{(old('for')==$key) ? 'true' : 'false'}},
-                @endif
                 @if($key==1)disabled: true,@endif
             },
         @endforeach

@@ -145,11 +145,11 @@ const choices = new Choices('#userType', {
     silent: false,
     items: [],
     choices: [
-            // {
-            //     value: 'Select the user type',
-            //     label: 'Select the user type',
-            //     disabled: true,
-            // },
+            {
+                value: 'Select the user type',
+                label: 'Select the user type',
+                disabled: true,
+            },
         @foreach($common['user_type'] as $key => $val)
             {
                 value: '{{$key}}',
