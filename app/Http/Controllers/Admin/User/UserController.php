@@ -70,7 +70,7 @@ class UserController extends Controller
     }
 
     public function edit($id) {
-        $country = User::where('id', '!=' , Auth::user()->id)->findOrFail($id);
+        $country = User::where('id', '!=' , Auth::user()->id)->where("userType", "!=" , 1)->findOrFail($id);
         return view('pages.admin.user.edit')->with('country',$country);
     }
 
@@ -81,7 +81,7 @@ class UserController extends Controller
             'userType' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email'],
             'phone' => ['required','regex:/^[0-9]*$/'],
-            'password' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            // 'password' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
         );
         $messages = array(
             'name.required' => 'Please enter the name !',
@@ -100,20 +100,20 @@ class UserController extends Controller
         if($country->phone!==$req->phone){
             $rules['phone'] = ['required','regex:/^[0-9]*$/','unique:users'];
         }
-        if(!empty($req->password)){
-            $rules['cpassword'] = ['required_with:password|same:password'];
-            $messages['cpassword.required'] = 'Please enter your confirm password !';
-            $messages['cpassword.same'] = 'password & confirm password must be the same !';
-        }
+        // if(!empty($req->password)){
+        //     $rules['cpassword'] = ['required_with:password|same:password'];
+        //     $messages['cpassword.required'] = 'Please enter your confirm password !';
+        //     $messages['cpassword.same'] = 'password & confirm password must be the same !';
+        // }
         $validator = $req->validate($rules,$messages);
 
         $country->name = $req->name;
         $country->email = $req->email;
         $country->phone = $req->phone;
         $country->userType = $req->userType;
-        if(!empty($req->password)){
-            $country->password = Hash::make($req->password);
-        }
+        // if(!empty($req->password)){
+        //     $country->password = Hash::make($req->password);
+        // }
         $country->otp = rand(1000,9999);
         $country->status = $req->status == "on" ? 1 : 2;
         $result = $country->save();
@@ -125,7 +125,7 @@ class UserController extends Controller
     }
 
     public function delete($id){
-        $country = User::where('id', '!=' , Auth::user()->id)->findOrFail($id);
+        $country = User::where('id', '!=' , Auth::user()->id)->where("userType", "!=" , 1)->findOrFail($id);
         $country->forceDelete();
         return redirect()->intended(route('subadmin_view'))->with('success_status', 'Data Deleted successfully.');
     }
@@ -133,19 +133,19 @@ class UserController extends Controller
     public function view(Request $request) {
         if ($request->has('search')) {
             $search = $request->input('search');
-            $country = User::where("id", "!=" , Auth::user()->id)->where(function ($query) use ($search) {
+            $country = User::where("id", "!=" , Auth::user()->id)->where("userType", "!=" , 1)->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                       ->orWhere('email', 'like', '%' . $search . '%')
                       ->orWhere('phone', 'like', '%' . $search . '%');
             })->paginate(10);
         }else{
-            $country = User::where('id', '!=' , Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
+            $country = User::where('id', '!=' , Auth::user()->id)->where("userType", "!=" , 1)->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.user.list')->with('country', $country);
     }
 
     public function display($id) {
-        $country = User::where('id', '!=' , Auth::user()->id)->findOrFail($id);
+        $country = User::where('id', '!=' , Auth::user()->id)->where("userType", "!=" , 1)->findOrFail($id);
         return view('pages.admin.user.display')->with('country',$country);
     }
 

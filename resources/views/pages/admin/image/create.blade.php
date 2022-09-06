@@ -39,6 +39,13 @@
         <!-- end page title -->
 
         <div class="row">
+        <div class="row g-4 mb-3">
+                <div class="col-sm-auto">
+                    <div>
+                        <a href="{{url()->previous()}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-arrow-go-back-line align-bottom me-1"></i> Go Back</a>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">

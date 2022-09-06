@@ -34,48 +34,24 @@
                         <ul class="navbar-nav" id="navbar-nav">
                             <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                             <li class="nav-item">
-                                <a class="nav-link menu-link {{strpos(url()->current(),'enquiry') !== false ? 'active' : ''}}" href="#sidebarDashboards4" data-bs-toggle="collapse" role="button"
-                                    aria-expanded="{{strpos(url()->current(),'enquiry') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards4">
-                                    <i class="ri-message-fill"></i> <span data-key="t-dashboards">Enquiry Management</span>
+                                <a class="nav-link menu-link {{strpos(url()->current(),'enquiry') !== false ? 'active' : ''}}" href="{{route('enquiry_view')}}">
+                                    <i class="ri-message-fill"></i> <span data-key="t-widgets">Enquiries</span>
                                 </a>
-                                <div class="collapse menu-dropdown {{strpos(url()->current(),'enquiry') !== false  ? 'show' : ''}}" id="sidebarDashboards4">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{route('enquiry_view')}}" class="nav-link {{strpos(url()->current(),'enquiry') !== false ? 'active' : ''}}" data-key="t-analytics"> Enquiries </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li> <!-- end Dashboard Menu -->
+                            </li>
                             <li class="nav-item">
-                                <a class="nav-link menu-link {{strpos(url()->current(),'user') !== false ? 'active' : ''}}" href="#sidebarDashboards5" data-bs-toggle="collapse" role="button"
-                                    aria-expanded="{{strpos(url()->current(),'user') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards5">
-                                    <i class="ri-admin-fill"></i> <span data-key="t-dashboards">User Management</span>
+                                <a class="nav-link menu-link {{strpos(url()->current(),'user') !== false ? 'active' : ''}}" href="{{route('subadmin_view')}}">
+                                    <i class="ri-admin-fill"></i> <span data-key="t-widgets">Users</span>
                                 </a>
-                                <div class="collapse menu-dropdown {{strpos(url()->current(),'user') !== false ? 'show' : ''}}" id="sidebarDashboards5">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{route('subadmin_view')}}" class="nav-link {{strpos(url()->current(),'user') !== false ? 'active' : ''}}" data-key="t-analytics"> User </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li> <!-- end Dashboard Menu -->
+                            </li>
                             <li class="nav-item">
-                                <a class="nav-link menu-link {{strpos(url()->current(),'language') !== false ? 'active' : ''}}" href="#sidebarDashboards7" data-bs-toggle="collapse" role="button"
-                                    aria-expanded="{{strpos(url()->current(),'language') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards7">
-                                    <i class="bx bx-text"></i> <span data-key="t-dashboards">Language Management</span>
+                                <a class="nav-link menu-link {{strpos(url()->current(),'language') !== false ? 'active' : ''}}" href="{{route('language_view')}}">
+                                    <i class="bx bx-text"></i> <span data-key="t-widgets">Languages</span>
                                 </a>
-                                <div class="collapse menu-dropdown {{strpos(url()->current(),'language') !== false ? 'show' : ''}}" id="sidebarDashboards7">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="{{route('language_view')}}" class="nav-link {{strpos(url()->current(),'language') !== false ? 'active' : ''}}" data-key="t-analytics"> Language </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li> <!-- end Dashboard Menu -->
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'admin/image') !== false || strpos(url()->current(),'admin/audio') !== false || strpos(url()->current(),'admin/video') !== false || strpos(url()->current(),'admin/document') !== false ? 'active' : ''}}" href="#sidebarDashboards6" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{strpos(url()->current(),'admin/image') !== false || strpos(url()->current(),'admin/audio') !== false || strpos(url()->current(),'admin/video') !== false || strpos(url()->current(),'admin/document') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards6">
-                                    <i class="ri-image-fill"></i> <span data-key="t-dashboards">Multimedia Management</span>
+                                    <i class="ri-image-fill"></i> <span data-key="t-dashboards">Media Content</span>
                                 </a>
                                 <div class="collapse menu-dropdown {{strpos(url()->current(),'admin/image') !== false || strpos(url()->current(),'admin/audio') !== false || strpos(url()->current(),'admin/video') !== false || strpos(url()->current(),'admin/document') !== false ? 'show' : ''}}" id="sidebarDashboards6">
                                     <ul class="nav nav-sm flex-column">
@@ -97,7 +73,7 @@
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'access-request/image') !== false || strpos(url()->current(),'access-request/audio') !== false || strpos(url()->current(),'access-request/video') !== false || strpos(url()->current(),'access-request/document') !== false ? 'active' : ''}}" href="#sidebarDashboards8" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{strpos(url()->current(),'access-request/image') !== false || strpos(url()->current(),'access-request/audio') !== false || strpos(url()->current(),'access-request/video') !== false || strpos(url()->current(),'access-request/document') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards8">
-                                    <i class="ri-wheelchair-line"></i> <span data-key="t-dashboards">Access Request</span>
+                                    <i class="ri-wheelchair-line"></i> <span data-key="t-dashboards">Access Control</span>
                                 </a>
                                 <div class="collapse menu-dropdown {{strpos(url()->current(),'access-request/image') !== false || strpos(url()->current(),'access-request/audio') !== false || strpos(url()->current(),'access-request/video') !== false || strpos(url()->current(),'access-request/document') !== false ? 'show' : ''}}" id="sidebarDashboards8">
                                     <ul class="nav nav-sm flex-column">
@@ -119,7 +95,7 @@
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'report/image') !== false || strpos(url()->current(),'report/audio') !== false || strpos(url()->current(),'report/video') !== false || strpos(url()->current(),'report/document') !== false ? 'active' : ''}}" href="#sidebarDashboards9" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{strpos(url()->current(),'report/image') !== false || strpos(url()->current(),'report/audio') !== false || strpos(url()->current(),'report/video') !== false || strpos(url()->current(),'report/document') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards9">
-                                    <i class="ri-file-chart-line"></i> <span data-key="t-dashboards">Content Reports</span>
+                                    <i class="ri-file-chart-line"></i> <span data-key="t-dashboards">Flagged Content</span>
                                 </a>
                                 <div class="collapse menu-dropdown {{strpos(url()->current(),'report/image') !== false || strpos(url()->current(),'report/audio') !== false || strpos(url()->current(),'report/video') !== false || strpos(url()->current(),'report/document') !== false ? 'show' : ''}}" id="sidebarDashboards9">
                                     <ul class="nav nav-sm flex-column">
@@ -141,7 +117,7 @@
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'page/home') !== false || strpos(url()->current(),'page/about') !== false || strpos(url()->current(),'page/dynamic') !== false || strpos(url()->current(),'faq') !== false ? 'active' : ''}}" href="#sidebarDashboards10" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{strpos(url()->current(),'page/home') !== false || strpos(url()->current(),'page/about') !== false || strpos(url()->current(),'page/dynamic') !== false || strpos(url()->current(),'faq') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards10">
-                                    <i class="ri-pages-line"></i> <span data-key="t-dashboards">Content Management</span>
+                                    <i class="ri-pages-line"></i> <span data-key="t-dashboards">Website Content</span>
                                 </a>
                                 <div class="collapse menu-dropdown {{strpos(url()->current(),'page/home') !== false || strpos(url()->current(),'page/about') !== false || strpos(url()->current(),'page/dynamic') !== false || strpos(url()->current(),'faq') !== false ? 'show' : ''}}" id="sidebarDashboards10">
                                     <ul class="nav nav-sm flex-column">

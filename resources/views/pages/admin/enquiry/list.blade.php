@@ -11,11 +11,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Enquiry</h4>
+                    <h4 class="mb-sm-0">Enquiries</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Enquiry</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Enquiries</a></li>
                             <li class="breadcrumb-item active">List</li>
                         </ol>
                     </div>
@@ -29,7 +29,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Enquiry</h4>
+                        <h4 class="card-title mb-0">Enquiries</h4>
                     </div><!-- end card header -->
 
                     <div class="card-body">
@@ -77,7 +77,7 @@
                                                         <a href="{{route('enquiry_display', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
                                                     <div class="remove">
-                                                        <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('enquiry_delete', $item->id)}}')">Remove</button>
+                                                        <button class="btn btn-sm btn-danger remove-item-btn" style="background:red" onclick="deleteHandler('{{route('enquiry_delete', $item->id)}}')">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>

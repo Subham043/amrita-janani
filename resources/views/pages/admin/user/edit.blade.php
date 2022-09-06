@@ -26,6 +26,13 @@
         <!-- end page title -->
 
         <div class="row">
+            <div class="row g-4 mb-3">
+                <div class="col-sm-auto">
+                    <div>
+                        <a href="{{url()->previous()}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-arrow-go-back-line align-bottom me-1"></i> Go Back</a>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
@@ -36,7 +43,7 @@
                             <form id="countryForm" method="post" action="{{route('subadmin_update', $country->id)}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row gy-4">
-                                <div class="col-xxl-4 col-md-4">
+                                <div class="col-xxl-3 col-md-3">
                                     <div>
                                         <label for="name" class="form-label">Name</label>
                                         <input type="text" class="form-control" name="name" id="name" value="{{$country->name}}">
@@ -45,7 +52,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-4 col-md-4">
+                                <div class="col-xxl-3 col-md-3">
                                     <div>
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" class="form-control" name="email" id="email" value="{{$country->email}}">
@@ -54,7 +61,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-4 col-md-4">
+                                <div class="col-xxl-3 col-md-3">
                                     <div>
                                         <label for="phone" class="form-label">Phone</label>
                                         <input type="text" class="form-control" name="phone" id="phone" value="{{$country->phone}}">
@@ -63,7 +70,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-4 col-md-4">
+                                <div class="col-xxl-3 col-md-3">
                                     <div>
                                         <label for="userType" class="form-label">User Type</label>
                                         <select id="userType" name="userType"></select>
@@ -72,7 +79,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-4 col-md-4">
+                                <!-- <div class="col-xxl-4 col-md-4">
                                     <div>
                                         <label for="password" class="form-label">Password</label>
                                         <input type="password" class="form-control" name="password" id="password" value="">
@@ -89,7 +96,7 @@
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--end col-->
                                 <div class="col-lg-12 col-md-12">
                                     <div class="mt-4 mt-md-0">
@@ -138,16 +145,17 @@ const choices = new Choices('#userType', {
     silent: false,
     items: [],
     choices: [
-            {
-                value: 'Select the user type',
-                label: 'Select the user type',
-                disabled: true,
-            },
+            // {
+            //     value: 'Select the user type',
+            //     label: 'Select the user type',
+            //     disabled: true,
+            // },
         @foreach($common['user_type'] as $key => $val)
             {
                 value: '{{$key}}',
                 label: '{{$val}}',
                 selected: {{($country->userType==$key) ? 'true' : 'false'}},
+                @if($key==1)disabled: true,@endif
             },
         @endforeach
     ],
@@ -271,27 +279,27 @@ validation
         errorMessage: 'Phone is invalid',
     },
   ])
-  .addField('#password', [
-    {
-        rule: 'customRegexp',
-        value: /^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i,
-        errorMessage: 'Password is invalid',
-    },
-  ])
-  .addField('#cpassword', [
-    {
-        validator: (value, fields) => {
-        if (fields['#password'] && fields['#password'].elem) {
-            const repeatPasswordValue = fields['#password'].elem.value;
+//   .addField('#password', [
+//     {
+//         rule: 'customRegexp',
+//         value: /^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i,
+//         errorMessage: 'Password is invalid',
+//     },
+//   ])
+//   .addField('#cpassword', [
+//     {
+//         validator: (value, fields) => {
+//         if (fields['#password'] && fields['#password'].elem) {
+//             const repeatPasswordValue = fields['#password'].elem.value;
 
-            return value === repeatPasswordValue;
-        }
+//             return value === repeatPasswordValue;
+//         }
 
-        return true;
-        },
-        errorMessage: 'Password and Confirm Password must be same',
-    },
-  ])
+//         return true;
+//         },
+//         errorMessage: 'Password and Confirm Password must be same',
+//     },
+//   ])
   .addField('#userType', [
     {
       rule: 'required',

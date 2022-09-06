@@ -37,7 +37,7 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <a href={{route('subadmin_create')}} type="button" class="btn btn-success add-btn" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
+                                        <a href={{route('subadmin_create')}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
                                         <a href={{route('subadmin_excel')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
                                     </div>
                                 </div>
@@ -80,14 +80,14 @@
                                             <td class="date">{{$item->created_at}}</td>
                                             <td>
                                                 <div class="d-flex gap-2">
-                                                    <div class="edit">
+                                                    <!-- <div class="edit">
                                                         <a href="{{route('subadmin_display', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="edit">
-                                                        <a href="{{route('subadmin_edit', $item->id)}}" class="btn btn-sm btn-success edit-item-btn">Edit</a>
+                                                        <a href="{{route('subadmin_edit', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
                                                     </div>
                                                     <div class="remove">
-                                                        <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('subadmin_delete', $item->id)}}')">Remove</button>
+                                                        <button class="btn btn-sm btn-danger remove-item-btn" style="background:red" onclick="deleteHandler('{{route('subadmin_delete', $item->id)}}')">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>

@@ -39,12 +39,13 @@
                                 <div class="col-sm row mt-4" style="justify-content: flex-end">
                                     <form  method="get" action="{{route('audio_view_access')}}" class="col-sm-auto" onsubmit="return callSearchHandler()">
                                         <div class="d-flex justify-content-sm-end">
-                                            <div class="ms-2">
+                                            <div class="search-box ms-2">
                                                 <select name="filter" id="filter" class="form-control" onchange="return callSearchHandler()">
                                                     <option value="all" @if((app('request')->has('filter')) && (app('request')->input('filter')=='all')) selected @endif>All</option>
                                                     <option value="0" @if(app('request')->has('filter') && (app('request')->input('filter')=='0')) selected @endif>No</option>
                                                     <option value="1" @if(app('request')->has('filter') && (app('request')->input('filter')=='1')) selected @endif>Yes</option>
                                                 </select>
+                                                <i class="ri-arrow-up-down-line search-icon"></i>
                                             </div>
                                         </div>
                                     </form>
@@ -97,11 +98,11 @@
                                                     </div>
                                                     @if($item->User->userType == 2)
                                                     <div class="edit">
-                                                        <a href="{{route('subadmin_makeUserPreviledge', $item->User->id)}}" class="btn btn-sm btn-dark edit-item-btn">Grant User Previledge Access</a>
+                                                        <a href="{{route('subadmin_makeUserPreviledge', $item->User->id)}}" class="btn btn-sm btn-dark edit-item-btn">Grant Access To All Files</a>
                                                     </div>
                                                     @elseif($item->User->userType == 3)
                                                     <div class="edit">
-                                                        <a href="{{route('subadmin_makeUserPreviledge', $item->User->id)}}" class="btn btn-sm btn-dark edit-item-btn">Revoke User Previledge Access</a>
+                                                        <a href="{{route('subadmin_makeUserPreviledge', $item->User->id)}}" class="btn btn-sm btn-dark edit-item-btn">Revoke Access To All Files</a>
                                                     </div>
                                                     @endif
                                                     @if($item->User->userType == 2)
@@ -116,7 +117,7 @@
                                                     @endif
                                                     @endif
                                                     <div class="remove">
-                                                        <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('audio_delete_access', $item->id)}}')">Remove</button>
+                                                        <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('audio_delete_access', $item->id)}}')">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>

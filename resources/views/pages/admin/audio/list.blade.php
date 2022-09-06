@@ -37,10 +37,10 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <a href="{{route('audio_create')}}" type="button" class="btn btn-success add-btn" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
+                                        <a href="{{route('audio_create')}}" style="background:green;border-color:green;" type="button" class="btn btn-success add-btn" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
                                         <a href="{{route('audio_excel')}}" download type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
                                         <a href="{{route('audio_bulk_upload')}}" type="button" class="btn btn-warning add-btn" id="create-btn"><i class="ri-upload-cloud-2-line align-bottom me-1"></i> Bulk Upload</a>
-                                        <a href="{{route('audio_view_trash')}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Trash</a>
+                                        <a href="{{route('audio_view_trash')}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Recycle Bin</a>
                                     </div>
                                 </div>
                                 <div class="col-sm">
@@ -92,10 +92,10 @@
                                                         <a href="{{route('audio_display', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
                                                     <div class="edit">
-                                                        <a href="{{route('audio_edit', $item->id)}}" class="btn btn-sm btn-success edit-item-btn">Edit</a>
+                                                        <a href="{{route('audio_edit', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
                                                     </div>
                                                     <div class="remove">
-                                                        <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('audio_delete', $item->id)}}')">Remove</button>
+                                                        <button class="btn btn-sm btn-danger remove-item-btn" style="background:red" onclick="deleteHandler('{{route('audio_delete', $item->id)}}')">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>

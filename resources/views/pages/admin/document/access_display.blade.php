@@ -107,12 +107,17 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                                <div>
+                                    <a href="{{url()->previous()}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-arrow-go-back-line align-bottom me-1"></i> Go Back</a>
+                                </div>
+                            </div>
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
                                     @if($country->User->userType == 2)
-                                    <a href="{{route('subadmin_makeUserPreviledge', $country->User->id)}}" type="button" class="btn btn-warning add-btn me-2" id="create-btn"> Grant User Previledge Access</a>
+                                    <a href="{{route('subadmin_makeUserPreviledge', $country->User->id)}}" type="button" class="btn btn-warning add-btn me-2" id="create-btn"> Grant Access To All Files</a>
                                     @elseif($country->User->userType == 3)
-                                    <a href="{{route('subadmin_makeUserPreviledge', $country->User->id)}}" type="button" class="btn btn-warning add-btn me-2" id="create-btn"> Revoke User Previledge Access</a>
+                                    <a href="{{route('subadmin_makeUserPreviledge', $country->User->id)}}" type="button" class="btn btn-warning add-btn me-2" id="create-btn"> Revoke Access To All Files</a>
                                     @endif
                                     @if($country->User->userType == 2)
                                     @if($country->status == 1)

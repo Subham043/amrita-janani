@@ -15,7 +15,7 @@ class UserType extends AbstractFor
 {
     protected static $forstatus = [
         '0' => 'user_type',
-        '1' => 'Admin',
+        '1' => 'Select User Type',
         '2' => 'User',
         '3' => 'Privileged User',
     ];

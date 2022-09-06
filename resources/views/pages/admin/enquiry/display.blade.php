@@ -29,6 +29,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row g-4 mb-3">
+                            <div class="col-sm-auto">
+                                <div>
+                                    <a href="{{url()->previous()}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-arrow-go-back-line align-bottom me-1"></i> Go Back</a>
+                                </div>
+                            </div>
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
                                     <button onclick="deleteHandler('{{route('enquiry_delete', $country->id)}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>

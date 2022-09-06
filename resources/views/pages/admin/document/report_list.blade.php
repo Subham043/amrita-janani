@@ -39,13 +39,14 @@
                                 <div class="col-sm row mt-4" style="justify-content: flex-end">
                                     <form  method="get" action="{{route('document_view_report')}}" class="col-sm-auto" onsubmit="return callSearchHandler()">
                                         <div class="d-flex justify-content-sm-end">
-                                            <div class="ms-2">
+                                            <div class="search-box ms-2">
                                                 <select name="filter" id="filter" class="form-control" onchange="return callSearchHandler()">
                                                     <option value="all" @if((app('request')->has('filter')) && (app('request')->input('filter')=='all')) selected @endif>All</option>
                                                     <option value="0" @if(app('request')->has('filter') && (app('request')->input('filter')=='0')) selected @endif>Pending</option>
                                                     <option value="1" @if(app('request')->has('filter') && (app('request')->input('filter')=='1')) selected @endif>In Progress</option>
                                                     <option value="2" @if(app('request')->has('filter') && (app('request')->input('filter')=='2')) selected @endif>Completed</option>
                                                 </select>
+                                                <i class="ri-arrow-up-down-line search-icon"></i>
                                             </div>
                                         </div>
                                     </form>
@@ -91,7 +92,7 @@
                                             <td class="date">{{$item->created_at}}</td>
                                             <td>
                                                 <div class="d-flex gap-2" style="align-items:center">
-                                                    <div class="edit">
+                                                    <div class="search-box edit">
                                                         <form action="{{route('document_toggle_report', $item->id)}}" method="get">
                                                             <select class="form-control" name="status" onchange="this.form.submit()" style="min-width: 100px;">
                                                                 <option value="0" {{ $item->status==0 ? 'selected':''}}>Pending</option>
@@ -99,6 +100,7 @@
                                                                 <option value="2" {{ $item->status==2 ? 'selected':''}}>Completed</option>
                                                             </select>
                                                         </form>
+                                                        <i class="ri-arrow-up-down-line search-icon"></i>
                                                     </div>
                                                     <div class="edit">
                                                         <a href="{{route('document_display_report', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
@@ -107,7 +109,7 @@
                                                         <a href="{{route('document_display', $item->DocumentModel->id)}}" class="btn btn-sm btn-warning edit-item-btn">Go To Document</a>
                                                     </div>
                                                     <div class="remove">
-                                                        <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('document_delete_report', $item->id)}}')">Remove</button>
+                                                        <button class="btn btn-sm btn-danger remove-item-btn" onclick="deleteHandler('{{route('document_delete_report', $item->id)}}')">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>
