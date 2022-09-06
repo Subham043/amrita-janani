@@ -30,27 +30,8 @@
                         <div class="row project-wrapper">
                             <div class="col-xxl-12">
                                 <div class="row">
-                                    <div class="col-xl-3">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-soft-primary text-primary rounded-2 fs-2">
-                                                            <i class="ri-user-3-line text-primary"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">NEW USERS</p>
-                                                        <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="825">0</span></h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div>
-                                    </div><!-- end col -->
 
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                         <div class="card card-animate">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
@@ -62,7 +43,7 @@
                                                     <div class="flex-grow-1 ms-3">
                                                         <p class="text-uppercase fw-medium text-muted mb-0">TOTAL USERS</p>
                                                         <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="7522">0</span></h4>
+                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="{{$user_count}}">{{$user_count}}</span></h4>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -70,7 +51,7 @@
                                         </div>
                                     </div><!-- end col -->
 
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                         <div class="card card-animate">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
@@ -81,9 +62,9 @@
                                                         </span>
                                                     </div>
                                                     <div class="flex-grow-1 overflow-hidden ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">NEW TRIP</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Enquiries</p>
                                                         <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="1500">0</span></h4>
+                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="{{$enquiry_count}}">{{$enquiry_count}}</span></h4>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -91,7 +72,7 @@
                                         </div>
                                     </div><!-- end col -->
 
-                                    <div class="col-xl-3">
+                                    <div class="col-xl-4">
                                         <div class="card card-animate">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
@@ -101,9 +82,9 @@
                                                         </span>
                                                     </div>
                                                     <div class="flex-grow-1 overflow-hidden ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">COMPLETED TRIP</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Media Content</p>
                                                         <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="1500">0</span></h4>
+                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="{{$media_count}}">{{$media_count}}</span></h4>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -111,86 +92,7 @@
                                         </div>
                                     </div><!-- end col -->
 
-                                    <div class="col-xl-3">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-soft-success text-success rounded-2 fs-2">
-                                                            <i class="ri-money-dollar-circle-line text-success"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">TOTAL EARNING</p>
-                                                        <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="1500">0</span></h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div>
-                                    </div><!-- end col -->
                                     
-                                    <div class="col-xl-3">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-soft-success text-success rounded-2 fs-2">
-                                                            <i class="ri-money-dollar-circle-line text-success"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">EARNING THIS MONTH</p>
-                                                        <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="1500">0</span></h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div>
-                                    </div><!-- end col -->
-
-                                    <div class="col-xl-3">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-soft-dark text-dark rounded-2 fs-2">
-                                                            <i class="ri-flight-takeoff-line text-dark"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">NEW TRIP INQUIRY</p>
-                                                        <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="1500">0</span></h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div>
-                                    </div><!-- end col -->
-
-                                    <div class="col-xl-3">
-                                        <div class="card card-animate">
-                                            <div class="card-body">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-soft-dark text-dark rounded-2 fs-2">
-                                                            <i class="ri-hotel-line
-                                                            text-dark"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">NEW PACKAGE INQUIRY</p>
-                                                        <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="1500">0</span></h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div>
-                                    </div><!-- end col -->
 
                                 </div><!-- end row -->
 
