@@ -28,6 +28,7 @@
                 allowfullscreen
                 allowtransparency
                 allow="autoplay"
+                style="height:100%"
             ></iframe>
         </div>
     </div>
@@ -128,9 +129,10 @@ const controls = [
     'fullscreen'
 ];
 
-const player = new Plyr('#player', {
-    controls,
-});
+// const player = new Plyr('#player', {
+//     controls,
+//     ratio: '16:9'
+// });
 </script>
 @endif
 

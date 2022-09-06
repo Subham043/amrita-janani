@@ -38,7 +38,7 @@ span.hashtags {
 
 .sort-row select{
     background: transparent;
-    color: #ccc;
+    color: #fff;
 }
 
 .sort-div i {
@@ -47,7 +47,7 @@ span.hashtags {
 
 .sort-row select:focus {
     background: transparent !important;
-    color: #ccc;
+    color: #fff;
     font-weight: bold;
 }
 
@@ -90,4 +90,8 @@ textarea.form-control {
 .page-item.disabled .page-link {
     background-color: #222;
     border-color: #222;
+}
+
+.sort-row select option{
+    background-color: #222;
 }

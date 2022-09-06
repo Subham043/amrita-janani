@@ -97,7 +97,7 @@
                         <div class="col-lg-4 col-sm-12">
                             <a class="media-href" title="{{$document->title}}" href="{{route('content_document_view', $document->uuid)}}">
                                 <div class="img-holder">
-                                    <img src="{{asset('main/images/pdf.png')}}" alt="">
+                                    <img class="icon-img" src="{{asset('main/images/pdf.png')}}" alt="">
                                 </div>
                                 <div class="media-holder">
                                     <h5>{{$document->title}}</h5>

@@ -92,7 +92,7 @@ $videos = $videos;
                 <div class="col-lg-3 col-sm-12">
                     <a class="media-href" title="{{$audio->title}}" href="{{route('content_audio_view', $audio->uuid)}}">
                         <div class="img-holder">
-                            <img src="{{asset('main/images/audio-book.png')}}" alt="">
+                            <img class="icon-img" src="{{asset('main/images/audio-book.png')}}" alt="">
                         </div>
                         <div class="media-holder">
                             <h5>{{$audio->title}}</h5>
@@ -123,7 +123,7 @@ $videos = $videos;
                 <div class="col-lg-3 col-sm-12">
                     <a class="media-href" title="{{$document->title}}" href="{{route('content_document_view', $document->uuid)}}">
                         <div class="img-holder">
-                            <img src="{{asset('main/images/pdf.png')}}" alt="">
+                            <img class="icon-img" src="{{asset('main/images/pdf.png')}}" alt="">
                         </div>
                         <div class="media-holder">
                             <h5>{{$document->title}}</h5>
