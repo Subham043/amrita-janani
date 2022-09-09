@@ -50,13 +50,12 @@
 @section('content')
 
     <!-- ======== Hero Area Start ========== -->
-    <div class="hero-area hero-style-02 christian-hero-bg-two bg-overlay-black">
+    <div class="hero-area hero-style-02 christian-hero-bg-two bg-overlay-black" style="background:url({{asset('storage/upload/banners/'.$bannerImage->image)}})">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="hero-content text-center">
-                        <h1 class="text-white">Mere Ganpati Guru <br>
-                            Ganesh Ji Tusi Aa Jao.</h1>
+                        <h1 class="text-white">{{$bannerQuote->quote}}</h1>
 
                         <!-- <div class="ht-btn-area section-space--mt_60"><a href="#" class="hero-btn">Explore</a></div> -->
 
