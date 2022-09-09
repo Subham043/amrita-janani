@@ -44,6 +44,7 @@ use App\Http\Controllers\Admin\Language\LanguageController;
 use App\Http\Controllers\Admin\FAQ\FAQController;
 use App\Http\Controllers\Admin\Page\PageController;
 use App\Http\Controllers\Admin\Banner\BannerController;
+use App\Http\Controllers\Admin\Banner\BannerQuoteController;
 
 
 /*
@@ -305,7 +306,11 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/', [BannerController::class, 'banner', 'as' => 'admin.page.banner'])->name('banner_view');
         Route::post('/store', [BannerController::class, 'storeBanner', 'as' => 'admin.page.storeBanner'])->name('banner_store');
         Route::get('/delete/{id}', [BannerController::class, 'deleteBanner', 'as' => 'admin.page.deleteBanner'])->name('banner_delete');
-
+        Route::prefix('/quote')->group(function () {
+            Route::get('/', [BannerQuoteController::class, 'banner_quote', 'as' => 'admin.page.banner_quote'])->name('banner_quote_view');
+            Route::post('/store', [BannerQuoteController::class, 'storeBannerQuote', 'as' => 'admin.page.storeBannerQuote'])->name('banner_quote_store');
+            Route::get('/delete/{id}', [BannerQuoteController::class, 'deleteBannerQuote', 'as' => 'admin.page.deleteBannerQuote'])->name('banner_quote_delete');
+        });
     });
     
     Route::prefix('/video')->group(function () {
