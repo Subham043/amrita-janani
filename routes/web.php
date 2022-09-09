@@ -43,6 +43,7 @@ use App\Http\Controllers\Admin\Video\VideoReportController;
 use App\Http\Controllers\Admin\Language\LanguageController;
 use App\Http\Controllers\Admin\FAQ\FAQController;
 use App\Http\Controllers\Admin\Page\PageController;
+use App\Http\Controllers\Admin\Banner\BannerController;
 
 
 /*
@@ -297,6 +298,13 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
             Route::get('/edit/{id}', [PageController::class, 'edit_dynamic_page', 'as' => 'admin.page.edit_dynamic_page'])->name('edit_dynamic_page');
             Route::get('/delete/{id}', [PageController::class, 'deletePage', 'as' => 'admin.page.deletePage'])->name('deletePage');
         });
+
+    });
+    
+    Route::prefix('/banner')->group(function () {
+        Route::get('/', [BannerController::class, 'banner', 'as' => 'admin.page.banner'])->name('banner_view');
+        Route::post('/store', [BannerController::class, 'storeBanner', 'as' => 'admin.page.storeBanner'])->name('banner_store');
+        Route::get('/delete/{id}', [BannerController::class, 'deleteBanner', 'as' => 'admin.page.deleteBanner'])->name('banner_delete');
 
     });
     
