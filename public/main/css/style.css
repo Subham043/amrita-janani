@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 60px;
+  font-size: 40px;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -3182,6 +3182,8 @@ input[type="checkbox"] {
       -ms-flex-align: center;
           align-items: center;
   height: 550px;
+  background-size: cover !important;
+  background-position: center bottom !important;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {

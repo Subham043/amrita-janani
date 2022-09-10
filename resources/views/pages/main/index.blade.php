@@ -55,7 +55,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="hero-content text-center">
-                        <h1 class="text-white">{{$bannerQuote->quote}}</h1>
+                        <h1 class="text-white"><i>{{$bannerQuote->quote}}</i>
+                        <br/><span style="font-size: 20px;"> - Guruji Amritananda Natha Saraswati</span></h1>
 
                         <!-- <div class="ht-btn-area section-space--mt_60"><a href="#" class="hero-btn">Explore</a></div> -->
 
