@@ -46,6 +46,20 @@
 
                     <div class="filter-holder">
                         <hr>
+                        
+                        <button class="accordion active">Other Filter</button>
+                        <div class="panel" style="max-height: 100%;height:auto;">
+                            <ul>
+                                <li>
+                                    <label for="filter_check">
+                                    <input type="checkbox" id="filter_check" name="filter" value="favourite" @if(app('request')->has('filter') && app('request')->input('filter')=="favourite") checked @endif>
+                                        My Favourite Documents
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <hr>
+                        
                         @if(count($languages) > 0)
                         <button class="accordion active">Language</button>
                         <div class="panel" style="max-height: 100%;height:auto;">
@@ -64,19 +78,6 @@
                         </div>
                         <hr>
                         @endif
-
-                        <button class="accordion active">Other Filter</button>
-                        <div class="panel" style="max-height: 100%;height:auto;">
-                            <ul>
-                                <li>
-                                    <label for="filter_check">
-                                    <input type="checkbox" id="filter_check" name="filter" value="favourite" @if(app('request')->has('filter') && app('request')->input('filter')=="favourite") checked @endif>
-                                        My Favourite Documents
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <hr>
 
 
                     </div>
@@ -103,7 +104,8 @@
                                     <h5>{{$document->title}}</h5>
                                     <p class="desc">{{$document->description_unformatted}}</p>
                                     {{-- <p>Format : {{$document->file_format()}}</p> --}}
-                                    <p>Number of Pages : {{$document->page_number}}</p>
+                                    <p>Language : {{$document->getLanguageName()}}</p>
+                                    <p>Pages : {{$document->page_number}}</p>
                                     <p>Uploaded : {{$document->time_elapsed()}}</p>
                                 </div>
                             </a>

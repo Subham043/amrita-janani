@@ -48,7 +48,7 @@
                         <hr>
                         
 
-                        <button class="accordion active">Other Filter</button>
+                        <button class="accordion active">Filter</button>
                         <div class="panel" style="max-height: 100%;height:auto;">
                             <ul>
                                 <li>

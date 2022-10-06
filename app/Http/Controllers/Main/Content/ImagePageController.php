@@ -98,13 +98,13 @@ class ImagePageController extends Controller
                 $image->favourites = $image->favourites -1;
 
                 $image->save();
-                return redirect()->intended(route('content_image_view', $uuid))->with('success_status', 'Marked unfavourite successfully.');
+                return redirect()->intended(route('content_image_view', $uuid));
             }else{
                 $imageFav->status=1;
                 $image->favourites = $image->favourites +1;
                 $image->save();
                 $imageFav->save();
-                return redirect()->intended(route('content_image_view', $uuid))->with('success_status', 'Made favourite successfully.');
+                return redirect()->intended(route('content_image_view', $uuid));
             }
         }else{
             $imageFav = new ImageFavourite;
@@ -234,10 +234,20 @@ class ImagePageController extends Controller
             }
         }
 
+        $tags = ImageModel::select('tags')->whereNotNull('tags')->where('tags', 'like', '%' . $search . '%')->get();
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array(array("name"=>$i, "group"=>"Tags"), $data))){
+                    array_push($data,array("name"=>$i, "group"=>"Tags"));
+                }
+            }
+        }
+
         $searchHistory = SearchHistory::where('screen', 4)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search, "group"=>"Images"), $data)){
+            if(!in_array(array("name"=>$value->search, "group"=>"Images"), $data) && !in_array(array("name"=>$value->search, "group"=>"Tags"), $data)){
                 array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }

@@ -98,13 +98,13 @@ class VideoPageController extends Controller
                 $video->favourites = $video->favourites -1;
 
                 $video->save();
-                return redirect()->intended(route('content_video_view', $uuid))->with('success_status', 'Marked unfavourite successfully.');
+                return redirect()->intended(route('content_video_view', $uuid));
             }else{
                 $videoFav->status=1;
                 $video->favourites = $video->favourites +1;
                 $video->save();
                 $videoFav->save();
-                return redirect()->intended(route('content_video_view', $uuid))->with('success_status', 'Made favourite successfully.');
+                return redirect()->intended(route('content_video_view', $uuid));
             }
         }else{
             $videoFav = new VideoFavourite;
@@ -234,10 +234,20 @@ class VideoPageController extends Controller
             }
         }
 
+        $tags = VideoModel::select('tags')->whereNotNull('tags')->where('tags', 'like', '%' . $search . '%')->get();
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array(array("name"=>$i, "group"=>"Tags"), $data))){
+                    array_push($data,array("name"=>$i, "group"=>"Tags"));
+                }
+            }
+        }
+
         $searchHistory = SearchHistory::where('screen', 5)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search, "group"=>"Videos"), $data)){
+            if(!in_array(array("name"=>$value->search, "group"=>"Videos"), $data) && !in_array(array("name"=>$value->search, "group"=>"Tags"), $data)){
                 array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }

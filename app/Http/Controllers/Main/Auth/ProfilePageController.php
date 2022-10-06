@@ -31,7 +31,7 @@ class ProfilePageController extends Controller
         $rules = array(
             'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email'],
-            'phone' => ['required','regex:/^[0-9]*$/'],
+            'phone' => ['nullable','regex:/^[0-9]*$/'],
         );
         $messages = array(
             'name.required' => 'Please enter the name !',
@@ -44,7 +44,7 @@ class ProfilePageController extends Controller
         if(Auth::user()->email!==$req->email){
             $rules['email'] = ['required','email','unique:users'];
         }
-        if(Auth::user()->phone!==$req->phone){
+        if(!empty($req->phone) && Auth::user()->phone!==$req->phone){
             $rules['phone'] = ['required','regex:/^[0-9]*$/','unique:users'];
         }
         $validator = Validator::make($req->all(), $rules, $messages);

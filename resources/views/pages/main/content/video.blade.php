@@ -46,6 +46,20 @@
 
                     <div class="filter-holder">
                         <hr>
+
+                        <button class="accordion active">Filter</button>
+                        <div class="panel" style="max-height: 100%;height:auto;">
+                            <ul>
+                                <li>
+                                    <label for="filter_check">
+                                    <input type="checkbox" id="filter_check" name="filter" value="favourite" @if(app('request')->has('filter') && app('request')->input('filter')=="favourite") checked @endif>
+                                        My Favourite Videos
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <hr>
+
                         @if(count($languages) > 0)
                         <button class="accordion active">Language</button>
                         <div class="panel" style="max-height: 100%;height:auto;">
@@ -64,19 +78,6 @@
                         </div>
                         <hr>
                         @endif
-
-                        <button class="accordion active">Other Filter</button>
-                        <div class="panel" style="max-height: 100%;height:auto;">
-                            <ul>
-                                <li>
-                                    <label for="filter_check">
-                                    <input type="checkbox" id="filter_check" name="filter" value="favourite" @if(app('request')->has('filter') && app('request')->input('filter')=="favourite") checked @endif>
-                                        My Favourite Videos
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <hr>
 
 
                     </div>
@@ -106,6 +107,7 @@
                                 <div class="media-holder">
                                     <h5>{{$video->title}}</h5>
                                     <p class="desc">{{$video->description_unformatted}}</p>
+                                    <p>Language : {{$video->getLanguageName()}}</p>
                                     <p>Uploaded : {{$video->time_elapsed()}}</p>
                                 </div>
                             </a>

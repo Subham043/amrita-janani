@@ -2,7 +2,7 @@ body, .church-about-area, .hindu-video-area, .causes-details-area, .contact-page
     background-color: #383838;
 }
 
-.section-title--two, .about-tai-content p, h5.section-title-normal, .target-content p, .single-contact-info .contact-info h4, .single-contact-info .contact-info p, .title, label, .table td, .table th, .content-holder .content-container .media-container h3, .content-holder .content-container .media-container .media-holder h5, .info-container h5, .info-content h5, .info-content, .info-container p, .info-major-content h6, .plyr__control, .plyr__controls__item, .main-denied-container, .denied-text-container h4{
+.section-title--two, .about-tai-content p, h5.section-title-normal, .target-content p, .single-contact-info .contact-info h4, .single-contact-info .contact-info p, .title, label, .table td, .table th, .content-holder .content-container .media-container h3, .content-holder .content-container .media-container .media-holder h5, .info-container h5, .info-content h5, .info-content, .info-container p, .info-major-content h6, .plyr__control, .plyr__controls__item, .main-denied-container, .denied-text-container h4, .about-tai-content p span{
     color: #fff;
 }
 

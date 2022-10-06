@@ -46,6 +46,20 @@
 
                     <div class="filter-holder">
                         <hr>
+                        
+                        <button class="accordion active">Other Filter</button>
+                        <div class="panel" style="max-height: 100%;height:auto;">
+                            <ul>
+                                <li>
+                                    <label for="filter_check">
+                                    <input type="checkbox" id="filter_check" name="filter" value="favourite" @if(app('request')->has('filter') && app('request')->input('filter')=="favourite") checked @endif>
+                                        My Favourite Audio
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <hr>
+                        
                         @if(count($languages) > 0)
                         <button class="accordion active">Language</button>
                         <div class="panel" style="max-height: 100%;height:auto;">
@@ -64,19 +78,6 @@
                         </div>
                         <hr>
                         @endif
-
-                        <button class="accordion active">Other Filter</button>
-                        <div class="panel" style="max-height: 100%;height:auto;">
-                            <ul>
-                                <li>
-                                    <label for="filter_check">
-                                    <input type="checkbox" id="filter_check" name="filter" value="favourite" @if(app('request')->has('filter') && app('request')->input('filter')=="favourite") checked @endif>
-                                        My Favourite Audio
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <hr>
 
 
                     </div>
@@ -103,6 +104,7 @@
                                     <h5>{{$audio->title}}</h5>
                                     <p class="desc">{{$audio->description_unformatted}}</p>
                                     {{-- <p>Format : {{$audio->file_format()}}</p> --}}
+                                    <p>Language : {{$audio->getLanguageName()}}</p>
                                     <p>Duration : {{$audio->duration}}</p>
                                     <p>Uploaded : {{$audio->time_elapsed()}}</p>
                                 </div>

@@ -24,7 +24,7 @@
 
 <div class="form-items">
     <h3>Verify Email.</h3>
-    <p>Access to the most powerfull tool in amrita janani.</p>
+    <p>Enter the OTP sent to the registered email address.</p>
     <form action="{{route('requestVerifyRegisteredUser', $encryptedId)}}" method="post" id="loginForm">
     @csrf
         <div class="mb-2">

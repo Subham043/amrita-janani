@@ -32,6 +32,6 @@ class SendAdminReportEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to("subham.5ine@gmail.com")->send(new SendAdminReportEmail($this->details));
+        Mail::to(getenv('ADMIN_EMAIL'))->send(new SendAdminReportEmail($this->details));
     }
 }

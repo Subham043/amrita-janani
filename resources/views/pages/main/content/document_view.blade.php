@@ -162,7 +162,7 @@
     <hr />
     <div class="container info-container">
         @if($document->deity)<p>Deity : <b>{{$document->deity}}</b></p>@endif
-        <p>Language : <b>{{$document->LanguageModel->name}}</b></p>
+        <p>Language : <b>{{$document->getLanguageName()}}</b></p>
         <p>Number of Pages : <b>{{$document->page_number}}</b></p>
         <p>Uploaded : <b>{{$document->time_elapsed()}}</b></p>
         @if(count($document->getTagsArray())>0)

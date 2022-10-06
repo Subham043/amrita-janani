@@ -97,13 +97,13 @@ class DocumentPageController extends Controller
                 $document->favourites = $document->favourites -1;
 
                 $document->save();
-                return redirect()->intended(route('content_document_view', $uuid))->with('success_status', 'Marked unfavourite successfully.');
+                return redirect()->intended(route('content_document_view', $uuid));
             }else{
                 $documentFav->status=1;
                 $document->favourites = $document->favourites +1;
                 $document->save();
                 $documentFav->save();
-                return redirect()->intended(route('content_document_view', $uuid))->with('success_status', 'Made favourite successfully.');
+                return redirect()->intended(route('content_document_view', $uuid));
             }
         }else{
             $documentFav = new DocumentFavourite;
@@ -233,10 +233,20 @@ class DocumentPageController extends Controller
             }
         }
 
+        $tags = DocumentModel::select('tags')->whereNotNull('tags')->where('tags', 'like', '%' . $search . '%')->get();
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array(array("name"=>$i, "group"=>"Tags"), $data))){
+                    array_push($data,array("name"=>$i, "group"=>"Tags"));
+                }
+            }
+        }
+
         $searchHistory = SearchHistory::where('screen', 3)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search, "group"=>"Documents"), $data)){
+            if(!in_array(array("name"=>$value->search, "group"=>"Documents"), $data) && !in_array(array("name"=>$value->search, "group"=>"Tags"), $data)){
                 array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }

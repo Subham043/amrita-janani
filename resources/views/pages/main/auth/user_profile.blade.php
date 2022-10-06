@@ -94,10 +94,6 @@ validationModal
   ])
   .addField('#phone', [
     {
-      rule: 'required',
-      errorMessage: 'Phone is required',
-    },
-    {
         rule: 'customRegexp',
         value: /^[0-9]*$/,
         errorMessage: 'Phone is invalid',

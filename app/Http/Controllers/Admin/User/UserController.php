@@ -34,7 +34,7 @@ class UserController extends Controller
             'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'userType' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email','unique:users'],
-            'phone' => ['required','regex:/^[0-9]*$/','unique:users'],
+            'phone' => ['nullable','regex:/^[0-9]*$/','unique:users'],
             'password' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'cpassword' => ['required_with:password|same:password'],
         ],
@@ -80,7 +80,7 @@ class UserController extends Controller
             'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'userType' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email'],
-            'phone' => ['required','regex:/^[0-9]*$/'],
+            'phone' => ['nullable','regex:/^[0-9]*$/'],
             // 'password' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
         );
         $messages = array(
@@ -97,7 +97,7 @@ class UserController extends Controller
         if($country->email!==$req->email){
             $rules['email'] = ['required','email','unique:users'];
         }
-        if($country->phone!==$req->phone){
+        if(!empty($req->phone) && $country->phone!==$req->phone){
             $rules['phone'] = ['required','regex:/^[0-9]*$/','unique:users'];
         }
         // if(!empty($req->password)){

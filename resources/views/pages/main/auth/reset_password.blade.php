@@ -24,7 +24,7 @@
 
 <div class="form-items">
     <h3>Reset password.</h3>
-    <p>Access to the most powerfull tool in amrita janani.</p>
+    <p>Enter OTP sent to email and create a new password.</p>
     <form action="{{route('resetPasswordRequest', $encryptedId)}}" method="post" id="loginForm">
     @csrf
         <div class="mb-2">

@@ -98,13 +98,13 @@ class AudioPageController extends Controller
                 $audio->favourites = $audio->favourites -1;
 
                 $audio->save();
-                return redirect()->intended(route('content_audio_view', $uuid))->with('success_status', 'Marked unfavourite successfully.');
+                return redirect()->intended(route('content_audio_view', $uuid));
             }else{
                 $audioFav->status=1;
                 $audio->favourites = $audio->favourites +1;
                 $audio->save();
                 $audioFav->save();
-                return redirect()->intended(route('content_audio_view', $uuid))->with('success_status', 'Made favourite successfully.');
+                return redirect()->intended(route('content_audio_view', $uuid));
             }
         }else{
             $audioFav = new AudioFavourite;
@@ -234,10 +234,20 @@ class AudioPageController extends Controller
             }
         }
 
+        $tags = AudioModel::select('tags')->whereNotNull('tags')->where('tags', 'like', '%' . $search . '%')->get();
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array(array("name"=>$i, "group"=>"Tags"), $data))){
+                    array_push($data,array("name"=>$i, "group"=>"Tags"));
+                }
+            }
+        }
+
         $searchHistory = SearchHistory::where('screen', 2)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search, "group"=>"Audios"), $data)){
+            if(!in_array(array("name"=>$value->search, "group"=>"Audios"), $data) && !in_array(array("name"=>$value->search, "group"=>"Tags"), $data)){
                 array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }

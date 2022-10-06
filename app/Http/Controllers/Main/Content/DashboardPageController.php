@@ -91,6 +91,16 @@ class DashboardPageController extends Controller
                 array_push($data,array("name"=>$value->title, "group"=>"Audios"));
             }
         }
+
+        $tags = AudioModel::select('tags')->whereNotNull('tags')->where('tags', 'like', '%' . $search . '%')->get();
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array(array("name"=>$i, "group"=>"Tags"), $data))){
+                    array_push($data,array("name"=>$i, "group"=>"Tags"));
+                }
+            }
+        }
         
         $images = ImageModel::where('status', 1)->where('title', 'like', '%' . $search . '%')
         ->orWhere('year', 'like', '%' . $search . '%')
@@ -104,6 +114,16 @@ class DashboardPageController extends Controller
         foreach ($images as $value) {
             if(!in_array(array("name"=>$value->title, "group"=>"Images"), $data)){
                 array_push($data,array("name"=>$value->title, "group"=>"Images"));
+            }
+        }
+
+        $tags = ImageModel::select('tags')->whereNotNull('tags')->where('tags', 'like', '%' . $search . '%')->get();
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array(array("name"=>$i, "group"=>"Tags"), $data))){
+                    array_push($data,array("name"=>$i, "group"=>"Tags"));
+                }
             }
         }
         
@@ -121,6 +141,16 @@ class DashboardPageController extends Controller
                 array_push($data,array("name"=>$value->title, "group"=>"Documents"));
             }
         }
+
+        $tags = DocumentModel::select('tags')->whereNotNull('tags')->where('tags', 'like', '%' . $search . '%')->get();
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array(array("name"=>$i, "group"=>"Tags"), $data))){
+                    array_push($data,array("name"=>$i, "group"=>"Tags"));
+                }
+            }
+        }
         
         $videos = VideoModel::where('status', 1)->where('title', 'like', '%' . $search . '%')
         ->orWhere('year', 'like', '%' . $search . '%')
@@ -136,11 +166,21 @@ class DashboardPageController extends Controller
                 array_push($data,array("name"=>$value->title, "group"=>"Videos"));
             }
         }
+
+        $tags = VideoModel::select('tags')->whereNotNull('tags')->where('tags', 'like', '%' . $search . '%')->get();
+        foreach ($tags as $tag) {
+            $arr = explode(",",$tag->tags);
+            foreach ($arr as $i) {
+                if (!(in_array(array("name"=>$i, "group"=>"Tags"), $data))){
+                    array_push($data,array("name"=>$i, "group"=>"Tags"));
+                }
+            }
+        }
         
         $searchHistory = SearchHistory::where('screen', 1)->where('search', 'like', '%' . $search . '%')->get();
 
         foreach ($searchHistory as $value) {
-            if(!in_array(array("name"=>$value->search, "group"=>"Audios"), $data) && !in_array(array("name"=>$value->search, "group"=>"Images"), $data) && !in_array(array("name"=>$value->search, "group"=>"Videos"), $data) && !in_array(array("name"=>$value->search, "group"=>"Documents"), $data)){
+            if(!in_array(array("name"=>$value->search, "group"=>"Audios"), $data) && !in_array(array("name"=>$value->search, "group"=>"Images"), $data) && !in_array(array("name"=>$value->search, "group"=>"Videos"), $data) && !in_array(array("name"=>$value->search, "group"=>"Documents"), $data) && !in_array(array("name"=>$value->search, "group"=>"Tags"), $data)){
                 array_push($data,array("name"=>$value->search, "group"=>"Previous Searches"));
             }
         }

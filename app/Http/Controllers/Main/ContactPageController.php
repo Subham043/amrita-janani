@@ -62,7 +62,7 @@ class ContactPageController extends Controller
             dispatch(new SendUserThankYouEmailJob($details));
             dispatch(new SendAdminEnquiryEmailJob($details));
 
-            return response()->json(["message" => "Data Stored successfully."], 201);
+            return response()->json(["message" => "Message sent successfully."], 201);
         }else{
             return response()->json(["error"=>"something went wrong. Please try again"], 400);
         }
