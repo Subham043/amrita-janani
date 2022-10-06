@@ -48,10 +48,12 @@
 
                     </div>
 
+                    @if(Auth::check())
                     @if(Auth::check() && Auth::user()->darkMode==1)
                     <a href="{{route('darkmode')}}"><i id="darkModeToggleBtn" class="fas fa-sun"></i></a>
                     @else
                     <a href="{{route('darkmode')}}"><i id="darkModeToggleBtn" class="fas fa-moon"></i></a>
+                    @endif
                     @endif
 
                     <div class="header-btn text-right d-none d-sm-block ml-lg-4">

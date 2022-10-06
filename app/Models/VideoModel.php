@@ -129,7 +129,7 @@ class VideoModel extends Model
                 return $output_array[6];
             }
         }else{
-            $video_id = explode("?v=", $this->video);
+            $video_id = explode("/embed/", $this->video);
             $video_id = $video_id[1];
             return $video_id;
         }
