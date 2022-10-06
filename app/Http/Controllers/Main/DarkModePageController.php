@@ -15,11 +15,11 @@ class DarkModePageController extends Controller
         if($user->darkMode == 0){
             $user->darkmode = 1;
             $user->save();
-            return redirect(URL::previous())->with('success_status', 'Dark mode activated');
+            return redirect(URL::previous());
         }else{
             $user->darkmode =  0;
             $user->save();
-            return redirect(URL::previous())->with('success_status', 'Dark mode deactivated');
+            return redirect(URL::previous());
         }
     }
 }
