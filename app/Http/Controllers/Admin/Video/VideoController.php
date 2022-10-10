@@ -266,6 +266,7 @@ class VideoController extends Controller
             return response()->json(["form_error"=>"Maximum 30 rows of data in the excel are allowed."], 400);
         }else{
             foreach ($data as $key => $value) {
+
                 $exceldata = new VideoModel;
                 $exceldata->title = $value['title'];
                 $exceldata->description = $value['description'];
@@ -274,13 +275,23 @@ class VideoController extends Controller
                 $exceldata->deity = $value['deity'];
                 $exceldata->tags = $value['tags'];
                 $exceldata->version = $value['version'];
-                $exceldata->language_id = LanguageType::getStatusId($value['language']);
                 $exceldata->video = $value['video'];
                 $exceldata->status = 1;
                 $exceldata->restricted = 0;
                 $exceldata->user_id = Auth::user()->id;
 
                 $result = $exceldata->save();
+
+                $arr = array_map('strval', explode(',', $value['language']));
+                for($i=0; $i < count($arr); $i++) { 
+                    $languageCheck = LanguageModel::where('name','like',$arr[$i])->first();
+                    if($languageCheck){
+                        $language = new VideoLanguage;
+                        $language->video_id = $exceldata->id;
+                        $language->language_id = $languageCheck->id;
+                        $language->save();
+                    }
+                }
                 
                 
             }

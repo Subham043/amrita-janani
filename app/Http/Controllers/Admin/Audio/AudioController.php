@@ -310,11 +310,8 @@ class AudioController extends Controller
             return response()->json(["form_error"=>"Maximum 30 rows of data in the excel are allowed."], 400);
         }else{
             foreach ($data as $key => $value) {
-                $language = LanguageModel::where('name','like',$value['language'])->get();
-                if(count($language)>0){
                     if(file_exists(storage_path('app/public/zip/audios').'/'.$value['audio'])){
 
-                        $language = LanguageModel::where('name','like',$value['language'])->first();
                         $exceldata = new AudioModel;
                         $exceldata->title = $value['title'];
                         $exceldata->description = $value['description'];
@@ -323,7 +320,6 @@ class AudioController extends Controller
                         $exceldata->deity = $value['deity'];
                         $exceldata->tags = $value['tags'];
                         $exceldata->version = $value['version'];
-                        $exceldata->language_id = $language->id;
                         $exceldata->status = 1;
                         $exceldata->restricted = 0;
                         $exceldata->user_id = Auth::user()->id;
@@ -343,8 +339,17 @@ class AudioController extends Controller
                         }
 
                         $result = $exceldata->save();
+                        $arr = array_map('strval', explode(',', $value['language']));
+                        for($i=0; $i < count($arr); $i++) { 
+                            $languageCheck = LanguageModel::where('name','like',$arr[$i])->first();
+                            if($languageCheck){
+                                $language = new AudioLanguage;
+                                $language->audio_id = $exceldata->id;
+                                $language->language_id = $languageCheck->id;
+                                $language->save();
+                            }
+                        }
                     }
-                }
                 
                 
             }

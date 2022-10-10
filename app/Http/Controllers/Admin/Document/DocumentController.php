@@ -301,36 +301,43 @@ class DocumentController extends Controller
             return response()->json(["form_error"=>"Maximum 30 rows of data in the excel are allowed."], 400);
         }else{
             foreach ($data as $key => $value) {
-                $language = LanguageModel::where('name','like',$value['language'])->get();
-                if(count($language)>0){
-                    if(file_exists(storage_path('app/public/zip/documents').'/'.$value['document'])){
 
-                        $language = LanguageModel::where('name','like',$value['language'])->first();
-                        $exceldata = new DocumentModel;
-                        $exceldata->title = $value['title'];
-                        $exceldata->description = $value['description'];
-                        $exceldata->description_unformatted = $value['description'];
-                        $exceldata->year = $value['year'];
-                        $exceldata->deity = $value['deity'];
-                        $exceldata->tags = $value['tags'];
-                        $exceldata->version = $value['version'];
-                        $exceldata->language_id = $language->id;
-                        $exceldata->status = 1;
-                        $exceldata->restricted = 0;
-                        $exceldata->user_id = Auth::user()->id;
-        
-                        
-                        $uuid = Uuid::generate(4)->string;
-                        Storage::move('public/zip/documents'.'/'.$value['document'], 'public/upload/documents'.'/'.$uuid.'-'.$value['document']);
-                        $exceldata->document = $uuid.'-'.$value['document'];
+                if(file_exists(storage_path('app/public/zip/documents').'/'.$value['document'])){
 
-                        $pdftext = file_get_contents(storage_path('app/public/upload/documents/'.$uuid.'-'.$value['document']));
-            
-                        $num_page = preg_match_all("/\/Page\W/", $pdftext,$dummy);
-                        
-                        $exceldata->page_number = $num_page;
+                    $exceldata = new DocumentModel;
+                    $exceldata->title = $value['title'];
+                    $exceldata->description = $value['description'];
+                    $exceldata->description_unformatted = $value['description'];
+                    $exceldata->year = $value['year'];
+                    $exceldata->deity = $value['deity'];
+                    $exceldata->tags = $value['tags'];
+                    $exceldata->version = $value['version'];
+                    $exceldata->status = 1;
+                    $exceldata->restricted = 0;
+                    $exceldata->user_id = Auth::user()->id;
+    
+                    
+                    $uuid = Uuid::generate(4)->string;
+                    Storage::move('public/zip/documents'.'/'.$value['document'], 'public/upload/documents'.'/'.$uuid.'-'.$value['document']);
+                    $exceldata->document = $uuid.'-'.$value['document'];
+
+                    $pdftext = file_get_contents(storage_path('app/public/upload/documents/'.$uuid.'-'.$value['document']));
         
-                        $result = $exceldata->save();
+                    $num_page = preg_match_all("/\/Page\W/", $pdftext,$dummy);
+                    
+                    $exceldata->page_number = $num_page;
+    
+                    $result = $exceldata->save();
+
+                    $arr = array_map('strval', explode(',', $value['language']));
+                    for($i=0; $i < count($arr); $i++) { 
+                        $languageCheck = LanguageModel::where('name','like',$arr[$i])->first();
+                        if($languageCheck){
+                            $language = new DocumentLanguage;
+                            $language->document_id = $exceldata->id;
+                            $language->language_id = $languageCheck->id;
+                            $language->save();
+                        }
                     }
                 }
                 
