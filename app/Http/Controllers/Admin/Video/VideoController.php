@@ -8,6 +8,7 @@ use Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\VideoModel;
 use App\Models\LanguageModel;
+use App\Models\VideoLanguage;
 use App\Exports\VideoExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Uuid;
@@ -48,7 +49,8 @@ class VideoController extends Controller
             'deity' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'version' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'year' => ['nullable','regex:/^[0-9]*$/'],
-            'language' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'language' => ['required','array','min:1'],
+            'language.*' => ['required','regex:/^[0-9]*$/'],
             'video' => ['required'],
         );
         $messages = array(
@@ -57,8 +59,6 @@ class VideoController extends Controller
             'deity.regex' => 'Please enter the valid deity !',
             'version.regex' => 'Please enter the valid version !',
             'year.regex' => 'Please enter the valid year !',
-            'language.required' => 'Please enter the language !',
-            'language.regex' => 'Please enter the valid language !',
         );
 
         $validator = Validator::make($req->all(), $rules, $messages);
@@ -72,7 +72,6 @@ class VideoController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->video = $req->video;
@@ -81,6 +80,13 @@ class VideoController extends Controller
         $data->user_id = Auth::user()->id;
 
         $result = $data->save();
+
+        for($i=0; $i < count($req->language); $i++) { 
+            $language = new VideoLanguage;
+            $language->video_id = $data->id;
+            $language->language_id = $req->language[$i];
+            $language->save();
+        }
         
         if($result){
             return response()->json(["url"=>empty($req->refreshUrl)?route('video_view'):$req->refreshUrl, "message" => "Data Stored successfully.", "data" => $data], 201);
@@ -112,7 +118,8 @@ class VideoController extends Controller
             'deity' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'version' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'year' => ['nullable','regex:/^[0-9]*$/'],
-            'language' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'language' => ['required','array','min:1'],
+            'language.*' => ['required','regex:/^[0-9]*$/'],
             'video' => ['required'],
         );
         $messages = array(
@@ -121,8 +128,6 @@ class VideoController extends Controller
             'deity.regex' => 'Please enter the valid deity !',
             'version.regex' => 'Please enter the valid version !',
             'year.regex' => 'Please enter the valid year !',
-            'language.required' => 'Please enter the language !',
-            'language.regex' => 'Please enter the valid language !',
         );
 
         $validator = Validator::make($req->all(), $rules, $messages);
@@ -135,7 +140,6 @@ class VideoController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->video = $req->video;
@@ -144,6 +148,14 @@ class VideoController extends Controller
         $data->user_id = Auth::user()->id;
 
         $result = $data->save();
+
+        $VideoLanguage = VideoLanguage::where('video_id',$data->id)->delete();
+        for($i=0; $i < count($req->language); $i++) { 
+            $language = new VideoLanguage;
+            $language->video_id = $data->id;
+            $language->language_id = $req->language[$i];
+            $language->save();
+        }
         
         if($result){
             return response()->json(["url"=>empty($req->refreshUrl)?route('video_view'):$req->refreshUrl, "message" => "Data Stored successfully.", "data" => $data], 201);

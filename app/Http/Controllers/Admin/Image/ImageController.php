@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\ImageModel;
-use App\Models\LanguageModel;
 use App\Exports\ImageExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Image;
@@ -39,7 +38,7 @@ class ImageController extends Controller
             }
         }
 
-        return view('pages.admin.image.create')->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
+        return view('pages.admin.image.create')->with("tags_exist",$tags_exist);
     }
 
     public function store(Request $req) {
@@ -48,7 +47,6 @@ class ImageController extends Controller
             'deity' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'version' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'year' => ['nullable','regex:/^[0-9]*$/'],
-            'language' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'image' => ['required','image','mimes:jpeg,png,jpg,webp'],
         );
         $messages = array(
@@ -57,8 +55,6 @@ class ImageController extends Controller
             'deity.regex' => 'Please enter the valid deity !',
             'version.regex' => 'Please enter the valid version !',
             'year.regex' => 'Please enter the valid year !',
-            'language.required' => 'Please enter the language !',
-            'language.regex' => 'Please enter the valid language !',
             'image.image' => 'Please enter a valid image !',
             'image.mimes' => 'Please enter a valid image !',
         );
@@ -74,7 +70,6 @@ class ImageController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->status = $req->status == "on" ? 1 : 0;
@@ -116,7 +111,7 @@ class ImageController extends Controller
                 }
             }
         }
-        return view('pages.admin.image.edit')->with('country',$data)->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
+        return view('pages.admin.image.edit')->with('country',$data)->with("tags_exist",$tags_exist);
     }
 
     public function update(Request $req, $id) {
@@ -127,7 +122,6 @@ class ImageController extends Controller
             'deity' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'version' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'year' => ['nullable','regex:/^[0-9]*$/'],
-            'language' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'image' => ['nullable','image','mimes:jpeg,png,jpg,webp'],
         );
         $messages = array(
@@ -136,8 +130,6 @@ class ImageController extends Controller
             'deity.regex' => 'Please enter the valid deity !',
             'version.regex' => 'Please enter the valid version !',
             'year.regex' => 'Please enter the valid year !',
-            'language.required' => 'Please enter the language !',
-            'language.regex' => 'Please enter the valid language !',
             'image.image' => 'Please enter a valid image !',
             'image.mimes' => 'Please enter a valid image !',
         );
@@ -152,7 +144,6 @@ class ImageController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->status = $req->status == "on" ? 1 : 0;
@@ -227,7 +218,7 @@ class ImageController extends Controller
         }else{
             $data = ImageModel::orderBy('id', 'DESC')->paginate(10);
         }
-        return view('pages.admin.image.list')->with('country', $data)->with('languages', LanguageModel::all());
+        return view('pages.admin.image.list')->with('country', $data);
     }
     
     public function viewTrash(Request $request) {
@@ -244,19 +235,19 @@ class ImageController extends Controller
         }else{
             $data = ImageModel::withTrashed()->whereNotNull('deleted_at')->orderBy('id', 'DESC')->paginate(10);
         }
-        return view('pages.admin.image.list_trash')->with('country', $data)->with('languages', LanguageModel::all());
+        return view('pages.admin.image.list_trash')->with('country', $data);
     }
 
     public function display($id) {
         $data = ImageModel::findOrFail($id);
         $url = "";
-        return view('pages.admin.image.display')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
+        return view('pages.admin.image.display')->with('country',$data)->with('url',$url);
     }
     
     public function displayTrash($id) {
         $data = ImageModel::withTrashed()->whereNotNull('deleted_at')->findOrFail($id);
         $url = "";
-        return view('pages.admin.image.display_trash')->with('country',$data)->with('languages', LanguageModel::all())->with('url',$url);
+        return view('pages.admin.image.display_trash')->with('country',$data)->with('url',$url);
     }
 
     public function excel(){
@@ -292,37 +283,32 @@ class ImageController extends Controller
             return response()->json(["form_error"=>"Maximum 30 rows of data in the excel are allowed."], 400);
         }else{
             foreach ($data as $key => $value) {
-                $language = LanguageModel::where('name','like',$value['language'])->get();
-                if(count($language)>0){
-                    if(file_exists(storage_path('app/public/zip/images').'/'.$value['image'])){
+                if(file_exists(storage_path('app/public/zip/images').'/'.$value['image'])){
 
-                        $language = LanguageModel::where('name','like',$value['language'])->first();
-                        $exceldata = new ImageModel;
-                        $exceldata->title = $value['title'];
-                        $exceldata->description = $value['description'];
-                        $exceldata->description_unformatted = $value['description'];
-                        $exceldata->year = $value['year'];
-                        $exceldata->deity = $value['deity'];
-                        $exceldata->tags = $value['tags'];
-                        $exceldata->version = $value['version'];
-                        $exceldata->language_id = $language->id;
-                        $exceldata->status = 1;
-                        $exceldata->restricted = 0;
-                        $exceldata->user_id = Auth::user()->id;
+                    $exceldata = new ImageModel;
+                    $exceldata->title = $value['title'];
+                    $exceldata->description = $value['description'];
+                    $exceldata->description_unformatted = $value['description'];
+                    $exceldata->year = $value['year'];
+                    $exceldata->deity = $value['deity'];
+                    $exceldata->tags = $value['tags'];
+                    $exceldata->version = $value['version'];
+                    $exceldata->status = 1;
+                    $exceldata->restricted = 0;
+                    $exceldata->user_id = Auth::user()->id;
 
-                        
-                        $uuid = Uuid::generate(4)->string;
-                        Storage::move('public/zip/images'.'/'.$value['image'], 'public/upload/images'.'/'.$uuid.'-'.$value['image']);
-                        $exceldata->image = $uuid.'-'.$value['image'];
-                        
-                        
-                        $img = Image::make(storage_path('app/public/upload/images').'/'.$uuid.'-'.$value['image']);
-                        $img->resize(300, 200, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })->save(storage_path('app/public/upload/images').'/'.'compressed-'.$uuid.'-'.$value['image']);
+                    
+                    $uuid = Uuid::generate(4)->string;
+                    Storage::move('public/zip/images'.'/'.$value['image'], 'public/upload/images'.'/'.$uuid.'-'.$value['image']);
+                    $exceldata->image = $uuid.'-'.$value['image'];
+                    
+                    
+                    $img = Image::make(storage_path('app/public/upload/images').'/'.$uuid.'-'.$value['image']);
+                    $img->resize(300, 200, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })->save(storage_path('app/public/upload/images').'/'.'compressed-'.$uuid.'-'.$value['image']);
 
-                        $result = $exceldata->save();
-                    }
+                    $result = $exceldata->save();
                 }
                 
                 

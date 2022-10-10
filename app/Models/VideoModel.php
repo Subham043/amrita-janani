@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Auth;
 use App\Models\VideoAccess;
 use App\Models\VideoFavourite;
+use App\Models\LanguageModel;
 
 class VideoModel extends Model
 {
@@ -36,23 +37,17 @@ class VideoModel extends Model
         return "";
     }
 
-    public function LanguageModel()
+    public function Languages()
     {
-        return $this->belongsTo('App\Models\LanguageModel', 'language_id');
+        return $this->belongsToMany(LanguageModel::class, 'video_languages', 'video_id', 'language_id');
     }
 
-    public function getLanguageName(){
-        if(!empty($this->LanguageModel) && $this->LanguageModel->count()>0){
-            return $this->LanguageModel->name;
-        }
-        return "";
+    public function GetLanguagesId(){
+        return $this->Languages()->pluck('languages.id')->toArray();
     }
 
-    public function getLanguageId(){
-        if(!empty($this->LanguageModel) && $this->LanguageModel->count()>0){
-            return $this->LanguageModel->id;
-        }
-        return "";
+    public function GetLanguagesName(){
+        return $this->Languages()->pluck('languages.name');
     }
 
     public function VideoFavourite()

@@ -101,16 +101,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-xxl-6 col-md-6">
-                                    <div>
-                                        <label for="language" class="form-label">Language</label>
-                                        <select id="language" name="language"></select>
-                                        @error('language') 
-                                            <div class="invalid-message">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-xxl-6 col-md-6">
+                                <div class="col-xxl-12 col-md-12">
                                     <div>
                                         <label for="image" class="form-label">Image</label>
                                         <input class="form-control" type="file" name="image" id="image">
@@ -219,106 +210,6 @@ tagify.addTags(availableTags.split(','))
 
 <script type="text/javascript">
 
-const choicesLangauge = new Choices('#language', {
-    silent: false,
-    items: [],
-    choices: [
-            {
-                value: 'Select the language',
-                label: 'Select the language',
-                disabled: true,
-            },
-        @foreach($languages as $val)
-            {
-                value: '{{$val->id}}',
-                label: '{{$val->name}}',
-                selected: {{($country->language==$val->id) ? 'true' : 'false'}},
-            },
-        @endforeach
-    ],
-    renderChoiceLimit: -1,
-    maxItemCount: -1,
-    addItems: true,
-    addItemFilter: null,
-    removeItems: true,
-    removeItemButton: false,
-    editItems: false,
-    allowHTML: true,
-    duplicateItemsAllowed: true,
-    delimiter: ',',
-    paste: true,
-    searchEnabled: true,
-    searchChoices: true,
-    searchFloor: 1,
-    searchResultLimit: 4,
-    searchFields: ['label', 'value'],
-    position: 'auto',
-    resetScrollPosition: true,
-    shouldSort: true,
-    shouldSortItems: false,
-    // sorter: () => {...},
-    placeholder: true,
-    placeholderValue: 'Select the language',
-    searchPlaceholderValue: null,
-    prependValue: null,
-    appendValue: null,
-    renderSelectedChoices: 'auto',
-    loadingText: 'Loading...',
-    noResultsText: 'No results found',
-    noChoicesText: 'No choices to choose from',
-    itemSelectText: 'Press to select',
-    addItemText: (value) => {
-      return `Press Enter to add <b>"${value}"</b>`;
-    },
-    maxItemText: (maxItemCount) => {
-      return `Only ${maxItemCount} values can be added`;
-    },
-    valueComparer: (value1, value2) => {
-      return value1 === value2;
-    },
-    classNames: {
-      containerOuter: 'choices',
-      containerInner: 'choices__inner',
-      input: 'choices__input',
-      inputCloned: 'choices__input--cloned',
-      list: 'choices__list',
-      listItems: 'choices__list--multiple',
-      listSingle: 'choices__list--single',
-      listDropdown: 'choices__list--dropdown',
-      item: 'choices__item',
-      itemSelectable: 'choices__item--selectable',
-      itemDisabled: 'choices__item--disabled',
-      itemChoice: 'choices__item--choice',
-      placeholder: 'choices__placeholder',
-      group: 'choices__group',
-      groupHeading: 'choices__heading',
-      button: 'choices__button',
-      activeState: 'is-active',
-      focusState: 'is-focused',
-      openState: 'is-open',
-      disabledState: 'is-disabled',
-      highlightedState: 'is-highlighted',
-      selectedState: 'is-selected',
-      flippedState: 'is-flipped',
-      loadingState: 'is-loading',
-      noResults: 'has-no-results',
-      noChoices: 'has-no-choices'
-    },
-    // Choices uses the great Fuse library for searching. You
-    // can find more options here: https://fusejs.io/api/options.html
-    fuseOptions: {
-      includeScore: true
-    },
-    labelId: '',
-    callbackOnInit: null,
-    callbackOnCreateTemplates: null
-  });
-
-
-  </script>
-
-<script type="text/javascript">
-
 // initialize the validation library
 const validation = new JustValidate('#countryForm', {
       errorFieldCssClass: 'is-invalid',
@@ -355,22 +246,6 @@ validation
         rule: 'customRegexp',
         value: /^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i,
         errorMessage: 'Deity is invalid',
-    },
-  ])
-  .addField('#language', [
-    {
-      rule: 'required',
-      errorMessage: 'Please select a language',
-    },
-    {
-        validator: (value, fields) => {
-        if (value === 'Select the language') {
-            return false;
-        }
-
-        return true;
-        },
-        errorMessage: 'Please select a language',
     },
   ])
   .addField('#image', [
@@ -428,7 +303,6 @@ validation
         formData.append('year',document.getElementById('year').value)
         formData.append('deity',document.getElementById('deity').value)
         formData.append('version',document.getElementById('version').value)
-        formData.append('language',document.getElementById('language').value)
         formData.append('description_unformatted',quillDescription.getText())
         formData.append('description',quillDescription.root.innerHTML)
         formData.append('status',document.getElementById('flexSwitchCheckRightDisabled').checked === true ? 'on' : 'off')
@@ -462,14 +336,8 @@ validation
         if(error?.response?.data?.form_error?.version){
             errorToast(error?.response?.data?.form_error?.version[0])
         }
-        if(error?.response?.data?.form_error?.language){
-            errorToast(error?.response?.data?.form_error?.language[0])
-        }
         if(error?.response?.data?.form_error?.description){
             errorToast(error?.response?.data?.form_error?.description[0])
-        }
-        if(error?.response?.data?.form_error?.language){
-            errorToast(error?.response?.data?.form_error?.language[0])
         }
         if(error?.response?.data?.form_error?.image){
             errorToast(error?.response?.data?.form_error?.image[0])

@@ -57,7 +57,6 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th class="sort" data-sort="customer_name">Title</th>
-                                            <th class="sort" data-sort="customer_name">Langauge</th>
                                             <th class="sort" data-sort="customer_name">UUID</th>
                                             <th class="sort" data-sort="status">Status</th>
                                             <th class="sort" data-sort="status">Restricted</th>
@@ -70,7 +69,6 @@
                                         @foreach ($country->items() as $item)
                                         <tr>
                                             <td class="customer_name">{{$item->title}}</td>
-                                            <td class="customer_name">{{$item->getLanguageName()}}</td>
                                             <td class="customer_name">{{$item->uuid}}</td>
                                             @if($item->status == 1)
                                             <td class="status"><span class="badge badge-soft-success text-uppercase">Active</span></td>

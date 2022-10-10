@@ -104,7 +104,7 @@
                                 <div class="col-xxl-6 col-md-6">
                                     <div>
                                         <label for="language" class="form-label">Language</label>
-                                        <select id="language" name="language"></select>
+                                        <select id="language" name="language" multiple></select>
                                         @error('language') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror
@@ -220,12 +220,6 @@ const choicesLangauge = new Choices('#language', {
     silent: false,
     items: [],
     choices: [
-            {
-                value: 'Select the language',
-                label: 'Select the language',
-                selected: {{empty(old('language')) ? 'true' : 'false'}},
-                disabled: true,
-            },
         @foreach($languages as $val)
             {
                 value: '{{$val->id}}',
@@ -362,7 +356,7 @@ validation
     },
     {
         validator: (value, fields) => {
-        if (value === 'Select the language') {
+        if (value?.length==0) {
             return false;
         }
 
@@ -417,7 +411,6 @@ validation
         formData.append('year',document.getElementById('year').value)
         formData.append('deity',document.getElementById('deity').value)
         formData.append('version',document.getElementById('version').value)
-        formData.append('language',document.getElementById('language').value)
         formData.append('video',document.getElementById('video').value)
         formData.append('description_unformatted',quillDescription.getText())
         formData.append('description',quillDescription.root.innerHTML)
@@ -427,6 +420,11 @@ validation
             var tags = tagify.value.map(item => item.value).join(',')
             // console.log(tags);
             formData.append('tags',tags)
+        }
+        if(document.getElementById('language')?.length>0){
+            for (let index = 0; index < document.getElementById('language').length; index++) {
+                formData.append('language[]',document.getElementById('language')[index].value)
+            }
         }
         // formData.append('refreshUrl','{{URL::current()}}')
         

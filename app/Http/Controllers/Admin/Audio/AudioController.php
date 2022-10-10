@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\AudioModel;
+use App\Models\AudioLanguage;
 use App\Models\LanguageModel;
 use App\Exports\AudioExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -48,7 +49,8 @@ class AudioController extends Controller
             'deity' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'version' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'year' => ['nullable','regex:/^[0-9]*$/'],
-            'language' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'language' => ['required','array','min:1'],
+            'language.*' => ['required','regex:/^[0-9]*$/'],
             'audio' => ['required','mimes:wav,mp3,aac'],
         );
         $messages = array(
@@ -73,7 +75,6 @@ class AudioController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->status = $req->status == "on" ? 1 : 0;
@@ -99,6 +100,13 @@ class AudioController extends Controller
         }
 
         $result = $data->save();
+
+        for($i=0; $i < count($req->language); $i++) { 
+            $language = new AudioLanguage;
+            $language->audio_id = $data->id;
+            $language->language_id = $req->language[$i];
+            $language->save();
+        }
         
         if($result){
             return response()->json(["url"=>empty($req->refreshUrl)?route('audio_view'):$req->refreshUrl, "message" => "Data Stored successfully.", "data" => $data], 201);
@@ -130,7 +138,8 @@ class AudioController extends Controller
             'deity' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'version' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'year' => ['nullable','regex:/^[0-9]*$/'],
-            'language' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'language' => ['required','array','min:1'],
+            'language.*' => ['required','regex:/^[0-9]*$/'],
             'audio' => ['nullable','mimes:wav,mp3,aac'],
         );
         $messages = array(
@@ -154,7 +163,6 @@ class AudioController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->status = $req->status == "on" ? 1 : 0;
@@ -183,6 +191,14 @@ class AudioController extends Controller
         }
 
         $result = $data->save();
+
+        $deleteAudioLanguage = AudioLanguage::where('audio_id',$data->id)->delete();
+        for($i=0; $i < count($req->language); $i++) { 
+            $language = new AudioLanguage;
+            $language->audio_id = $data->id;
+            $language->language_id = $req->language[$i];
+            $language->save();
+        }
         
         if($result){
             return response()->json(["url"=>empty($req->refreshUrl)?route('audio_view'):$req->refreshUrl, "message" => "Data Stored successfully.", "data" => $data], 201);
@@ -220,7 +236,7 @@ class AudioController extends Controller
     public function view(Request $request) {
         if ($request->has('search')) {
             $search = $request->input('search');
-            $data = AudioModel::with(['LanguageModel','User'])->where('title', 'like', '%' . $search . '%')
+            $data = AudioModel::with(['Languages','User'])->where('title', 'like', '%' . $search . '%')
             ->orWhere('year', 'like', '%' . $search . '%')
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
@@ -229,7 +245,7 @@ class AudioController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
-            $data = AudioModel::with(['LanguageModel','User'])->orderBy('id', 'DESC')->paginate(10);
+            $data = AudioModel::with(['Languages','User'])->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.audio.list')->with('country', $data)->with('languages', LanguageModel::all());
     }
@@ -237,7 +253,7 @@ class AudioController extends Controller
     public function viewTrash(Request $request) {
         if ($request->has('search')) {
             $search = $request->input('search');
-            $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->with(['LanguageModel','User'])->where('title', 'like', '%' . $search . '%')
+            $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->with(['Languages','User'])->where('title', 'like', '%' . $search . '%')
             ->orWhere('year', 'like', '%' . $search . '%')
             ->orWhere('deity', 'like', '%' . $search . '%')
             ->orWhere('version', 'like', '%' . $search . '%')
@@ -246,18 +262,18 @@ class AudioController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
         }else{
-            $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->with(['LanguageModel','User'])->orderBy('id', 'DESC')->paginate(10);
+            $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->with(['Languages','User'])->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.audio.list_trash')->with('country', $data)->with('languages', LanguageModel::all());
     }
 
     public function display($id) {
-        $data = AudioModel::with(['LanguageModel','User'])->findOrFail($id);
+        $data = AudioModel::with(['Languages','User'])->findOrFail($id);
         return view('pages.admin.audio.display')->with('country',$data)->with('languages', LanguageModel::all());
     }
     
     public function displayTrash($id) {
-        $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->with(['LanguageModel','User'])->findOrFail($id);
+        $data = AudioModel::withTrashed()->whereNotNull('deleted_at')->with(['Languages','User'])->findOrFail($id);
         return view('pages.admin.audio.display_trash')->with('country',$data)->with('languages', LanguageModel::all());
     }
 

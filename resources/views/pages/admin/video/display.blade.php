@@ -61,12 +61,16 @@
                                             <h5 class="fs-15 mb-0">{{$country->year}}</h5>
                                         </div>
                                     </div>
+                                    @if($country->languages->count()>0)
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Language :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->getLanguageName()}}</h5>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Languages :</p>
+                                            @foreach ($country->languages as $languages)
+                                                <div class="badge bg-secondary fs-12">{{$languages->name}}</div>
+                                            @endforeach
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Deity :</p>

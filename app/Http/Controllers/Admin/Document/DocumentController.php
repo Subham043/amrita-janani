@@ -8,6 +8,7 @@ use Auth;
 use Illuminate\Support\Facades\View;
 use App\Models\DocumentModel;
 use App\Models\LanguageModel;
+use App\Models\DocumentLanguage;
 use App\Exports\DocumentExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Uuid;
@@ -47,7 +48,8 @@ class DocumentController extends Controller
             'deity' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'version' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'year' => ['nullable','regex:/^[0-9]*$/'],
-            'language' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'language' => ['required','array','min:1'],
+            'language.*' => ['required','regex:/^[0-9]*$/'],
             'document' => ['required','mimes:pdf'],
         );
         $messages = array(
@@ -56,8 +58,6 @@ class DocumentController extends Controller
             'deity.regex' => 'Please enter the valid deity !',
             'version.regex' => 'Please enter the valid version !',
             'year.regex' => 'Please enter the valid year !',
-            'language.required' => 'Please enter the language !',
-            'language.regex' => 'Please enter the valid language !',
             'document.mimes' => 'Please enter a valid document !',
         );
 
@@ -72,7 +72,6 @@ class DocumentController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->status = $req->status == "on" ? 1 : 0;
@@ -95,6 +94,13 @@ class DocumentController extends Controller
         }
 
         $result = $data->save();
+
+        for($i=0; $i < count($req->language); $i++) { 
+            $language = new DocumentLanguage;
+            $language->document_id = $data->id;
+            $language->language_id = $req->language[$i];
+            $language->save();
+        }
         
         if($result){
             return response()->json(["url"=>empty($req->refreshUrl)?route('document_view'):$req->refreshUrl, "message" => "Data Stored successfully.", "data" => $data], 201);
@@ -126,7 +132,8 @@ class DocumentController extends Controller
             'deity' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'version' => ['nullable','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
             'year' => ['nullable','regex:/^[0-9]*$/'],
-            'language' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+            'language' => ['required','array','min:1'],
+            'language.*' => ['required','regex:/^[0-9]*$/'],
             'document' => ['nullable','mimes:pdf'],
         );
         $messages = array(
@@ -135,8 +142,6 @@ class DocumentController extends Controller
             'deity.regex' => 'Please enter the valid deity !',
             'version.regex' => 'Please enter the valid version !',
             'year.regex' => 'Please enter the valid year !',
-            'language.required' => 'Please enter the language !',
-            'language.regex' => 'Please enter the valid language !',
             'document.mimes' => 'Please enter a valid document !',
         );
 
@@ -150,7 +155,6 @@ class DocumentController extends Controller
         $data->deity = $req->deity;
         $data->tags = $req->tags;
         $data->version = $req->version;
-        $data->language_id = $req->language;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
         $data->status = $req->status == "on" ? 1 : 0;
@@ -176,6 +180,14 @@ class DocumentController extends Controller
         }
 
         $result = $data->save();
+
+        $DocumentLanguage = DocumentLanguage::where('document_id',$data->id)->delete();
+        for($i=0; $i < count($req->language); $i++) { 
+            $language = new DocumentLanguage;
+            $language->document_id = $data->id;
+            $language->language_id = $req->language[$i];
+            $language->save();
+        }
         
         if($result){
             return response()->json(["url"=>empty($req->refreshUrl)?route('document_view'):$req->refreshUrl, "message" => "Data Stored successfully.", "data" => $data], 201);

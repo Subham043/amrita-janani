@@ -11,6 +11,7 @@ use File;
 use Auth;
 use App\Models\AudioAccess;
 use App\Models\AudioFavourite;
+use App\Models\LanguageModel;
 
 class AudioModel extends Model
 {
@@ -37,25 +38,6 @@ class AudioModel extends Model
         return "";
     }
 
-    public function LanguageModel()
-    {
-        return $this->belongsTo('App\Models\LanguageModel', 'language_id');
-    }
-
-    public function getLanguageName(){
-        if(!empty($this->LanguageModel) && $this->LanguageModel->count()>0){
-            return $this->LanguageModel->name;
-        }
-        return "";
-    }
-    
-    public function getLanguageId(){
-        if(!empty($this->LanguageModel) && $this->LanguageModel->count()>0){
-            return $this->LanguageModel->id;
-        }
-        return "";
-    }
-
     public function AudioFavourite()
     {
         return $this->hasMany('App\Models\AudioFavourite', 'audio_id');
@@ -69,6 +51,19 @@ class AudioModel extends Model
     public function AudioReport()
     {
         return $this->hasMany('App\Models\AudioReport', 'audio_id');
+    }
+
+    public function Languages()
+    {
+        return $this->belongsToMany(LanguageModel::class, 'audio_languages', 'audio_id', 'language_id');
+    }
+
+    public function GetLanguagesId(){
+        return $this->Languages()->pluck('languages.id')->toArray();
+    }
+
+    public function GetLanguagesName(){
+        return $this->Languages()->pluck('languages.name');
     }
 
     public function file_format(){
