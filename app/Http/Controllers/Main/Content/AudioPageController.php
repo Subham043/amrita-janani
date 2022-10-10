@@ -52,7 +52,10 @@ class AudioPageController extends Controller
 
         if($request->has('language')){
             $arr = array_map('intval', explode(',', $request->input('language')));
-            $audio->whereIn('language_id', $arr);
+            $audio->with(['Languages']);
+            $audio->whereHas('Languages', function($q) use($arr) {
+                $q->whereIn('language_id', $arr);
+            });
         }
 
         if($request->has('filter')){

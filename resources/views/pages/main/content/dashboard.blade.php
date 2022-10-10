@@ -69,7 +69,13 @@ $videos = $videos;
                         <div class="media-holder">
                             <h5>{{$video->title}}</h5>
                             <p class="desc">{{$video->description_unformatted}}</p>
-                            <p>Language : {{$video->getLanguageName()}}</p>
+                            @if($video->languages->count()>0)
+                            <p>Language : 
+                            @foreach ($video->languages as $languages)
+                                {{$languages->name}},
+                            @endforeach
+                            </p>
+                            @endif
                             <p>Uploaded : {{$video->time_elapsed()}}</p>
                         </div>
                     </a>
@@ -99,7 +105,13 @@ $videos = $videos;
                             <h5>{{$audio->title}}</h5>
                             <p class="desc">{{$audio->description_unformatted}}</p>
                             {{-- <p>Format : <b>{{$audio->file_format()}}</b></p> --}}
-                            <p>Language : {{$audio->getLanguageName()}}</p>
+                            @if($audio->languages->count()>0)
+                            <p>Language : 
+                            @foreach ($audio->languages as $languages)
+                                {{$languages->name}},
+                            @endforeach
+                            </p>
+                            @endif
                             <p>Duration : {{$audio->duration}}</p>
                             <p>Uploaded : <b>{{$audio->time_elapsed()}}</b></p>
                         </div>
@@ -131,7 +143,13 @@ $videos = $videos;
                             <h5>{{$document->title}}</h5>
                             <p class="desc">{{$document->description_unformatted}}</p>
                             {{-- <p>Format : <b>{{$document->file_format()}}</b></p> --}}
-                            <p>Language : {{$document->getLanguageName()}}</p>
+                            @if($document->languages->count()>0)
+                            <p>Language : 
+                            @foreach ($document->languages as $languages)
+                                {{$languages->name}},
+                            @endforeach
+                            </p>
+                            @endif
                             <p>Pages : {{$document->page_number}}</p>
                             <p>Uploaded : <b>{{$document->time_elapsed()}}</b></p>
                         </div>

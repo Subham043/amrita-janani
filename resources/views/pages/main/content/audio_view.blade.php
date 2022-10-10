@@ -71,7 +71,13 @@
     @endif
     <hr/>
     <div class="container info-container">
-    <p>Language : <b>{{$audio->LanguageModel->name}}</b></p>
+    @if($audio->languages->count()>0)
+    <p>Language : 
+    @foreach ($audio->languages as $languages)
+        <b>{{$languages->name}}</b>,
+    @endforeach
+    </p>
+    @endif
     <p>Duration : <b>{{$audio->duration}}</b></p>
     @if($audio->deity)<p>Deity : <b>{{$audio->deity}}</b></p>@endif
     <p>Uploaded : <b>{{$audio->time_elapsed()}}</b></p>

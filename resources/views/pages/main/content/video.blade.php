@@ -107,7 +107,13 @@
                                 <div class="media-holder">
                                     <h5>{{$video->title}}</h5>
                                     <p class="desc">{{$video->description_unformatted}}</p>
-                                    <p>Language : {{$video->getLanguageName()}}</p>
+                                    @if($video->languages->count()>0)
+                                    <p>Language : 
+                                    @foreach ($video->languages as $languages)
+                                        {{$languages->name}},
+                                    @endforeach
+                                    </p>
+                                    @endif
                                     <p>Uploaded : {{$video->time_elapsed()}}</p>
                                 </div>
                             </a>

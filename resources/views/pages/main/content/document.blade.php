@@ -104,7 +104,13 @@
                                     <h5>{{$document->title}}</h5>
                                     <p class="desc">{{$document->description_unformatted}}</p>
                                     {{-- <p>Format : {{$document->file_format()}}</p> --}}
-                                    <p>Language : {{$document->getLanguageName()}}</p>
+                                    @if($document->languages->count()>0)
+                                    <p>Language : 
+                                    @foreach ($document->languages as $languages)
+                                        {{$languages->name}},
+                                    @endforeach
+                                    </p>
+                                    @endif
                                     <p>Pages : {{$document->page_number}}</p>
                                     <p>Uploaded : {{$document->time_elapsed()}}</p>
                                 </div>

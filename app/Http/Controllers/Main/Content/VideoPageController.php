@@ -52,7 +52,10 @@ class VideoPageController extends Controller
 
         if($request->has('language')){
             $arr = array_map('intval', explode(',', $request->input('language')));
-            $video->whereIn('language_id', $arr);
+            $video->with(['Languages']);
+            $video->whereHas('Languages', function($q) use($arr) {
+                $q->whereIn('language_id', $arr);
+            });
         }
 
         if($request->has('filter')){

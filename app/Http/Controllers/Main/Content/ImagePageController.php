@@ -50,11 +50,6 @@ class ImagePageController extends Controller
             $searchHistory->save();
         }
 
-        if($request->has('language')){
-            $arr = array_map('intval', explode(',', $request->input('language')));
-            $image->whereIn('language_id', $arr);
-        }
-
         if($request->has('filter')){
             $image->with(['imageFavourite']);
             $image->whereHas('imageFavourite', function($q) {

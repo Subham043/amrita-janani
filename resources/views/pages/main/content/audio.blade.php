@@ -104,7 +104,13 @@
                                     <h5>{{$audio->title}}</h5>
                                     <p class="desc">{{$audio->description_unformatted}}</p>
                                     {{-- <p>Format : {{$audio->file_format()}}</p> --}}
-                                    <p>Language : {{$audio->getLanguageName()}}</p>
+                                    @if($audio->languages->count()>0)
+                                    <p>Language : 
+                                    @foreach ($audio->languages as $languages)
+                                        {{$languages->name}},
+                                    @endforeach
+                                    </p>
+                                    @endif
                                     <p>Duration : {{$audio->duration}}</p>
                                     <p>Uploaded : {{$audio->time_elapsed()}}</p>
                                 </div>

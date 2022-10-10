@@ -71,7 +71,13 @@
     <hr/>
     <div class="container info-container">
     @if($video->deity)<p>Deity : <b>{{$video->deity}}</b></p>@endif
-    <p>Language : <b>{{$video->LanguageModel->name}}</b></p>
+    @if($video->languages->count()>0)
+    <p>Language : 
+    @foreach ($video->languages as $languages)
+        <b>{{$languages->name}}</b>,
+    @endforeach
+    </p>
+    @endif
     <p>Uploaded : <b>{{$video->time_elapsed()}}</b></p>
     @if(count($video->getTagsArray())>0)
     <p>Tags : 

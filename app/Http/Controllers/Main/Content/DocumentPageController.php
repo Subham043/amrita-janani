@@ -51,7 +51,10 @@ class DocumentPageController extends Controller
 
         if($request->has('language')){
             $arr = array_map('intval', explode(',', $request->input('language')));
-            $document->whereIn('language_id', $arr);
+            $document->with(['Languages']);
+            $document->whereHas('Languages', function($q) use($arr) {
+                $q->whereIn('language_id', $arr);
+            });
         }
 
         if($request->has('filter')){
