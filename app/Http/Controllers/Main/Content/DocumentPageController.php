@@ -14,6 +14,8 @@ use App\Models\LanguageModel;
 use App\Models\SearchHistory;
 use App\Jobs\SendAdminAccessRequestEmailJob;
 use App\Jobs\SendAdminReportEmailJob;
+use File;
+use Illuminate\Support\Facades\Response;
 
 class DocumentPageController extends Controller
 {
@@ -86,6 +88,20 @@ class DocumentPageController extends Controller
         return view('pages.main.content.document_view')->with('breadcrumb','Document - '.$document->title)
         ->with('documentAccess',$documentAccess)
         ->with('document',$document);
+    }
+
+    public function documentFile($uuid){
+        $document = DocumentModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+
+        if($document->contentVisible()){
+            $file = File::get(storage_path('app/public/upload/documents/').$document->document);
+            $response = Response::make($file, 200);
+            $response->header('Content-Type', 'application/'.File::extension($document->document));
+            $response->header('Cache-Control', 'public, max_age=3600');
+            return $response;
+        }else{
+            return redirect()->intended(route('content_document_view', $uuid));
+        }
     }
 
     public function makeFavourite($uuid){

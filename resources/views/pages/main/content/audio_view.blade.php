@@ -29,7 +29,7 @@
         <div class="main-audio-container">
         <img src="{{asset('main/images/audio-book.png')}}" alt="">
             <audio id="player" controls>
-                <source src="{{asset('storage/upload/audios/'.$audio->audio)}}" type="audio/{{$audio->file_format()}}" />
+                <source src="{{route('content_audio_file',$audio->uuid)}}" type="audio/{{$audio->file_format()}}" />
             </audio>
         </div>
     </div>

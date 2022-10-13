@@ -32,7 +32,7 @@ $videos = $videos;
                 <div class="col-lg-3 col-sm-12">
                     <a class="media-href" title="{{$image->title}}" href="{{route('content_image_view', $image->uuid)}}">
                         <div class="img-holder">
-                            <img src="{{asset('storage/upload/images/compressed-'.$image->image)}}" alt="">
+                            <img src="{{route('content_image_thumbnail',$image->uuid)}}" alt="">
                         </div>
                         <div class="media-holder">
                             <h5>{{$image->title}}</h5>

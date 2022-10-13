@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main\Content;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use App\Models\ImageModel;
@@ -14,6 +15,7 @@ use App\Models\LanguageModel;
 use App\Models\SearchHistory;
 use App\Jobs\SendAdminAccessRequestEmailJob;
 use App\Jobs\SendAdminReportEmailJob;
+use File;
 
 class ImagePageController extends Controller
 {
@@ -79,6 +81,29 @@ class ImagePageController extends Controller
         return view('pages.main.content.image_view')->with('breadcrumb','Image - '.$image->title)
         ->with('imageAccess',$imageAccess)
         ->with('image',$image);
+    }
+
+    public function thumbnail($uuid){
+        $image = ImageModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+        $file = File::get(storage_path('app/public/upload/images/compressed-').$image->image);
+        $response = Response::make($file, 200);
+        $response->header('Content-Type', 'image/'.File::extension($image->image));
+        $response->header('Cache-Control', 'public, max_age=3600');
+        return $response;
+    }
+    
+    public function imageFile($uuid){
+        $image = ImageModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+
+        if($image->contentVisible()){
+            $file = File::get(storage_path('app/public/upload/images/').$image->image);
+            $response = Response::make($file, 200);
+            $response->header('Content-Type', 'image/'.File::extension($image->image));
+            $response->header('Cache-Control', 'public, max_age=3600');
+            return $response;
+        }else{
+            return redirect()->intended(route('content_image_view', $uuid));
+        }
     }
 
     public function makeFavourite($uuid){

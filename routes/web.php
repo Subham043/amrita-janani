@@ -66,6 +66,8 @@ Route::post('/contact', [ContactPageController::class, 'contact_ajax', 'as' => '
 Route::get('/faq', [FAQPageController::class, 'index', 'as' => 'faq.index'])->name('faq');
 Route::get('/privacy-policy', [PrivacyPolicyPageController::class, 'index', 'as' => 'privacy_policy.index'])->name('privacy_policy');
 Route::get('/captcha-reload', [CaptchaController::class, 'reloadCaptcha', 'as' => 'captcha.reload'])->name('captcha_ajax');
+Route::get('/thumbnail/file/{id}', [ImagePageController::class, 'thumbnail', 'as' => 'image.thumbnail'])->name('image_thumbnail');
+
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('signin');
@@ -111,6 +113,8 @@ Route::prefix('/content')->middleware(['auth'])->group(function () {
         Route::post('/{uuid}/request-access', [ImagePageController::class, 'requestAccess', 'as' => 'content.image_requestAccess'])->name('content_image_requestAccess');
         Route::post('/{uuid}/report', [ImagePageController::class, 'report', 'as' => 'content.image_report'])->name('content_image_report');
         Route::post('/search-query', [ImagePageController::class, 'search_query', 'as' => 'content.image_search_query'])->name('content_image_search_query');
+        Route::get('/file/{id}', [ImagePageController::class, 'imageFile', 'as' => 'image.imageFile'])->name('content_image_file');
+        Route::get('/file/{id}/thumbnail', [ImagePageController::class, 'thumbnail', 'as' => 'image.thumbnail'])->name('content_image_thumbnail');
     });
 
     Route::prefix('/document')->group(function () {
@@ -120,7 +124,7 @@ Route::prefix('/content')->middleware(['auth'])->group(function () {
         Route::post('/{uuid}/request-access', [DocumentPageController::class, 'requestAccess', 'as' => 'content.document_requestAccess'])->name('content_document_requestAccess');
         Route::post('/{uuid}/report', [DocumentPageController::class, 'report', 'as' => 'content.document_report'])->name('content_document_report');
         Route::post('/search-query', [DocumentPageController::class, 'search_query', 'as' => 'content.document_search_query'])->name('content_document_search_query');
-
+        Route::get('/file/{id}', [DocumentPageController::class, 'documentFile', 'as' => 'document.documentFile'])->name('content_document_file');
     });
 
     Route::prefix('/audio')->group(function () {
@@ -130,6 +134,7 @@ Route::prefix('/content')->middleware(['auth'])->group(function () {
         Route::post('/{uuid}/request-access', [AudioPageController::class, 'requestAccess', 'as' => 'content.audio_requestAccess'])->name('content_audio_requestAccess');
         Route::post('/{uuid}/report', [AudioPageController::class, 'report', 'as' => 'content.audio_report'])->name('content_audio_report');
         Route::post('/search-query', [AudioPageController::class, 'search_query', 'as' => 'content.audio_search_query'])->name('content_audio_search_query');
+        Route::get('/file/{id}', [AudioPageController::class, 'audioFile', 'as' => 'audio.audioFile'])->name('content_audio_file');
     });
 
     Route::prefix('/video')->group(function () {

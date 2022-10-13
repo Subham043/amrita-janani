@@ -220,7 +220,7 @@ $(function() {
         zoom: 1
     }
     
-    pdfjsLib.getDocument('{{asset('storage/upload/documents/'.$document->document)}}').then((pdf) => {
+    pdfjsLib.getDocument('{{route('content_document_file',$document->uuid)}}').then((pdf) => {
     
         myState.pdf = pdf;
         document.getElementById("totalPageCount").innerHTML = myState.pdf._pdfInfo.numPages;

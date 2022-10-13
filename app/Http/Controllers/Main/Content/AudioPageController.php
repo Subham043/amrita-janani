@@ -14,6 +14,8 @@ use App\Models\LanguageModel;
 use App\Models\SearchHistory;
 use App\Jobs\SendAdminAccessRequestEmailJob;
 use App\Jobs\SendAdminReportEmailJob;
+use File;
+use Illuminate\Support\Facades\Response;
 
 class AudioPageController extends Controller
 {
@@ -87,6 +89,20 @@ class AudioPageController extends Controller
         return view('pages.main.content.audio_view')->with('breadcrumb','Audio - '.$audio->title)
         ->with('audioAccess',$audioAccess)
         ->with('audio',$audio);
+    }
+
+    public function audioFile($uuid){
+        $audio = AudioModel::where('uuid', $uuid)->where('status', 1)->firstOrFail();
+
+        if($audio->contentVisible()){
+            $file = File::get(storage_path('app/public/upload/audios/').$audio->audio);
+            $response = Response::make($file, 200);
+            $response->header('Content-Type', 'audio/'.File::extension($audio->audio));
+            $response->header('Cache-Control', 'public, max_age=3600');
+            return $response;
+        }else{
+            return redirect()->intended(route('content_audio_view', $uuid));
+        }
     }
 
     public function makeFavourite($uuid){
