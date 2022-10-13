@@ -92,7 +92,7 @@
 <div class="main-content-wrapper">
     @if($document->contentVisible())
     <div class="main-image-container" id="image-container"
-        style="background-image:url({{asset('storage/upload/documents/'.$document->image)}})">
+        >
 
         <div id="my_pdf_viewer" oncontextmenu="return false">
             <div id="pdf_controllers">

@@ -16,7 +16,7 @@
 
 <div class="main-content-wrapper">
     @if($image->contentVisible())
-    <div class="main-image-container major-image-wrapper" id="image-container" style="background-image:url({{asset('storage/upload/images/'.$image->image)}})">
+    <div class="main-image-container major-image-wrapper" id="image-container" style="background-image:url({{route('content_image_file',$image->uuid)}})">
         <div class="blur-bg">
             <img src="{{route('content_image_file',$image->uuid)}}" />
         </div>
