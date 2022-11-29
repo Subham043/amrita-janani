@@ -101,6 +101,15 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="col-xxl-4 col-md-6">
+                                    <div>
+                                        <label for="topics" class="form-label">Topics</label>
+                                        <input type="text" class="form-control" name="topics" id="topics" value="{{old('topics')}}">
+                                        @error('topics') 
+                                            <div class="invalid-message">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="col-xxl-12 col-md-12">
                                     <div>
                                         <label for="image" class="form-label">Image</label>
@@ -205,6 +214,31 @@ tagify = new Tagify(tagInput, {
 @if($country->tags)
 availableTags = "{{$country->tags}}"
 tagify.addTags(availableTags.split(','))
+@endif
+</script>
+
+<script type="text/javascript">
+    var topicElem = [];
+    @if($topics_exist)
+        @foreach($topics_exist as $topic)
+        topicElem.push("{{$topic}}")
+        @endforeach
+    @endif
+var availableTopics = "";
+var topicInput = document.getElementById('topics'),
+tagifyTopic = new Tagify(topicInput, {
+    whitelist : tagElem,
+    dropdown : {
+        classname     : "color-blue",
+        enabled       : 0,              // show the dropdown immediately on focus
+        position      : "text",         // place the dropdown near the typed text
+        closeOnSelect : false,          // keep the dropdown open after selecting a suggestion
+        highlightFirst: true
+    }
+});
+@if($country->topics)
+availableTopics = "{{$country->topics}}"
+tagifyTopic.addTags(availableTopics.split(','))
 @endif
 </script>
 
@@ -314,6 +348,11 @@ validation
             var tags = tagify.value.map(item => item.value).join(',')
             // console.log(tags);
             formData.append('tags',tags)
+        }
+        if(tagifyTopic.value.length > 0){
+            var topicsData = tagifyTopic.value.map(item => item.value).join(',')
+            // console.log(topicsData);
+            formData.append('topics',topicsData)
         }
         // formData.append('refreshUrl','{{URL::current()}}')
         

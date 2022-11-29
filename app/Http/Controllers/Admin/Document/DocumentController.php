@@ -38,8 +38,18 @@ class DocumentController extends Controller
                 }
             }
         }
+        $topics = DocumentModel::select('topics')->whereNotNull('topics')->get();
+        $topics_exist = array();
+        foreach ($topics as $topic) {
+            $arr = explode(",",$topic->topics);
+            foreach ($arr as $i) {
+                if (!(in_array($i, $topics_exist))){
+                    array_push($topics_exist,$i);
+                }
+            }
+        }
 
-        return view('pages.admin.document.create')->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
+        return view('pages.admin.document.create')->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist)->with("topics_exist",$topics_exist);
     }
 
     public function store(Request $req) {
@@ -71,6 +81,7 @@ class DocumentController extends Controller
         $data->year = $req->year;
         $data->deity = $req->deity;
         $data->tags = $req->tags;
+        $data->topics = $req->topics;
         $data->version = $req->version;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
@@ -121,7 +132,17 @@ class DocumentController extends Controller
                 }
             }
         }
-        return view('pages.admin.document.edit')->with('country',$data)->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist);
+        $topics = DocumentModel::select('topics')->whereNotNull('topics')->get();
+        $topics_exist = [];
+        foreach ($topics as $topic) {
+            $arr = explode(",",$topic->topics);
+            foreach ($arr as $i) {
+                if (!(in_array($i, $topics_exist))){
+                    array_push($topics_exist,$i);
+                }
+            }
+        }
+        return view('pages.admin.document.edit')->with('country',$data)->with('languages', LanguageModel::all())->with("tags_exist",$tags_exist)->with("topics_exist",$topics_exist);
     }
 
     public function update(Request $req, $id) {
@@ -154,6 +175,7 @@ class DocumentController extends Controller
         $data->year = $req->year;
         $data->deity = $req->deity;
         $data->tags = $req->tags;
+        $data->topics = $req->topics;
         $data->version = $req->version;
         $data->description = $req->description;
         $data->description_unformatted = $req->description_unformatted;
@@ -311,10 +333,26 @@ class DocumentController extends Controller
                     $exceldata->year = $value['year'];
                     $exceldata->deity = $value['deity'];
                     $exceldata->tags = $value['tags'];
+                    $exceldata->topics = $value['topics'];
                     $exceldata->version = $value['version'];
                     $exceldata->status = 1;
-                    $exceldata->restricted = 0;
                     $exceldata->user_id = Auth::user()->id;
+
+                    switch ($value['restricted']) {
+                        case 'true':
+                        case 'True':
+                        case 'TRUE':
+                        case '1':
+                        case 'restricted':
+                            # code...
+                            $exceldata->restricted = 1;
+                            break;
+                        
+                        default:
+                            # code...
+                            $exceldata->restricted = 0;
+                            break;
+                    }
     
                     
                     $uuid = Uuid::generate(4)->string;
