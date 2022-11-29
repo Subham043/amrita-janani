@@ -238,7 +238,7 @@ tagify.addTags(availableTags.split(','))
 var availableTopics = "";
 var topicInput = document.getElementById('topics'),
 tagifyTopic = new Tagify(topicInput, {
-    whitelist : tagElem,
+    whitelist : topicElem,
     dropdown : {
         classname     : "color-blue",
         enabled       : 0,              // show the dropdown immediately on focus
