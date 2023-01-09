@@ -3201,8 +3201,15 @@ input[type="checkbox"] {
 
 @media only screen and (max-width: 767px) {
   .hero-style-02 {
-    height: 540px;
+    min-height: 540px;
     padding-bottom: 100px;
+    padding-bottom: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .hero-area .hero-content h1{
+    font-size: 1.4rem;
   }
 
   .christian-hero-bg-two {

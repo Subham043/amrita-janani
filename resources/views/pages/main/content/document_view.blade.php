@@ -95,6 +95,16 @@
         >
 
         <div id="my_pdf_viewer" oncontextmenu="return false">
+
+            <div id="canvas_container">
+                <div id="pdf_loader" class="text-center pt-5">
+                    <div class="spinner-border text-danger" role="status">
+                    </div>
+                    <div class="visually-hidden text-danger">Loading...</div>
+                </div>
+                <canvas id="pdf_renderer"></canvas>
+            </div>
+
             <div id="pdf_controllers">
 
                 <div id="navigation_controls">
@@ -107,13 +117,11 @@
                 </div>
 
                 <div id="zoom_controls">
+                    <button id="rotate_left" title="rotate left"><i class="fas fa-undo"></i></button>
+                    <button id="rotate_right" title="rotate right"><i class="fas fa-redo"></i></button>
                     <button id="zoom_in" title="zoom in"><i class="fas fa-search-plus"></i></button>
                     <button id="zoom_out" title="zoom out"><i class="fas fa-search-minus"></i></button>
                 </div>
-            </div>
-
-            <div id="canvas_container">
-                <canvas id="pdf_renderer"></canvas>
             </div>
 
 
@@ -243,6 +251,7 @@ $(function() {
                 canvasContext: ctx,
                 viewport: viewport
             });
+            document.getElementById('pdf_loader').style.display = 'none';
         });
     }
 
@@ -291,6 +300,25 @@ $(function() {
         if(myState.pdf == null) return;
         myState.zoom -= 0.1;
         render();
+    });
+
+    let angle = [0, 90, 180, 270];
+    let current = 0;
+
+    document.getElementById('rotate_right').addEventListener('click', (e) => {
+        if(myState.pdf == null) return;
+        current++;
+        if (current == 4)
+            current = 0;
+        document.getElementById('pdf_renderer').style.transform = 'rotate(' + angle[current] + 'deg)'
+    });
+    
+    document.getElementById('rotate_left').addEventListener('click', (e) => {
+        if(myState.pdf == null) return;
+        current--;
+        if (current < 0)
+            current = 3;
+        document.getElementById('pdf_renderer').style.transform = 'rotate(' + angle[current] + 'deg)'
     });
 
 </script>
