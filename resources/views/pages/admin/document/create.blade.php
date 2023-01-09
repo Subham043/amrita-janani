@@ -205,7 +205,7 @@ var quillDescription = new Quill('#description', {
     var tagElem = [];
     @if($tags_exist)
         @foreach($tags_exist as $tag)
-        tagElem.push("{{$tag}}")
+        tagElem.push(`{{$tag}}`);
         @endforeach
     @endif
 var tagInput = document.getElementById('tags'),
